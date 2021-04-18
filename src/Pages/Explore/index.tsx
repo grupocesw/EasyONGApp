@@ -4,14 +4,14 @@ import {
   Layout,
   TopNavigation,
   Divider,
-  Icon,
+  // Icon,
   List,
   Text,
 } from '@ui-kitten/components';
 import {
   Container,
-  Box,
-  BoxButton,
+  // Box,
+  // BoxButton,
   TextView,
   ViewFlex,
   OngCardItem,
@@ -21,7 +21,7 @@ import {
   ItemDescription,
   ImageUI,
 } from './styles';
-import SearchBar from '../../components/SearchBar';
+// import SearchBar from '../../components/SearchBar';
 import {OngsContext} from '../../Contexts/index';
 
 export const ExploreScreen = ({navigation}: any) => {
@@ -41,13 +41,14 @@ export const ExploreScreen = ({navigation}: any) => {
   const navigateDetails = (id: number, index: any) => {
     navigation.navigate('Details', {itemId: id, indice: index});
   };
-  const FilterIcon = (props: any) => (
-    <Icon fill="#ffffff" name="options-2" {...props} />
-  );
 
-  const ChevronDown = (props: any) => (
-    <Icon fill="#ffffff" name="chevron-down" {...props} />
-  );
+  // const FilterIcon = (props: any) => (
+  //   <Icon fill="#ffffff" name="options-2" {...props} />
+  // );
+
+  // const ChevronDown = (props: any) => (
+  //   <Icon fill="#ffffff" name="chevron-down" {...props} />
+  // );
 
   function getRandomInt() {
     let min = Math.ceil(1);

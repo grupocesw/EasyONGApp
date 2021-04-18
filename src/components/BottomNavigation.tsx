@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {BottomNavigation, BottomNavigationTab} from '@ui-kitten/components';
-import {HomeIcon, FavoriteIcon, AddIcon, BellIcon, ProfileIcon} from './Icons';
+// import {HomeIcon, FavoriteIcon, AddIcon, BellIcon, ProfileIcon} from './Icons';
+import {HomeIcon, FavoriteIcon} from './Icons';
 export const BottomNavigationTabs = ({navigation}: any) => {
   const [indice, setIndice] = useState(1);
   const [routeNames] = useState([

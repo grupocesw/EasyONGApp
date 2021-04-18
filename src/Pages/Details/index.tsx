@@ -18,7 +18,7 @@ import {
   ItemDescription,
   ListItemBox,
   FavoriteButton,
-  ShareButton,
+  // ShareButton,
 } from './styles';
 import {FavoritesContext, UsersContext} from '../../Contexts';
 import Wrapper from '../../components/Wrapper';
@@ -94,9 +94,9 @@ function DetailsScreen({route, navigation}: any) {
     />
   );
 
-  const ShareIcon = (props: any) => (
-    <Icon {...props} size="30" name="share" fill={'rgba(0, 0, 0, 0.54)'} />
-  );
+  // const ShareIcon = (props: any) => (
+  //   <Icon {...props} size="30" name="share" fill={'rgba(0, 0, 0, 0.54)'} />
+  // );
 
   return (
     <>
