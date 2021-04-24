@@ -16,13 +16,19 @@ import {
 } from './Contexts';
 import * as Data from './data';
 import Wrapper from './components/Wrapper';
-import {Favorites as FavoritesData, Users as UsersData} from './data/ongs';
+import {
+  Favorites as FavoritesData,
+  Users as UsersData,
+} from './data/ongs';
+import {Ongs as OngType} from './interfaces/Ong';
 
 export default () => {
-  const [Ongs, setOngs] = useState([]);
+  const [Ongs, setOngs] = useState<OngType>([]);
   const [Favorites, setFavorites] = useState(FavoritesData);
   const [User, setUser] = useState(UsersData);
-  const [Ongsloading, setOngsLoad] = useState<any>(true);
+  const [Ongsloading, setOngsLoad] = useState<Boolean>(
+    true,
+  );
 
   useEffect(() => {
     function getData() {
@@ -43,9 +49,12 @@ export default () => {
               Ongs,
               setOngs,
             }}>
-            <FavoritesContext.Provider value={{Favorites, setFavorites}}>
+            <FavoritesContext.Provider
+              value={{Favorites, setFavorites}}>
               <IconRegistry icons={EvaIconsPack} />
-              <ApplicationProvider {...eva} theme={eva.dark}>
+              <ApplicationProvider
+                {...eva}
+                theme={eva.dark}>
                 {Ongsloading ? (
                   <Wrapper>
                     <Loading size="large" />
