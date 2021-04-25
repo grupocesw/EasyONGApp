@@ -9,6 +9,7 @@ import {
   StyleSheet,
   View,
 } from 'react-native';
+import Share from 'react-native-share';
 import LinearGradient from 'react-native-linear-gradient';
 import api from '../../services/api';
 import {
@@ -27,7 +28,7 @@ import {
   ItemDescription,
   ListItemBox,
   FavoriteButton,
-  // ShareButton,
+  ShareButton,
 } from './styles';
 import {
   FavoritesContext,
@@ -108,9 +109,30 @@ function DetailsScreen({route, navigation}: any) {
     />
   );
 
-  // const ShareIcon = (props: any) => (
-  //   <Icon {...props} size="30" name="share" fill={'rgba(0, 0, 0, 0.54)'} />
-  // );
+  const shareOptions = {
+    title: 'Share via',
+    message: 'some message',
+    url: 'some share url',
+  };
+
+  const ShareAction = async () => {
+    Share.open(shareOptions)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        err && console.log(err);
+      });
+  };
+
+  const ShareIcon = (props: any) => (
+    <Icon
+      {...props}
+      size="30"
+      name="share"
+      fill={'rgba(0, 0, 0, 0.54)'}
+    />
+  );
 
   return (
     <>
@@ -151,9 +173,12 @@ function DetailsScreen({route, navigation}: any) {
                     FavoriteIcon({...props, active})
                   }
                 />
-                {/* <ShareButton
-                  accessoryLeft={(props) => ShareIcon({...props, active: true})}
-                /> */}
+                <ShareButton
+                  accessoryLeft={(props) =>
+                    ShareIcon({...props, active: true})
+                  }
+                  onPress={() => ShareAction()}
+                />
                 <ItemTitle>Descrição</ItemTitle>
                 <ItemDescription>
                   {Ong?.description}

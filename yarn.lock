@@ -7013,6 +7013,11 @@ react-native-screens@^2.18.1:
   resolved "https://registry.yarnpkg.com/react-native-screens/-/react-native-screens-2.18.1.tgz#47b9991c6f762d00d0ed3233e5283d523e859885"
   integrity sha512-r5WZLpmx2hHjC1RgMdPq5YpSU9tEhBpUaZ5M1SUtNIONyiLqQVxabhRCINdebIk4depJiIl7yw2Q85zJyeX6fw==
 
+react-native-share@^6.0.1:
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/react-native-share/-/react-native-share-6.0.1.tgz#e982be50e33490dbd953ec26375230df1188770a"
+  integrity sha512-K7mw2ep4cg++K6GUab32Kic3DeDUveonsQhTElwb6pZyjp0R/TLGQ11+pxcZBVlTiZhdOttyrLdCA6TsMX1lzg==
+
 react-native-svg@^12.1.0:
   version "12.1.0"
   resolved "https://registry.yarnpkg.com/react-native-svg/-/react-native-svg-12.1.0.tgz#acfe48c35cd5fca3d5fd767abae0560c36cfc03d"
