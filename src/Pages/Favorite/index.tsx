@@ -37,7 +37,7 @@ export const FavoriteScreen = ({navigation}: any) => {
     navigation.navigate('Details', {itemId: id});
   };
 
-  const RemoveIcon = (props: any) => (
+  const RemoveIcon = (props: Object) => (
     <Icon {...props} name="heart" fill={'#fff'} />
   );
 

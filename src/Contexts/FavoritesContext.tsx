@@ -1,5 +1,26 @@
-import {createContext} from 'react';
+import React, {
+  createContext,
+  useState,
+  useContext,
+} from 'react';
+import {Favorites as FavoritesData} from '../data/ongs';
 
-const FavoritesContext = createContext({});
+export const FavoritesContext = createContext({});
 
-export default FavoritesContext;
+export const FavoritesProvider = ({children}: any) => {
+  const [favorites, setFavorites] = useState(FavoritesData);
+
+  return (
+    <FavoritesContext.Provider
+      value={{
+        favorites,
+        setFavorites,
+      }}>
+      {children}
+    </FavoritesContext.Provider>
+  );
+};
+
+export const useFavorite = () => {
+  return useContext(FavoritesContext);
+};

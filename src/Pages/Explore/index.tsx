@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useEffect, useState} from 'react';
 
 import {
   SafeAreaView,
@@ -30,20 +30,40 @@ import {
 } from './styles';
 
 // import SearchBar from '../../components/SearchBar';
-import {OngsContext} from '../../Contexts/index';
+import {useOng} from '../../Contexts/index';
 
 import {
   Ong as OngType,
   OngsContext as OngsContextType,
 } from '../../interfaces/Ong';
+import api from '../../services/api';
+import Wrapper from '../../components/Wrapper';
+import {Spinner} from '@ui-kitten/components';
 
 export const ExploreScreen = ({navigation}: any) => {
-  const {Ongs}: OngsContextType = useContext(OngsContext);
+  const [Loading, setLoading] = useState(false);
+  const {Ongs, setOngs}: OngsContextType = useOng();
   const navigateDetails = (id: number) => {
     navigation.navigate('Details', {
       itemId: id,
     });
   };
+
+  useEffect(() => {
+    async function getData() {
+      setLoading(true);
+      await api
+        .get('ngos')
+        .then(({data}: any) => {
+          setOngs(data?.content);
+          setLoading(false);
+        })
+        .catch(() => {
+          setLoading(false);
+        });
+    }
+    getData();
+  }, [setOngs]);
 
   // const FilterIcon = (props: any) => (
   //   <Icon fill="#ffffff" name="options-2" {...props} />
@@ -80,10 +100,15 @@ export const ExploreScreen = ({navigation}: any) => {
         />
         <Divider />
         <Layout style={styles.layoutGlobal}>
-          <ScrollView style={styles.scrollView}>
-            {/* <SearchBar /> */}
-            <Container>
-              {/* <Box>
+          {Loading ? (
+            <Wrapper>
+              <Spinner size="large" />
+            </Wrapper>
+          ) : (
+            <ScrollView style={styles.scrollView}>
+              {/* <SearchBar /> */}
+              <Container>
+                {/* <Box>
                 <BoxButton
                   onPress={navigateDetails}
                   accessoryRight={FilterIcon}>
@@ -95,48 +120,49 @@ export const ExploreScreen = ({navigation}: any) => {
                   Ordenar
                 </BoxButton>
               </Box> */}
-              <ViewFlex>
-                <TextView>Sugestões para você</TextView>
-              </ViewFlex>
-              <List
-                style={styles.horizontalOngList}
-                contentContainerStyle={
-                  styles.contentContainerHorizontalOngList
-                }
-                horizontal={true}
-                showsHorizontalScrollIndicator={false}
-                data={Ongs}
-                renderItem={renderHorizontalOngItem}
-              />
-              <ViewFlex>
-                <TextView>Veja mais</TextView>
-              </ViewFlex>
-              <ListCardItem>
-                {[...Ongs, ...Ongs]
-                  .sort()
-                  .map((Ong: OngType, index: number) => {
-                    return (
-                      <CardItem
-                        onPress={() =>
-                          navigateDetails(Ong.id)
-                        }
-                        key={(Ong.id, index)}>
-                        <ImageUI
-                          source={{
-                            uri:
-                              'https://via.placeholder.com/150/771796',
-                          }}
-                        />
-                        <ItemTitle>{Ong.name}</ItemTitle>
-                        <ItemDescription>
-                          {Ong.description.substr(0, 55)}
-                        </ItemDescription>
-                      </CardItem>
-                    );
-                  })}
-              </ListCardItem>
-            </Container>
-          </ScrollView>
+                <ViewFlex>
+                  <TextView>Sugestões para você</TextView>
+                </ViewFlex>
+                <List
+                  style={styles.horizontalOngList}
+                  contentContainerStyle={
+                    styles.contentContainerHorizontalOngList
+                  }
+                  horizontal={true}
+                  showsHorizontalScrollIndicator={false}
+                  data={Ongs}
+                  renderItem={renderHorizontalOngItem}
+                />
+                <ViewFlex>
+                  <TextView>Veja mais</TextView>
+                </ViewFlex>
+                <ListCardItem>
+                  {[...Ongs, ...Ongs]
+                    .sort()
+                    .map((Ong: OngType, index: number) => {
+                      return (
+                        <CardItem
+                          onPress={() =>
+                            navigateDetails(Ong.id)
+                          }
+                          key={(Ong.id, index)}>
+                          <ImageUI
+                            source={{
+                              uri:
+                                'https://via.placeholder.com/150/771796',
+                            }}
+                          />
+                          <ItemTitle>{Ong.name}</ItemTitle>
+                          <ItemDescription>
+                            {Ong.description.substr(0, 55)}
+                          </ItemDescription>
+                        </CardItem>
+                      );
+                    })}
+                </ListCardItem>
+              </Container>
+            </ScrollView>
+          )}
         </Layout>
       </SafeAreaView>
     </>

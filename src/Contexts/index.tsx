@@ -1,6 +1,18 @@
-import AppContext from './AppContext';
-import OngsContext from './OngsContext';
-import FavoritesContext from './FavoritesContext';
-import UsersContext from './UsersContext';
+import {useApp, AppProvider} from './AppContext';
+import {useOng, OngProvider} from './OngsContext';
+import {
+  useFavorite,
+  FavoritesProvider,
+} from './FavoritesContext';
+import {UsersProvider, useUsers} from './UsersContext';
 
-export {AppContext, OngsContext, FavoritesContext, UsersContext};
+export {
+  useApp,
+  AppProvider,
+  useFavorite,
+  FavoritesProvider,
+  useUsers,
+  UsersProvider,
+  useOng,
+  OngProvider,
+};
