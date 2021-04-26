@@ -1,0 +1,6 @@
+module Pods_EasyONGApp_EasyONGAppTests {
+  umbrella header "Pods-EasyONGApp-EasyONGAppTests-umbrella.h"
+
+  export *
+  module * { export * }
+}
