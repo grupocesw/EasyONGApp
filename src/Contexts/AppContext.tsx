@@ -1,5 +1,25 @@
-import {createContext} from 'react';
+import React, {
+  createContext,
+  useState,
+  useContext,
+} from 'react';
+import * as Data from '../data';
 
-const AppContext = createContext({});
+export const AppContext = createContext({});
 
-export default AppContext;
+export const AppProvider = ({children}: any) => {
+  const [data, setData] = useState(Data);
+  return (
+    <AppContext.Provider
+      value={{
+        data,
+        setData,
+      }}>
+      {children}
+    </AppContext.Provider>
+  );
+};
+
+export const useApp = () => {
+  return useContext(AppContext);
+};

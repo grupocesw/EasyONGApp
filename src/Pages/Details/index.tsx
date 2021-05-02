@@ -1,14 +1,11 @@
-import React, {
-  useState,
-  useContext,
-  useEffect,
-} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   SafeAreaView,
   ScrollView,
   StyleSheet,
   View,
 } from 'react-native';
+import Share from 'react-native-share';
 import LinearGradient from 'react-native-linear-gradient';
 import api from '../../services/api';
 import {
@@ -17,7 +14,7 @@ import {
   TopNavigation,
   TopNavigationAction,
   Text,
-  Spinner as Loading,
+  Spinner,
 } from '@ui-kitten/components';
 import {
   ImgView,
@@ -27,14 +24,12 @@ import {
   ItemDescription,
   ListItemBox,
   FavoriteButton,
-  // ShareButton,
+  ShareButton,
 } from './styles';
-import {
-  FavoritesContext,
-  UsersContext,
-} from '../../Contexts';
+import {useUsers, useFavorite} from '../../Contexts';
 
 import Wrapper from '../../components/Wrapper';
+import {Ong} from '../../interfaces/Ong';
 
 const BackIcon = (props: any) => (
   <Icon {...props} name="arrow-back" />
@@ -42,26 +37,25 @@ const BackIcon = (props: any) => (
 
 function DetailsScreen({route, navigation}: any) {
   const {itemId} = route.params;
-  const {Favorites, setFavorites}: any = useContext(
-    FavoritesContext,
+  const {favorites, setFavorites}: any = useFavorite();
+
+  const {User}: any = useUsers();
+  const [Loading, setLoading] = useState<any>(true);
+  const [activeOng, setActiveOng] = useState<Ong>(
+    {} as Ong,
   );
 
-  const {User}: any = useContext(UsersContext);
-  const [Ongloading, setOngLoad] = useState<any>(true);
-  const [Ong, setOng] = useState<any>({});
-
   useEffect(() => {
-    //setFavorites(undefined);
-    function getOng() {
-      setOngLoad(true);
-      api
+    async function getOng() {
+      setLoading(true);
+      await api
         .get(`ngos/${itemId}`)
-        .then((data: any) => {
-          setOng(data?.data);
-          setOngLoad(false);
+        .then(({data}: any) => {
+          setActiveOng(data.content);
+          setLoading(false);
         })
         .catch(() => {
-          setOngLoad(false);
+          setLoading(false);
         });
     }
     getOng();
@@ -72,16 +66,16 @@ function DetailsScreen({route, navigation}: any) {
   };
 
   let active = false;
-  for (let i = 0; i < Favorites[User.id]?.length; i++) {
-    Favorites[User.id][i]?.id === itemId
+  for (let i = 0; i < favorites[User.id]?.length; i++) {
+    favorites[User.id][i]?.id === itemId
       ? (active = true)
       : (active = false);
   }
 
   const handleFavorite = (OngItem: any) => {
     setFavorites({
-      [User.id]: Favorites[User.id]
-        ? [...Favorites[User.id], OngItem]
+      [User.id]: favorites[User.id]
+        ? [...favorites[User.id], OngItem]
         : [OngItem],
     });
   };
@@ -108,15 +102,36 @@ function DetailsScreen({route, navigation}: any) {
     />
   );
 
-  // const ShareIcon = (props: any) => (
-  //   <Icon {...props} size="30" name="share" fill={'rgba(0, 0, 0, 0.54)'} />
-  // );
+  const shareOptions = {
+    title: 'Share via',
+    message: 'some message',
+    url: 'some share url',
+  };
+
+  const ShareAction = async () => {
+    Share.open(shareOptions)
+      .then((res: Object) => {
+        console.log(res);
+      })
+      .catch((err: Object) => {
+        err && console.log(err);
+      });
+  };
+
+  const ShareIcon = (props: Object) => (
+    <Icon
+      {...props}
+      size="30"
+      name="share"
+      fill={'rgba(0, 0, 0, 0.54)'}
+    />
+  );
 
   return (
     <>
-      {Ongloading ? (
+      {Loading ? (
         <Wrapper>
-          <Loading />
+          <Spinner />
         </Wrapper>
       ) : (
         <SafeAreaView>
@@ -138,25 +153,28 @@ function DetailsScreen({route, navigation}: any) {
                   colors={['transparent', 'black']}
                   style={styles.linearGradient}>
                   <TextView style={styles.text}>
-                    {Ong?.name}
+                    {activeOng?.name}
                   </TextView>
                 </LinearGradient>
               </View>
               <OngCard>
                 <FavoriteButton
                   onPress={() =>
-                    !active && handleFavorite(Ong)
+                    !active && handleFavorite(activeOng)
                   }
                   accessoryLeft={(props) =>
                     FavoriteIcon({...props, active})
                   }
                 />
-                {/* <ShareButton
-                  accessoryLeft={(props) => ShareIcon({...props, active: true})}
-                /> */}
+                <ShareButton
+                  accessoryLeft={(props) =>
+                    ShareIcon({...props, active: true})
+                  }
+                  onPress={() => ShareAction()}
+                />
                 <ItemTitle>Descrição</ItemTitle>
                 <ItemDescription>
-                  {Ong?.description}
+                  {activeOng?.description}
                 </ItemDescription>
                 <ListItemBox
                   title={() => <Text>Transparência</Text>}

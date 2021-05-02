@@ -1,9 +1,28 @@
-import {createContext} from 'react';
+import React, {
+  useState,
+  createContext,
+  useContext,
+} from 'react';
 import {OngsContext as OngsContextType} from '../interfaces/Ong';
 
-const OngsContext = createContext<OngsContextType>({
+export const OngsContext = createContext<OngsContextType>({
   Ongs: [],
   setOngs: () => {},
 });
 
-export default OngsContext;
+export const OngProvider = ({children}: any) => {
+  const [Ongs, setOngs] = useState([]);
+  return (
+    <OngsContext.Provider
+      value={{
+        Ongs,
+        setOngs,
+      }}>
+      {children}
+    </OngsContext.Provider>
+  );
+};
+
+export const useOng = (): OngsContextType => {
+  return useContext(OngsContext);
+};

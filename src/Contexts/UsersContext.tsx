@@ -1,5 +1,25 @@
-import {createContext} from 'react';
+import React, {
+  createContext,
+  useState,
+  useContext,
+} from 'react';
+import {Users as UsersData} from '../data/ongs';
 
-const UsersContext = createContext({});
+export const UsersContext = createContext({});
 
-export default UsersContext;
+export const UsersProvider = ({children}: any) => {
+  const [User, setUser] = useState(UsersData);
+  return (
+    <UsersContext.Provider
+      value={{
+        User,
+        setUser,
+      }}>
+      {children}
+    </UsersContext.Provider>
+  );
+};
+
+export const useUsers = () => {
+  return useContext(UsersContext);
+};
