@@ -1,4 +1,5 @@
 import React from 'react';
+import {StyleSheet, SafeAreaView} from 'react-native';
 import * as eva from '@eva-design/eva';
 import {
   ApplicationProvider,
@@ -14,22 +15,30 @@ import {
 } from './Contexts';
 
 export default () => {
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: '#222b45',
+    },
+  });
   return (
     <>
-      <AppProvider>
-        <UsersProvider>
-          <OngProvider>
-            <FavoritesProvider>
-              <IconRegistry icons={EvaIconsPack} />
-              <ApplicationProvider
-                {...eva}
-                theme={eva.dark}>
-                <AppNavigator />
-              </ApplicationProvider>
-            </FavoritesProvider>
-          </OngProvider>
-        </UsersProvider>
-      </AppProvider>
+      <SafeAreaView style={styles.container}>
+        <AppProvider>
+          <UsersProvider>
+            <OngProvider>
+              <FavoritesProvider>
+                <IconRegistry icons={EvaIconsPack} />
+                <ApplicationProvider
+                  {...eva}
+                  theme={eva.dark}>
+                  <AppNavigator />
+                </ApplicationProvider>
+              </FavoritesProvider>
+            </OngProvider>
+          </UsersProvider>
+        </AppProvider>
+      </SafeAreaView>
     </>
   );
 };

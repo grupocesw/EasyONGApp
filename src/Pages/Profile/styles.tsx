@@ -1,5 +1,11 @@
 import styled from 'styled-components/native';
-import {Button, Input, Text, Card, ListItem} from '@ui-kitten/components';
+import {
+  Button,
+  Input,
+  Text,
+  Card,
+  ListItem,
+} from '@ui-kitten/components';
 import {View} from 'react-native';
 
 export const Container = styled.View`
@@ -65,8 +71,7 @@ export const ViewFlex = styled(View)`
 
 export const TextView = styled(Text)`
   font-size: 23px;
-  font-weight: 200;
-  font-family: sans-serif;
+  font-weight: 400;
   margin-top: -90px;
   text-align: left;
 `;

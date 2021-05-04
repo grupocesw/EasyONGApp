@@ -125,9 +125,6 @@ export const ExploreScreen = ({navigation}: any) => {
                 </ViewFlex>
                 <List
                   style={styles.horizontalOngList}
-                  contentContainerStyle={
-                    styles.contentContainerHorizontalOngList
-                  }
                   horizontal={true}
                   showsHorizontalScrollIndicator={false}
                   data={Ongs}
@@ -189,9 +186,5 @@ const styles = StyleSheet.create({
   },
   horizontalOngList: {
     backgroundColor: 'transparent',
-  },
-  contentContainerHorizontalOngList: {
-    marginTop: -16,
-    marginBottom: -16,
   },
 });
