@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "317148951049",
+    "project_id": "easy-ong",
+    "storage_bucket": "easy-ong.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:317148951049:android:c52d2632cf99ee6820bed8",
+        "android_client_info": {
+          "package_name": "br.com.easyongapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "317148951049-1rn0lg9a7m3m06rb6es512qd5nd7kur3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQdoLHL0XMLDlWxn_nGNfpOkGZ6uQDGb0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "317148951049-1rn0lg9a7m3m06rb6es512qd5nd7kur3.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "317148951049-m8uphuugbegp6im5h84r4j27oo6fuovp.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "br.com.easyongapp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
