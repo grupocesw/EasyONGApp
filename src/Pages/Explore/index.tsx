@@ -75,9 +75,10 @@ export const ExploreScreen = ({navigation}: any) => {
 
   const renderHorizontalOngItem = ({item: Ong}: any) => (
     <OngCardItem onPress={() => navigateDetails(Ong.id)}>
+      {console.log(Ong?.pictures)}
       <ImageUI
         source={{
-          uri: 'https://via.placeholder.com/150/771796',
+          uri: Ong?.pictures[0]?.url,
         }}
       />
       <ItemTitle>{Ong.name}</ItemTitle>
@@ -145,8 +146,7 @@ export const ExploreScreen = ({navigation}: any) => {
                           key={(Ong.id, index)}>
                           <ImageUI
                             source={{
-                              uri:
-                                'https://via.placeholder.com/150/771796',
+                              uri: Ong?.pictures[0]?.url,
                             }}
                           />
                           <ItemTitle>{Ong.name}</ItemTitle>

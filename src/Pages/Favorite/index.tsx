@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -19,19 +19,14 @@ import {
   Container,
   ImageUI,
 } from './styles';
-import {
-  FavoritesContext,
-  UsersContext,
-} from '../../Contexts';
+import {useFavorite, useUsers} from '../../Contexts';
 
 export const FavoriteScreen = ({navigation}: any) => {
   const theme = useTheme();
 
-  const {Favorites, setFavorites}: any = useContext(
-    FavoritesContext,
-  );
+  const {Favorites, setFavorites}: any = useFavorite();
 
-  const {User}: any = useContext(UsersContext);
+  const {User}: any = useUsers();
 
   const navigateDetails = (id: number) => {
     navigation.navigate('Details', {itemId: id});
@@ -75,7 +70,8 @@ export const FavoriteScreen = ({navigation}: any) => {
       </SafeAreaView>
       <Layout style={styles.layout}>
         <Container>
-          {Favorites[User.id] &&
+          {Favorites &&
+            Favorites[User?.id] &&
             Favorites[User.id]?.map(
               (favorite: any, index: number) => (
                 <TouchableOpacity

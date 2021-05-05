@@ -51,7 +51,7 @@ function DetailsScreen({route, navigation}: any) {
       await api
         .get(`ngos/${itemId}`)
         .then(({data}: any) => {
-          setActiveOng(data.content);
+          setActiveOng(data);
           setLoading(false);
         })
         .catch(() => {
@@ -145,8 +145,7 @@ function DetailsScreen({route, navigation}: any) {
               <View style={styles.container}>
                 <ImgView
                   source={{
-                    uri:
-                      'https://via.placeholder.com/150/771796',
+                    uri: activeOng?.pictures[0]?.url,
                   }}
                 />
                 <LinearGradient

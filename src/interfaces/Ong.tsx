@@ -8,7 +8,7 @@ export type Ong = {
   description: string;
   moreInformations: string[];
   name: string;
-  pictures: string[];
+  pictures: Array<{url: string}>;
 };
 
 export type Ongs = Ong[];
