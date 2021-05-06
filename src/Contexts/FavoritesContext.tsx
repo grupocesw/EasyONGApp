@@ -3,12 +3,11 @@ import React, {
   useState,
   useContext,
 } from 'react';
-import {Favorites as FavoritesData} from '../data/ongs';
 
 export const FavoritesContext = createContext({});
 
 export const FavoritesProvider = ({children}: any) => {
-  const [favorites, setFavorites] = useState(FavoritesData);
+  const [favorites, setFavorites] = useState([]);
 
   return (
     <FavoritesContext.Provider

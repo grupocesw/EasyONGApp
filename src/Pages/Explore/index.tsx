@@ -75,7 +75,6 @@ export const ExploreScreen = ({navigation}: any) => {
 
   const renderHorizontalOngItem = ({item: Ong}: any) => (
     <OngCardItem onPress={() => navigateDetails(Ong.id)}>
-      {console.log(Ong?.pictures)}
       <ImageUI
         source={{
           uri: Ong?.pictures[0]?.url,

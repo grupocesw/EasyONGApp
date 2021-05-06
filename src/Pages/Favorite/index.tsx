@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -11,6 +11,7 @@ import {
   TopNavigation,
 } from '@ui-kitten/components';
 import {useTheme} from '@ui-kitten/components';
+import api from '../../services/api';
 import {
   FavoriteItem,
   ItemTitle,
@@ -18,16 +19,29 @@ import {
   FavoriteButton,
   Container,
   ImageUI,
+  ErrorMsg,
 } from './styles';
 import {useFavorite, useUsers} from '../../Contexts';
 
 export const FavoriteScreen = ({navigation}: any) => {
   const theme = useTheme();
-
-  const {Favorites, setFavorites}: any = useFavorite();
-
-  const {User}: any = useUsers();
-
+  const [favoritesData, setFavoritesData] = useState<any>(
+    [],
+  );
+  const {favorites, setFavorites}: any = useFavorite();
+  const {Token}: any = useUsers();
+  useEffect(() => {
+    const getFavorites = async () => {
+      favorites?.map(async (favorite: number) => {
+        const {data} = await api.get(`/ngos/${favorite}`, {
+          headers: {Authorization: `Bearer ${Token}`},
+        });
+        setFavoritesData([...favoritesData, data]);
+      });
+    };
+    getFavorites();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [favorites, Token, setFavorites]);
   const navigateDetails = (id: number) => {
     navigation.navigate('Details', {itemId: id});
   };
@@ -36,13 +50,17 @@ export const FavoriteScreen = ({navigation}: any) => {
     <Icon {...props} name="heart" fill={'#fff'} />
   );
 
-  const handleRemoveFavorite = (idOng: any) => {
-    const fav = Favorites[User.id].filter(
-      (favorite: any) => favorite !== idOng,
-    );
-    setFavorites({
-      [User.id]: [...fav],
+  const handleRemoveFavorite = (idOng: number) => {
+    const fav = favorites.filter((favorite: number) => {
+      return favorite !== idOng && favorite;
     });
+    const favData = favoritesData.filter(
+      (favoriteData: any) => {
+        return favoriteData?.id !== idOng && favoriteData;
+      },
+    );
+    setFavorites(fav);
+    setFavoritesData(favData);
   };
 
   const styles = StyleSheet.create({
@@ -70,9 +88,13 @@ export const FavoriteScreen = ({navigation}: any) => {
       </SafeAreaView>
       <Layout style={styles.layout}>
         <Container>
-          {Favorites &&
-            Favorites[User?.id] &&
-            Favorites[User.id]?.map(
+          {favorites.length < 1 && (
+            <ErrorMsg>
+              Nenhum favorito encontrado...
+            </ErrorMsg>
+          )}
+          {favorites &&
+            favoritesData?.map(
               (favorite: any, index: number) => (
                 <TouchableOpacity
                   onPress={() =>
@@ -82,22 +104,21 @@ export const FavoriteScreen = ({navigation}: any) => {
                   <FavoriteItem>
                     <ImageUI
                       source={{
-                        uri:
-                          'https://via.placeholder.com/150/771796',
+                        uri: favorite?.pictures[0]?.url,
                       }}
                     />
                     <FavoriteButton
                       onPress={() =>
-                        handleRemoveFavorite(favorite)
+                        handleRemoveFavorite(favorite?.id)
                       }
                       accessoryLeft={(props) =>
                         RemoveIcon({...props})
                       }
                     />
                   </FavoriteItem>
-                  <ItemTitle>{favorite.name}</ItemTitle>
+                  <ItemTitle>{favorite?.name}</ItemTitle>
                   <ItemDescription>
-                    {favorite.description}
+                    {favorite?.description}
                   </ItemDescription>
                 </TouchableOpacity>
               ),

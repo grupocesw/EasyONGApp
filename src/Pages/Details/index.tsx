@@ -39,7 +39,7 @@ function DetailsScreen({route, navigation}: any) {
   const {itemId} = route.params;
   const {favorites, setFavorites}: any = useFavorite();
 
-  const {User}: any = useUsers();
+  const {Token}: any = useUsers();
   const [Loading, setLoading] = useState<any>(true);
   const [activeOng, setActiveOng] = useState<Ong>(
     {} as Ong,
@@ -66,18 +66,21 @@ function DetailsScreen({route, navigation}: any) {
   };
 
   let active = false;
-  for (let i = 0; i < favorites[User.id]?.length; i++) {
-    favorites[User.id][i]?.id === itemId
+  favorites.map((favorite: number) => {
+    favorite === itemId
       ? (active = true)
       : (active = false);
-  }
+  });
 
-  const handleFavorite = (OngItem: any) => {
-    setFavorites({
-      [User.id]: favorites[User.id]
-        ? [...favorites[User.id], OngItem]
-        : [OngItem],
-    });
+  const handleFavorite = async (OngItem: any) => {
+    await api.put(
+      `auth/${OngItem?.id}/favorite`,
+      {},
+      {
+        headers: {Authorization: `Bearer ${Token}`},
+      },
+    );
+    setFavorites([...favorites, OngItem?.id]);
   };
 
   const ArrowIcon = (props: any) => (

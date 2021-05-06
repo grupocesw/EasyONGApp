@@ -7,6 +7,18 @@ export const Container = styled.View`
   width: 100%;
 `;
 
+export const ErrorMsg = styled.Text`
+  padding: 15px;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  font-size: 22px;
+`;
+
 export const FavoriteItem = styled.View`
   width: 100%;
   min-height: 170px;
