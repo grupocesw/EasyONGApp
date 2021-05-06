@@ -1,5 +1,8 @@
 import React, {useState} from 'react';
-import {BottomNavigation, BottomNavigationTab} from '@ui-kitten/components';
+import {
+  BottomNavigation,
+  BottomNavigationTab,
+} from '@ui-kitten/components';
 // import {HomeIcon, FavoriteIcon, AddIcon, BellIcon, ProfileIcon} from './Icons';
 import {HomeIcon, FavoriteIcon} from './Icons';
 export const BottomNavigationTabs = ({navigation}: any) => {
@@ -8,8 +11,8 @@ export const BottomNavigationTabs = ({navigation}: any) => {
     {name: 'Home'},
     {name: 'Explore'},
     {name: 'Favorite'},
-    {name: 'Add'},
     {name: 'Notification'},
+    {name: 'Add'},
     {name: 'Profile'},
   ]);
   return (
@@ -17,10 +20,18 @@ export const BottomNavigationTabs = ({navigation}: any) => {
       selectedIndex={indice - 1}
       onSelect={(i) => {
         setIndice(i + 1);
-        navigation.navigate(routeNames[i + 1].name, {itemId: indice});
+        navigation.navigate(routeNames[i + 1].name, {
+          itemId: indice,
+        });
       }}>
-      <BottomNavigationTab title="Explore" icon={HomeIcon} />
-      <BottomNavigationTab title="Favoritos" icon={FavoriteIcon} />
+      <BottomNavigationTab
+        title="Explore"
+        icon={HomeIcon}
+      />
+      <BottomNavigationTab
+        title="Favoritos"
+        icon={FavoriteIcon}
+      />
       {/* <BottomNavigationTab title="" icon={AddIcon} /> */}
       {/* <BottomNavigationTab title="Notificações" icon={BellIcon} /> */}
       {/* <BottomNavigationTab title="Perfil" icon={ProfileIcon} /> */}
