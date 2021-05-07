@@ -9,10 +9,9 @@ import Share from 'react-native-share';
 import LinearGradient from 'react-native-linear-gradient';
 import api from '../../services/api';
 import {
-  Icon,
+  Icon as IconNative,
   Layout,
   TopNavigation,
-  TopNavigationAction,
   Text,
   Spinner,
 } from '@ui-kitten/components';
@@ -25,15 +24,18 @@ import {
   ListItemBox,
   FavoriteButton,
   ShareButton,
+  ViewAvatar,
 } from './styles';
 import {useUsers, useFavorite} from '../../Contexts';
 
 import Wrapper from '../../components/Wrapper';
 import {Ong} from '../../interfaces/Ong';
-
-const BackIcon = (props: any) => (
-  <Icon {...props} name="arrow-back" />
-);
+import {
+  Avatar,
+  Button,
+  Overlay,
+} from 'react-native-elements';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 function DetailsScreen({route, navigation}: any) {
   const {itemId} = route.params;
@@ -44,6 +46,9 @@ function DetailsScreen({route, navigation}: any) {
   const [activeOng, setActiveOng] = useState<Ong>(
     {} as Ong,
   );
+
+  const [visible, setVisible] = useState(false);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     async function getOng() {
@@ -56,10 +61,15 @@ function DetailsScreen({route, navigation}: any) {
         })
         .catch(() => {
           setLoading(false);
+          setVisible(true);
         });
     }
     getOng();
   }, [itemId]);
+
+  const toggleOverlay = () => {
+    setVisible(!visible);
+  };
 
   const navigateBack = () => {
     navigation.goBack();
@@ -73,29 +83,33 @@ function DetailsScreen({route, navigation}: any) {
   });
 
   const handleFavorite = async (OngItem: any) => {
-    await api.put(
-      `auth/${OngItem?.id}/favorite`,
-      {},
-      {
-        headers: {Authorization: `Bearer ${Token}`},
-      },
-    );
-    setFavorites([...favorites, OngItem?.id]);
+    await api
+      .put(
+        `auth/${OngItem?.id}/favorite`,
+        {},
+        {
+          headers: {Authorization: `Bearer ${Token}`},
+        },
+      )
+      .then(() => {
+        setFavorites([...favorites, OngItem?.id]);
+      })
+      .catch((err: any) => {
+        setVisible(true);
+        setError(JSON.stringify(err).substr(0, 100));
+      });
   };
 
   const ArrowIcon = (props: any) => (
-    <Icon fill="#ffffff" name="chevron-right" {...props} />
-  );
-
-  const BackAction = () => (
-    <TopNavigationAction
-      icon={BackIcon}
-      onPress={navigateBack}
+    <IconNative
+      fill="#ffffff"
+      name="chevron-right"
+      {...props}
     />
   );
 
   const FavoriteIcon = (props: any) => (
-    <Icon
+    <IconNative
       {...props}
       size="30"
       name="heart"
@@ -122,7 +136,7 @@ function DetailsScreen({route, navigation}: any) {
   };
 
   const ShareIcon = (props: Object) => (
-    <Icon
+    <IconNative
       {...props}
       size="30"
       name="share"
@@ -137,11 +151,34 @@ function DetailsScreen({route, navigation}: any) {
           <Spinner />
         </Wrapper>
       ) : (
-        <SafeAreaView>
+        <SafeAreaView style={styles.safeAreaView}>
+          <Overlay
+            isVisible={visible}
+            onBackdropPress={toggleOverlay}>
+            <Text>Problemas na api!!! -{error}</Text>
+          </Overlay>
           <TopNavigation
-            title="Detalhes"
             alignment="center"
-            accessoryLeft={BackAction}
+            style={styles.topNavigation}
+            title={() => (
+              <ViewAvatar>
+                <Icon
+                  style={styles.submitButtonIcon}
+                  name="arrow-left"
+                  size={15}
+                  color="white"
+                  onPress={navigateBack}
+                />
+                <Avatar
+                  rounded
+                  source={{
+                    uri:
+                      'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
+                  }}>
+                  <Avatar.Accessory />
+                </Avatar>
+              </ViewAvatar>
+            )}
           />
           <ScrollView style={styles.scrollView}>
             <Layout style={styles.layout}>
@@ -202,6 +239,23 @@ const styles = StyleSheet.create({
   scrollView: {
     width: '100%',
     backgroundColor: 'transparent',
+  },
+  safeAreaView: {
+    backgroundColor: '#ffffff',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  topNavigation: {
+    backgroundColor: '#ffffff',
+    width: '90%',
+    margin: 10,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  submitButtonIcon: {
+    color: '#000',
   },
   layout: {
     marginBottom: 100,

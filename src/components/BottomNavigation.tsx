@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
+import {StyleSheet} from 'react-native';
 import {
   BottomNavigation,
   BottomNavigationTab,
 } from '@ui-kitten/components';
-// import {HomeIcon, FavoriteIcon, AddIcon, BellIcon, ProfileIcon} from './Icons';
 import {HomeIcon, FavoriteIcon} from './Icons';
 export const BottomNavigationTabs = ({navigation}: any) => {
   const [indice, setIndice] = useState(1);
@@ -17,6 +17,8 @@ export const BottomNavigationTabs = ({navigation}: any) => {
   ]);
   return (
     <BottomNavigation
+      appearance="noIndicator"
+      style={styles.bottomNavigation}
       selectedIndex={indice - 1}
       onSelect={(i) => {
         setIndice(i + 1);
@@ -38,3 +40,7 @@ export const BottomNavigationTabs = ({navigation}: any) => {
     </BottomNavigation>
   );
 };
+
+const styles = StyleSheet.create({
+  bottomNavigation: {},
+});

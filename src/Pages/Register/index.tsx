@@ -3,22 +3,15 @@ import {
   SafeAreaView,
   StyleSheet,
   ScrollView,
-  View,
 } from 'react-native';
-import {
-  Layout,
-  Divider,
-  TopNavigation,
-  Text,
-} from '@ui-kitten/components';
+import {Layout, Divider, Text} from '@ui-kitten/components';
+import {Button, Input} from 'react-native-elements';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import {
   Container,
   CardItem,
-  TextView,
-  InputField,
-  BoxButton,
-  ButtonRegister,
   ButtonsView,
+  ButtonRegister,
 } from './styles';
 import {useUsers} from '../../Contexts/index';
 
@@ -30,46 +23,75 @@ export const RegisterScreen = ({navigation}: any) => {
   return (
     <>
       <SafeAreaView style={styles.safeArea}>
-        <TopNavigation
-          alignment="center"
-          title={() => (
-            <Text style={styles.titleTopNavigation}>
-              Cadastre-se
-            </Text>
-          )}
-        />
         <Divider />
         <Layout style={styles.layoutGlobal}>
           <ScrollView style={styles.scrollView}>
             <Container>
+              <Text style={styles.welcomeText}>
+                Cadastre-se Agora
+              </Text>
               <CardItem>
-                <View style={styles.layoutImage} />
-                <View style={styles.layoutContent}>
-                  <TextView>
-                    <Text>Nome:</Text>
-                    <InputField />
-                  </TextView>
-                  <TextView>
-                    <Text>Nascimento:</Text>
-                    <InputField />
-                  </TextView>
-                  <TextView>
-                    <Text>Email:</Text>
-                    <InputField />
-                  </TextView>
-                  <TextView>
-                    <Text>Senha:</Text>
-                    <InputField />
-                  </TextView>
-                  <ButtonsView>
-                    <BoxButton onPress={showLogin}>
-                      <Text>Cadastre-se</Text>
-                    </BoxButton>
-                    <ButtonRegister onPress={showLogin}>
-                      <Text>ou Faça login</Text>
-                    </ButtonRegister>
-                  </ButtonsView>
-                </View>
+                <Input
+                  placeholder="Nome completo"
+                  leftIcon={
+                    <Icon
+                      name="user"
+                      size={24}
+                      color="#5DB075"
+                    />
+                  }
+                />
+                <Input
+                  placeholder="Data de nascimento"
+                  leftIcon={
+                    <Icon
+                      name="calendar"
+                      size={24}
+                      color="#5DB075"
+                    />
+                  }
+                />
+                <Input
+                  placeholder="E-mail de cadastro"
+                  leftIcon={
+                    <Icon
+                      name="inbox"
+                      size={24}
+                      color="#5DB075"
+                    />
+                  }
+                />
+                <Input
+                  placeholder="Sua senha"
+                  secureTextEntry={true}
+                  leftIcon={
+                    <Icon
+                      name="lock"
+                      size={24}
+                      color="#5DB075"
+                    />
+                  }
+                />
+
+                <ButtonsView>
+                  <Button
+                    onPress={showLogin}
+                    title="Criar cadastro"
+                    iconRight
+                    buttonStyle={styles.submitButton}
+                    icon={
+                      <Icon
+                        style={styles.submitButtonIcon}
+                        name="arrow-right"
+                        size={15}
+                        color="white"
+                      />
+                    }
+                  />
+                  <ButtonRegister onPress={showLogin}>
+                    <Text>ou Efetuar login</Text>
+                  </ButtonRegister>
+                </ButtonsView>
               </CardItem>
             </Container>
           </ScrollView>
@@ -82,6 +104,17 @@ export const RegisterScreen = ({navigation}: any) => {
 const styles = StyleSheet.create({
   listBox: {
     backgroundColor: 'transparent',
+  },
+  welcomeText: {
+    fontSize: 22,
+    fontWeight: '700',
+  },
+  submitButton: {
+    backgroundColor: '#5DB075',
+    padding: 10,
+  },
+  submitButtonIcon: {
+    marginLeft: 15,
   },
   titleTopNavigation: {
     fontSize: 18,

@@ -10,16 +10,13 @@ import {
   Layout,
   TopNavigation,
   Divider,
-  // Icon,
   List,
-  Text,
 } from '@ui-kitten/components';
 
 import {
   Container,
   // Box,
   // BoxButton,
-  TextView,
   ViewFlex,
   OngCardItem,
   CardItem,
@@ -27,9 +24,12 @@ import {
   ItemTitle,
   ItemDescription,
   ImageUI,
+  RattingContainer,
+  FavoriteButton,
+  ViewAvatar,
+  ViewSwitch,
 } from './styles';
-
-// import SearchBar from '../../components/SearchBar';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import {useOng} from '../../Contexts/index';
 
 import {
@@ -39,14 +39,27 @@ import {
 import api from '../../services/api';
 import Wrapper from '../../components/Wrapper';
 import {Spinner} from '@ui-kitten/components';
+import {
+  Avatar,
+  Rating,
+  Text as TextElement,
+} from 'react-native-elements';
+import SearchBar from '../../components/SearchBar';
+import {Switch} from 'react-native-elements';
 
 export const ExploreScreen = ({navigation}: any) => {
   const [Loading, setLoading] = useState(false);
+  const [switchvalue, setSwitchvalue] = useState(false);
+
   const {Ongs, setOngs}: OngsContextType = useOng();
   const navigateDetails = (id: number) => {
     navigation.navigate('Details', {
       itemId: id,
     });
+  };
+
+  const handleSwitchValue = () => {
+    setSwitchvalue(!switchvalue);
   };
 
   useEffect(() => {
@@ -65,16 +78,14 @@ export const ExploreScreen = ({navigation}: any) => {
     getData();
   }, [setOngs]);
 
-  // const FilterIcon = (props: any) => (
-  //   <Icon fill="#ffffff" name="options-2" {...props} />
-  // );
-
-  // const ChevronDown = (props: any) => (
-  //   <Icon fill="#ffffff" name="chevron-down" {...props} />
-  // );
+  const ratingCompleted = (rating: any) => {
+    console.log('Rating is: ' + rating);
+  };
 
   const renderHorizontalOngItem = ({item: Ong}: any) => (
-    <OngCardItem onPress={() => navigateDetails(Ong.id)}>
+    <OngCardItem
+      style={styles.cardItem}
+      onPress={() => navigateDetails(Ong.id)}>
       <ImageUI
         source={{
           uri: Ong?.pictures[0]?.url,
@@ -84,6 +95,16 @@ export const ExploreScreen = ({navigation}: any) => {
       <ItemDescription>
         {Ong.description.substr(0, 55)}
       </ItemDescription>
+      <RattingContainer>
+        <Rating
+          style={styles.rating}
+          imageSize={15}
+          onFinishRating={ratingCompleted}
+        />
+        <FavoriteButton>
+          <Icon name="eye" size={14} color="#000" />
+        </FavoriteButton>
+      </RattingContainer>
     </OngCardItem>
   );
 
@@ -92,10 +113,35 @@ export const ExploreScreen = ({navigation}: any) => {
       <SafeAreaView style={styles.safeArea}>
         <TopNavigation
           alignment="center"
+          style={styles.topNavigation}
           title={() => (
-            <Text style={styles.titleTopNavigation}>
-              Explore
-            </Text>
+            <ViewAvatar>
+              <ViewSwitch>
+                <Icon
+                  name="sun-o"
+                  size={14}
+                  color="#ee2f0d"
+                />
+                <Switch
+                  style={styles.switch}
+                  value={switchvalue}
+                  onValueChange={handleSwitchValue}
+                />
+                <Icon
+                  name="moon-o"
+                  size={14}
+                  color="#12101b"
+                />
+              </ViewSwitch>
+              <Avatar
+                rounded
+                source={{
+                  uri:
+                    'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
+                }}>
+                <Avatar.Accessory />
+              </Avatar>
+            </ViewAvatar>
           )}
         />
         <Divider />
@@ -106,7 +152,7 @@ export const ExploreScreen = ({navigation}: any) => {
             </Wrapper>
           ) : (
             <ScrollView style={styles.scrollView}>
-              {/* <SearchBar /> */}
+              <SearchBar />
               <Container>
                 {/* <Box>
                 <BoxButton
@@ -121,7 +167,9 @@ export const ExploreScreen = ({navigation}: any) => {
                 </BoxButton>
               </Box> */}
                 <ViewFlex>
-                  <TextView>Sugestões para você</TextView>
+                  <TextElement h4 style={styles.textStyle}>
+                    Sugestões para você
+                  </TextElement>
                 </ViewFlex>
                 <List
                   style={styles.horizontalOngList}
@@ -131,7 +179,9 @@ export const ExploreScreen = ({navigation}: any) => {
                   renderItem={renderHorizontalOngItem}
                 />
                 <ViewFlex>
-                  <TextView>Veja mais</TextView>
+                  <TextElement h4 style={styles.textStyle}>
+                    Veja mais
+                  </TextElement>
                 </ViewFlex>
                 <ListCardItem>
                   {[...Ongs, ...Ongs]
@@ -139,6 +189,7 @@ export const ExploreScreen = ({navigation}: any) => {
                     .map((Ong: OngType, index: number) => {
                       return (
                         <CardItem
+                          style={styles.cardItem}
                           onPress={() =>
                             navigateDetails(Ong.id)
                           }
@@ -168,6 +219,29 @@ export const ExploreScreen = ({navigation}: any) => {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
+    backgroundColor: '#ffffff',
+  },
+  switch: {},
+  submitButtonIcon: {
+    color: '#000000',
+  },
+  topNavigation: {
+    backgroundColor: '#ffffff',
+    margin: 10,
+  },
+  textStyle: {
+    color: '#5db075',
+  },
+  rating: {
+    margin: 10,
+  },
+  cardItem: {
+    backgroundColor: '#ffffff',
+    shadowColor: '#000',
+    shadowOffset: {width: 0, height: 2},
+    shadowOpacity: 0.2,
+    elevation: 2,
+    paddingBottom: 15,
   },
   layoutGlobal: {
     flex: 1,
@@ -185,5 +259,6 @@ const styles = StyleSheet.create({
   },
   horizontalOngList: {
     backgroundColor: 'transparent',
+    marginTop: -20,
   },
 });

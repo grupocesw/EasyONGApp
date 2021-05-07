@@ -11,7 +11,7 @@ const HomeNavigator = () => {
     <>
       <StatusBar
         animated={true}
-        backgroundColor={theme['color-basic-800']}
+        backgroundColor={theme['color-basic-100']}
         barStyle="dark-content"
       />
       <NavigatorHandle />

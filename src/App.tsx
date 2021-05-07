@@ -31,7 +31,7 @@ export default () => {
                 <IconRegistry icons={EvaIconsPack} />
                 <ApplicationProvider
                   {...eva}
-                  theme={eva.dark}>
+                  theme={eva.light}>
                   <AppNavigator />
                 </ApplicationProvider>
               </FavoritesProvider>

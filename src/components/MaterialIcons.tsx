@@ -19,10 +19,22 @@ function createIconsMap() {
 }
 
 const IconProvider = (name: any) => ({
-  toReactElement: (props: any) => MaterialIcon({name, ...props}),
+  toReactElement: (props: any) =>
+    MaterialIcon({name, ...props}),
 });
 
 function MaterialIcon({name, style}: any) {
-  const {height, tintColor, ...iconStyle} = StyleSheet.flatten(style);
-  return <Icon name={name} size={height} color={tintColor} style={iconStyle} />;
+  const {
+    height,
+    tintColor,
+    ...iconStyle
+  } = StyleSheet.flatten(style);
+  return (
+    <Icon
+      name={name}
+      size={height}
+      color={tintColor}
+      style={iconStyle}
+    />
+  );
 }

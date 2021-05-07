@@ -42,6 +42,20 @@ export const BoxButton = styled(Button)`
   margin-left: 16px;
 `;
 
+export const ViewAvatar = styled(View)`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-self: stretch;
+  width: 100%;
+`;
+
+export const ViewSwitch = styled(View)`
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+`;
+
 export const ViewFlex = styled(View)`
   display: flex;
   justify-content: center;
@@ -71,6 +85,25 @@ export const OngCardItem = styled.TouchableOpacity`
   font-size: 12px;
   font-weight: 700;
   background-color: transparent;
+  border: 1px solid #eeeeee;
+`;
+
+export const RattingContainer = styled(View)`
+  align-self: stretch;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-right: 15px;
+`;
+
+export const FavoriteButton = styled(Button)`
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+  width: 10px;
+  height: 10px;
+  padding: 0px;
 `;
 
 export const ItemTitle = styled(Text)`
@@ -78,11 +111,14 @@ export const ItemTitle = styled(Text)`
   line-height: 18px;
   font-weight: 700;
   margin-bottom: 5px;
+  margin-left: 10px;
 `;
 export const ItemDescription = styled(Text)`
   font-size: 14px;
   line-height: 16px;
   font-weight: 400;
+  margin-left: 10px;
+  margin-right: 10px;
 `;
 
 export const ListCardItem = styled(View)`

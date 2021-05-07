@@ -7,16 +7,26 @@ export const Container = styled.View`
   width: 100%;
 `;
 
-export const ErrorMsg = styled.Text`
+export const ErrorMsg = styled.View`
   padding: 15px;
   text-align: center;
   width: 100%;
   height: 100%;
+  min-height: 100px;
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #fff;
+  color: #c71919;
   font-size: 22px;
+`;
+
+export const ViewAvatar = styled(View)`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 export const FavoriteItem = styled.View`

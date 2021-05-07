@@ -1,43 +1,37 @@
 import React, {useState} from 'react';
-import {StyleSheet} from 'react-native';
-
-import {Icon} from '@ui-kitten/components';
-import {Container, BoxInput, BoxButton, InputField} from './styles';
+import {StyleSheet, View} from 'react-native';
+import {SearchBar as SearchBarInput} from 'react-native-elements';
+import {Container} from './styles';
 
 const SearchBar: React.FC = () => {
   const [value, setValue] = useState();
 
-  const handleValue = (e: any) => {
-    setValue(e.target.value);
+  const handleValue = (search: any) => {
+    setValue(search);
   };
-  const HomeIcon = (props: any) => (
-    <Icon fill="#979797" name="search" {...props} />
-  );
-  const VoiceIcon = (props: any) => (
-    <Icon fill="#979797" name="mic" {...props} />
-  );
+
   return (
     <>
       <Container>
-        <BoxInput>
-          <BoxButton accessoryLeft={HomeIcon} />
-          <InputField
-            style={styles.inputStyle}
+        <View style={styles.BoxInput}>
+          <SearchBarInput
+            platform="android"
+            placeholder="Busque suas ong favoritas"
+            onChangeText={handleValue}
             value={value}
-            onChange={(e) => handleValue(e)}
-            placeholder="Pesquisar"
-            accessoryRight={VoiceIcon}
           />
-        </BoxInput>
+        </View>
       </Container>
     </>
   );
 };
 
 const styles = StyleSheet.create({
-  inputStyle: {
-    borderColor: '#ffffff',
-    color: '#000000',
+  BoxInput: {
+    alignSelf: 'stretch',
+    borderStyle: 'solid',
+    borderBottomColor: '#000000',
+    borderBottomWidth: 1,
   },
 });
 

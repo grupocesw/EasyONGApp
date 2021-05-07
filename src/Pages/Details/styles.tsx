@@ -15,6 +15,15 @@ export const FavoriteItem = styled.View`
   position: relative;
 `;
 
+export const ViewAvatar = styled(View)`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
 export const FavoriteButton = styled(Button)`
   background: #ffffff;
   display: flex;
@@ -58,6 +67,8 @@ export const ListItemBox = styled(ListItem)`
   border-radius: 6px;
   margin: 15px 0px;
   padding: 0px 12px;
+  background-color: #5db075;
+  color: #ffffff;
 `;
 
 export const InputField = styled(Input)`
@@ -113,11 +124,12 @@ export const Wrapper = styled.View`
 `;
 
 export const TextView = styled(Text)`
-  font-size: 24px;
-  font-weight: 400;
+  font-size: 28px;
+  font-weight: 700;
   text-align: left;
   margin-left: 16px;
   margin-bottom: 32px;
+  color: #ffffff;
 `;
 
 export const OngCard = styled(View)`

@@ -6,11 +6,10 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {
-  Icon,
+  Icon as IconKitten,
   Layout,
   TopNavigation,
 } from '@ui-kitten/components';
-import {useTheme} from '@ui-kitten/components';
 import api from '../../services/api';
 import {
   FavoriteItem,
@@ -20,11 +19,13 @@ import {
   Container,
   ImageUI,
   ErrorMsg,
+  ViewAvatar,
 } from './styles';
 import {useFavorite, useUsers} from '../../Contexts';
+import {Avatar, Text} from 'react-native-elements';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 export const FavoriteScreen = ({navigation}: any) => {
-  const theme = useTheme();
   const [favoritesData, setFavoritesData] = useState<any>(
     [],
   );
@@ -46,8 +47,12 @@ export const FavoriteScreen = ({navigation}: any) => {
     navigation.navigate('Details', {itemId: id});
   };
 
+  const navigateBack = () => {
+    navigation.goBack();
+  };
+
   const RemoveIcon = (props: Object) => (
-    <Icon {...props} name="heart" fill={'#fff'} />
+    <IconKitten {...props} name="heart" fill={'#fff'} />
   );
 
   const handleRemoveFavorite = (idOng: number) => {
@@ -67,14 +72,35 @@ export const FavoriteScreen = ({navigation}: any) => {
     scrollView: {
       width: '100%',
       height: '100%',
-      backgroundColor: theme['color-basic-800'],
+      backgroundColor: '#ffffff',
     },
     layout: {
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
       flexDirection: 'column',
-      backgroundColor: theme['color-basic-800'],
+      color: 'red',
+      backgroundColor: '#ffffff',
+    },
+    safeAreaView: {
+      backgroundColor: '#ffffff',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    topNavigation: {
+      backgroundColor: '#ffffff',
+      width: '90%',
+      margin: 10,
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    submitButtonIcon: {
+      color: '#000000',
+    },
+    erroMsg: {
+      color: '#c71919',
     },
   });
 
@@ -82,15 +108,36 @@ export const FavoriteScreen = ({navigation}: any) => {
     <ScrollView style={styles.scrollView}>
       <SafeAreaView>
         <TopNavigation
-          title="Favoritos"
           alignment="center"
+          style={styles.topNavigation}
+          title={() => (
+            <ViewAvatar>
+              <Icon
+                style={styles.submitButtonIcon}
+                name="arrow-left"
+                size={15}
+                color="black"
+                onPress={navigateBack}
+              />
+              <Avatar
+                rounded
+                source={{
+                  uri:
+                    'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
+                }}>
+                <Avatar.Accessory />
+              </Avatar>
+            </ViewAvatar>
+          )}
         />
       </SafeAreaView>
       <Layout style={styles.layout}>
         <Container>
           {favorites.length < 1 && (
             <ErrorMsg>
-              Nenhum favorito encontrado...
+              <Text h4 style={styles.erroMsg}>
+                Nenhum favorito encontrado...
+              </Text>
             </ErrorMsg>
           )}
           {favorites &&
