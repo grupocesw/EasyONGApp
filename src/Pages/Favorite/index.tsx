@@ -151,7 +151,7 @@ export const FavoriteScreen = ({navigation}: any) => {
                   <FavoriteItem>
                     <ImageUI
                       source={{
-                        uri: favorite?.pictures[0]?.url,
+                        uri: favorite?.picture?.url,
                       }}
                     />
                     <FavoriteButton
