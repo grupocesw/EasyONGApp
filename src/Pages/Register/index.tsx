@@ -13,7 +13,7 @@ import {
   ButtonsView,
   ButtonRegister,
 } from './styles';
-import {useUsers} from '../../Contexts/index';
+/* import {useUsers} from '../../Contexts/index'; */
 
 export const RegisterScreen = ({navigation}: any) => {
   /* const {Token}: any = useUsers(); */

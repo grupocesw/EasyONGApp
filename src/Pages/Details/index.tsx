@@ -30,11 +30,7 @@ import {useUsers, useFavorite} from '../../Contexts';
 
 import Wrapper from '../../components/Wrapper';
 import {Ong} from '../../interfaces/Ong';
-import {
-  Avatar,
-  Button,
-  Overlay,
-} from 'react-native-elements';
+import {Avatar, Overlay} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 function DetailsScreen({route, navigation}: any) {

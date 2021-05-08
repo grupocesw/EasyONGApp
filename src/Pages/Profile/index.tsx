@@ -1,6 +1,17 @@
 import React, {useContext} from 'react';
-import {SafeAreaView, StyleSheet, ScrollView, Image, View} from 'react-native';
-import {Layout, Divider, TopNavigation, Text} from '@ui-kitten/components';
+import {
+  SafeAreaView,
+  StyleSheet,
+  ScrollView,
+  Image,
+  View,
+} from 'react-native';
+import {
+  Layout,
+  Divider,
+  TopNavigation,
+  Text,
+} from '@ui-kitten/components';
 import {
   Container,
   CardItem,
@@ -17,7 +28,11 @@ export const ProfileScreen = () => {
       <SafeAreaView style={styles.safeArea}>
         <TopNavigation
           alignment="center"
-          title={() => <Text style={styles.titleTopNavigation}>Perfil</Text>}
+          title={() => (
+            <Text style={styles.titleTopNavigation}>
+              Perfil
+            </Text>
+          )}
         />
         <Divider />
         <Layout style={styles.layoutGlobal}>
