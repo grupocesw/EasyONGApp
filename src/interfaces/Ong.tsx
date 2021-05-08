@@ -8,7 +8,7 @@ export type Ong = {
   description: string;
   moreInformations: string[];
   name: string;
-  pictures: Array<{url: string}>;
+  picture: {url: string};
 };
 
 export type Ongs = Ong[];
@@ -16,4 +16,6 @@ export type Ongs = Ong[];
 export type OngsContext = {
   Ongs: Ongs;
   setOngs: Function;
+  ongsSuggest: Ongs;
+  setOngsSuggest: Function;
 };

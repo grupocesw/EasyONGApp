@@ -1,6 +1,17 @@
 import React, {useContext} from 'react';
-import {SafeAreaView, StyleSheet, ScrollView, Image, View} from 'react-native';
-import {Layout, Divider, TopNavigation, Text} from '@ui-kitten/components';
+import {
+  SafeAreaView,
+  StyleSheet,
+  ScrollView,
+  Image,
+  View,
+} from 'react-native';
+import {
+  Layout,
+  Divider,
+  TopNavigation,
+  Text,
+} from '@ui-kitten/components';
 import {
   Container,
   CardItem,
@@ -18,7 +29,9 @@ export const NotificationScreen = () => {
         <TopNavigation
           alignment="center"
           title={() => (
-            <Text style={styles.titleTopNavigation}>Notificações</Text>
+            <Text style={styles.titleTopNavigation}>
+              Notificações
+            </Text>
           )}
         />
         <Divider />

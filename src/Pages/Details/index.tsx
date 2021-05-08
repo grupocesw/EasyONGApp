@@ -30,11 +30,7 @@ import {useUsers, useFavorite} from '../../Contexts';
 
 import Wrapper from '../../components/Wrapper';
 import {Ong} from '../../interfaces/Ong';
-import {
-  Avatar,
-  Button,
-  Overlay,
-} from 'react-native-elements';
+import {Avatar, Overlay} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 function DetailsScreen({route, navigation}: any) {
@@ -85,7 +81,7 @@ function DetailsScreen({route, navigation}: any) {
   const handleFavorite = async (OngItem: any) => {
     await api
       .put(
-        `auth/${OngItem?.id}/favorite`,
+        `auth/ngo/${OngItem?.id}/favorite`,
         {},
         {
           headers: {Authorization: `Bearer ${Token}`},
@@ -185,7 +181,7 @@ function DetailsScreen({route, navigation}: any) {
               <View style={styles.container}>
                 <ImgView
                   source={{
-                    uri: activeOng?.pictures[0]?.url,
+                    uri: activeOng?.picture?.url,
                   }}
                 />
                 <LinearGradient
@@ -216,7 +212,9 @@ function DetailsScreen({route, navigation}: any) {
                   {activeOng?.description}
                 </ItemDescription>
                 <ListItemBox
-                  title={() => <Text>Transparência</Text>}
+                  title={() => (
+                    <Text>Mais informações</Text>
+                  )}
                   accessoryRight={ArrowIcon}
                   // onPress={() => navigation.navigate('Profile', {name: 'Jane'})}
                 />
