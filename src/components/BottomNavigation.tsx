@@ -42,5 +42,15 @@ export const BottomNavigationTabs = ({navigation}: any) => {
 };
 
 const styles = StyleSheet.create({
-  bottomNavigation: {},
+  bottomNavigation: {
+    backgroundColor: '#fff',
+    shadowRadius: 2,
+    shadowOffset: {
+      width: 0,
+      height: -3,
+    },
+    shadowOpacity: 0.1,
+    shadowColor: '#000',
+    elevation: 4,
+  },
 });
