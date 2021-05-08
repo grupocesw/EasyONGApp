@@ -30,7 +30,7 @@ import {
   ViewSwitch,
 } from './styles';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {useOng} from '../../Contexts/index';
+import {useOng, useUsers} from '../../Contexts/index';
 
 import {
   Ong as OngType,
@@ -51,7 +51,12 @@ export const ExploreScreen = ({navigation}: any) => {
   const [Loading, setLoading] = useState(false);
   const [switchvalue, setSwitchvalue] = useState(false);
 
-  const {Ongs, setOngs}: OngsContextType = useOng();
+  const {
+    Ongs,
+    ongsSuggest,
+    setOngsSuggest,
+    setOngs,
+  }: OngsContextType = useOng();
   const navigateDetails = (id: number) => {
     navigation.navigate('Details', {
       itemId: id,
@@ -61,12 +66,14 @@ export const ExploreScreen = ({navigation}: any) => {
   const handleSwitchValue = () => {
     setSwitchvalue(!switchvalue);
   };
-
+  const {Token}: any = useUsers();
   useEffect(() => {
     async function getData() {
       setLoading(true);
       await api
-        .get('ngos')
+        .get('ngos', {
+          headers: {Authorization: `Bearer ${Token}`},
+        })
         .then(({data}: any) => {
           setOngs(data?.content);
           setLoading(false);
@@ -76,7 +83,25 @@ export const ExploreScreen = ({navigation}: any) => {
         });
     }
     getData();
-  }, [setOngs]);
+  }, [setOngs, Token]);
+
+  useEffect(() => {
+    async function getDataSuggest() {
+      setLoading(true);
+      await api
+        .get('ngos/suggested', {
+          headers: {Authorization: `Bearer ${Token}`},
+        })
+        .then(({data}: any) => {
+          setOngsSuggest(data?.content);
+          setLoading(false);
+        })
+        .catch(() => {
+          setLoading(false);
+        });
+    }
+    getDataSuggest();
+  }, [setOngsSuggest, Token]);
 
   const ratingCompleted = (rating: any) => {
     console.log('Rating is: ' + rating);
@@ -88,7 +113,7 @@ export const ExploreScreen = ({navigation}: any) => {
       onPress={() => navigateDetails(Ong.id)}>
       <ImageUI
         source={{
-          uri: Ong?.pictures[0]?.url,
+          uri: Ong?.picture?.url,
         }}
       />
       <ItemTitle>{Ong.name}</ItemTitle>
@@ -175,7 +200,7 @@ export const ExploreScreen = ({navigation}: any) => {
                   style={styles.horizontalOngList}
                   horizontal={true}
                   showsHorizontalScrollIndicator={false}
-                  data={Ongs}
+                  data={ongsSuggest}
                   renderItem={renderHorizontalOngItem}
                 />
                 <ViewFlex>
@@ -184,9 +209,8 @@ export const ExploreScreen = ({navigation}: any) => {
                   </TextElement>
                 </ViewFlex>
                 <ListCardItem>
-                  {[...Ongs, ...Ongs]
-                    .sort()
-                    .map((Ong: OngType, index: number) => {
+                  {Ongs.sort().map(
+                    (Ong: OngType, index: number) => {
                       return (
                         <CardItem
                           style={styles.cardItem}
@@ -196,7 +220,7 @@ export const ExploreScreen = ({navigation}: any) => {
                           key={(Ong.id, index)}>
                           <ImageUI
                             source={{
-                              uri: Ong?.pictures[0]?.url,
+                              uri: Ong?.picture?.url,
                             }}
                           />
                           <ItemTitle>{Ong.name}</ItemTitle>
@@ -205,7 +229,8 @@ export const ExploreScreen = ({navigation}: any) => {
                           </ItemDescription>
                         </CardItem>
                       );
-                    })}
+                    },
+                  )}
                 </ListCardItem>
               </Container>
             </ScrollView>
