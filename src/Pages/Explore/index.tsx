@@ -78,7 +78,8 @@ export const ExploreScreen = ({navigation}: any) => {
           setOngs(data?.content);
           setLoading(false);
         })
-        .catch(() => {
+        .catch((error) => {
+          console.log(error);
           setLoading(false);
         });
     }
