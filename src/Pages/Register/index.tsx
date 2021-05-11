@@ -1,11 +1,15 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   SafeAreaView,
   StyleSheet,
   ScrollView,
 } from 'react-native';
 import {Layout, Divider, Text} from '@ui-kitten/components';
-import {Button, Input} from 'react-native-elements';
+import {
+  Button,
+  Input,
+  Overlay,
+} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {
   Container,
@@ -13,16 +17,49 @@ import {
   ButtonsView,
   ButtonRegister,
 } from './styles';
-/* import {useUsers} from '../../Contexts/index'; */
+import api from '../../services/api';
 
 export const RegisterScreen = ({navigation}: any) => {
-  /* const {Token}: any = useUsers(); */
+  const [name, setName] = useState('');
+  const [nascimento, setNascimento] = useState('');
+  const [email, setEmail] = useState('');
+  const [senha, setSenha] = useState('');
+  const [visible, setVisible] = useState(false);
+  const [error, setError] = useState('');
+
+  const handleCreateUser = async () => {
+    await api
+      .post('/registration', {
+        name,
+        birthday: '1990-09-22',
+        gender: 0,
+        username: email,
+        password: senha,
+        causes: [{id: 1}],
+      })
+      .then(() => navigation.navigate('Login'))
+      .catch((err: any) => {
+        setVisible(true);
+        setError(JSON.stringify(err).substr(0, 100));
+      });
+  };
+
   const showLogin = () => {
     navigation.navigate('Login');
   };
+
+  const toggleOverlay = () => {
+    setVisible(!visible);
+  };
+
   return (
     <>
       <SafeAreaView style={styles.safeArea}>
+        <Overlay
+          isVisible={visible}
+          onBackdropPress={toggleOverlay}>
+          <Text>Problemas na api!!! -{error}</Text>
+        </Overlay>
         <Divider />
         <Layout style={styles.layoutGlobal}>
           <ScrollView style={styles.scrollView}>
@@ -33,6 +70,8 @@ export const RegisterScreen = ({navigation}: any) => {
               <CardItem>
                 <Input
                   placeholder="Nome completo"
+                  onChangeText={(text) => setName(text)}
+                  value={name}
                   leftIcon={
                     <Icon
                       name="user"
@@ -43,6 +82,10 @@ export const RegisterScreen = ({navigation}: any) => {
                 />
                 <Input
                   placeholder="Data de nascimento"
+                  onChangeText={(text) =>
+                    setNascimento(text)
+                  }
+                  value={nascimento}
                   leftIcon={
                     <Icon
                       name="calendar"
@@ -53,6 +96,8 @@ export const RegisterScreen = ({navigation}: any) => {
                 />
                 <Input
                   placeholder="E-mail de cadastro"
+                  onChangeText={(text) => setEmail(text)}
+                  value={email}
                   leftIcon={
                     <Icon
                       name="inbox"
@@ -63,6 +108,8 @@ export const RegisterScreen = ({navigation}: any) => {
                 />
                 <Input
                   placeholder="Sua senha"
+                  onChangeText={(text) => setSenha(text)}
+                  value={senha}
                   secureTextEntry={true}
                   leftIcon={
                     <Icon
@@ -75,7 +122,7 @@ export const RegisterScreen = ({navigation}: any) => {
 
                 <ButtonsView>
                   <Button
-                    onPress={showLogin}
+                    onPress={handleCreateUser}
                     title="Criar cadastro"
                     iconRight
                     buttonStyle={styles.submitButton}

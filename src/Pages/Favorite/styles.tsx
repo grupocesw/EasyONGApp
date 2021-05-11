@@ -73,14 +73,14 @@ export const ItemTitle = styled(Text)`
   line-height: 18px;
   font-weight: 700;
   margin-bottom: 10px;
-  color: #ffffff;
+  color: #000000;
   margin-top: 10px;
 `;
 export const ItemDescription = styled(Text)`
   font-size: 12px;
   line-height: 16px;
   font-weight: 400;
-  color: #ffffff;
+  color: #000000;
   margin-bottom: 20px;
 `;
 

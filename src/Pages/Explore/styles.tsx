@@ -75,7 +75,7 @@ export const OngCardItem = styled.TouchableOpacity`
   width: 256px;
   margin: 16px 16px;
   margin-left: 0px;
-  min-height: 220px;
+  min-height: 200px;
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
@@ -91,9 +91,10 @@ export const OngCardItem = styled.TouchableOpacity`
 export const RattingContainer = styled(View)`
   align-self: stretch;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
   margin-right: 15px;
+  margin-top: auto;
 `;
 
 export const FavoriteButton = styled(Button)`
@@ -104,6 +105,7 @@ export const FavoriteButton = styled(Button)`
   width: 10px;
   height: 10px;
   padding: 0px;
+  border: 0;
 `;
 
 export const ItemTitle = styled(Text)`

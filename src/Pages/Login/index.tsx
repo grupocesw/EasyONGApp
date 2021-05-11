@@ -1,10 +1,14 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   SafeAreaView,
   StyleSheet,
   ScrollView,
 } from 'react-native';
-import {Button, Input} from 'react-native-elements';
+import {
+  Button,
+  Input,
+  Overlay,
+} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {Layout, Divider, Text} from '@ui-kitten/components';
 import {
@@ -13,19 +17,51 @@ import {
   ButtonsView,
   ButtonRegister,
 } from './styles';
-/* import {useUsers} from '../../Contexts/index'; */
+import {useUsers} from '../../Contexts/index';
+import api from '../../services/api';
 
 export const LoginScreen = ({navigation}: any) => {
-  /* const {Token}: any = useUsers(); */
-  const showExplore = () => {
-    navigation.navigate('Explore');
+  const {Token, setToken}: any = useUsers();
+  const [email, setEmail] = useState('');
+  const [senha, setSenha] = useState('');
+  const [visible, setVisible] = useState(false);
+  const [error, setError] = useState('');
+
+  const handleLogin = async () => {
+    await api
+      .post('/auth/login', {
+        username: email,
+        password: senha,
+      })
+      .then(({data}: any) => {
+        setToken(data?.accessToken);
+      })
+      .catch((err: any) => {
+        setVisible(true);
+        setError(JSON.stringify(err).substr(0, 200));
+      });
   };
+
+  if (Token) {
+    navigation.navigate('Explore');
+  }
+
   const showRegister = () => {
     navigation.navigate('Register');
   };
+
+  const toggleOverlay = () => {
+    setVisible(!visible);
+  };
+
   return (
     <>
       <SafeAreaView style={styles.safeArea}>
+        <Overlay
+          isVisible={visible}
+          onBackdropPress={toggleOverlay}>
+          <Text>Problemas na api!!! -{error}</Text>
+        </Overlay>
         <Divider />
         <Layout style={styles.layoutGlobal}>
           <ScrollView style={styles.scrollView}>
@@ -36,6 +72,8 @@ export const LoginScreen = ({navigation}: any) => {
               <CardItem>
                 <Input
                   placeholder="E-mail de cadastro"
+                  onChangeText={(text) => setEmail(text)}
+                  value={email}
                   leftIcon={
                     <Icon
                       name="user"
@@ -46,6 +84,8 @@ export const LoginScreen = ({navigation}: any) => {
                 />
                 <Input
                   placeholder="Sua senha"
+                  onChangeText={(text) => setSenha(text)}
+                  value={senha}
                   secureTextEntry={true}
                   leftIcon={
                     <Icon
@@ -58,7 +98,7 @@ export const LoginScreen = ({navigation}: any) => {
 
                 <ButtonsView>
                   <Button
-                    onPress={showExplore}
+                    onPress={handleLogin}
                     title="Efetuar login"
                     iconRight
                     buttonStyle={styles.submitButton}

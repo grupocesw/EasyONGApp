@@ -9,9 +9,9 @@ export const UsersContext = createContext({});
 
 export const UsersProvider = ({children}: any) => {
   const [User, setUser] = useState(UsersData);
-  const [Token, setToken] = useState(
-    'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuaWNvbGFzZ29sZHRlY0BnbWFpbC5jb20iLCJhdXRob3JpdGllcyI6WyJVU0VSIl0sImlhdCI6MTYyMDQ5ODIzMCwiZXhwIjoxNjIwNTg0NjMwfQ.SdJ3szUGBK1gakhEsAM-i83TfgIDGZvzYsH3S45FGeIReoHFASZ2KIcC8laDoWk6XYT7fA_bV681r0v8yCoOEw',
-  );
+  const varToken =
+    'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbmRyZXJpZ2dzOTBAZ21haWwuY29tIiwiYXV0aG9yaXRpZXMiOlsiVVNFUiJdLCJpYXQiOjE2MjA2NzU3MDksImV4cCI6MTYyMDc2MjEwOX0.LfqXtDtECwt9pZgjX9OdICvbzfdM-w_IJmdRbSlVvuNrkIrEx1JJexP1mOxzL8E6M8TBwLhglLvXsMZ5NjWEKg';
+  const [Token, setToken] = useState('');
   return (
     <UsersContext.Provider
       value={{

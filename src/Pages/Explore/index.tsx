@@ -25,7 +25,6 @@ import {
   ItemDescription,
   ImageUI,
   RattingContainer,
-  FavoriteButton,
   ViewAvatar,
   ViewSwitch,
 } from './styles';
@@ -41,11 +40,12 @@ import Wrapper from '../../components/Wrapper';
 import {Spinner} from '@ui-kitten/components';
 import {
   Avatar,
-  Rating,
+  Text,
   Text as TextElement,
 } from 'react-native-elements';
 import SearchBar from '../../components/SearchBar';
 import {Switch} from 'react-native-elements';
+import {Overlay} from 'react-native-elements';
 
 export const ExploreScreen = ({navigation}: any) => {
   const [Loading, setLoading] = useState(false);
@@ -57,6 +57,10 @@ export const ExploreScreen = ({navigation}: any) => {
     setOngsSuggest,
     setOngs,
   }: OngsContextType = useOng();
+
+  const [visible, setVisible] = useState(false);
+  const [error, setError] = useState('');
+
   const navigateDetails = (id: number) => {
     navigation.navigate('Details', {
       itemId: id,
@@ -78,8 +82,9 @@ export const ExploreScreen = ({navigation}: any) => {
           setOngs(data?.content);
           setLoading(false);
         })
-        .catch((error) => {
-          console.log(error);
+        .catch((err: any) => {
+          setVisible(true);
+          setError(JSON.stringify(err).substr(0, 100));
           setLoading(false);
         });
     }
@@ -97,17 +102,41 @@ export const ExploreScreen = ({navigation}: any) => {
           setOngsSuggest(data?.content);
           setLoading(false);
         })
-        .catch(() => {
+        .catch((err: any) => {
+          setVisible(true);
+          setError(JSON.stringify(err).substr(0, 100));
           setLoading(false);
         });
     }
     getDataSuggest();
   }, [setOngsSuggest, Token]);
 
-  const ratingCompleted = (rating: any) => {
+  /*   const ratingCompleted = (rating: any) => {
     console.log('Rating is: ' + rating);
+  }; */
+
+  const toggleOverlay = () => {
+    setVisible(!visible);
   };
 
+  /* const handleFavorite = async (OngItem: any) => {
+    await api
+      .put(
+        `/auth/favorite-ngos/${OngItem?.id}`,
+        {},
+        {
+          headers: {Authorization: `Bearer ${Token}`},
+        },
+      )
+      .then(() => {
+        setFavorites([...favorites, OngItem?.id]);
+      })
+      .catch((err: any) => {
+        setVisible(true);
+        setError(JSON.stringify(err).substr(0, 100));
+      });
+  };
+ */
   const renderHorizontalOngItem = ({item: Ong}: any) => (
     <OngCardItem
       style={styles.cardItem}
@@ -122,14 +151,22 @@ export const ExploreScreen = ({navigation}: any) => {
         {Ong.description.substr(0, 55)}
       </ItemDescription>
       <RattingContainer>
-        <Rating
+        {/*  <Rating
           style={styles.rating}
           imageSize={15}
           onFinishRating={ratingCompleted}
-        />
-        <FavoriteButton>
-          <Icon name="eye" size={14} color="#000" />
-        </FavoriteButton>
+        /> */}
+        {/* <FavoriteButton onPress={() => handleFavorite(Ong)}>
+          <Icon
+            name="heart"
+            size={14}
+            color={
+              Ong?.favorited
+                ? '#f00946'
+                : 'rgba(0, 0, 0, 0.54)'
+            }
+          />
+        </FavoriteButton> */}
       </RattingContainer>
     </OngCardItem>
   );
@@ -137,6 +174,11 @@ export const ExploreScreen = ({navigation}: any) => {
   return (
     <>
       <SafeAreaView style={styles.safeArea}>
+        <Overlay
+          isVisible={visible}
+          onBackdropPress={toggleOverlay}>
+          <Text>Problemas na api!!! -{error}</Text>
+        </Overlay>
         <TopNavigation
           alignment="center"
           style={styles.topNavigation}

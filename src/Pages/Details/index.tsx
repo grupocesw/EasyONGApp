@@ -46,11 +46,17 @@ function DetailsScreen({route, navigation}: any) {
   const [visible, setVisible] = useState(false);
   const [error, setError] = useState('');
 
+  if (!Token) {
+    navigation.navigate('Login');
+  }
+
   useEffect(() => {
     async function getOng() {
       setLoading(true);
       await api
-        .get(`ngos/${itemId}`)
+        .get(`ngos/${itemId}`, {
+          headers: {Authorization: `Bearer ${Token}`},
+        })
         .then(({data}: any) => {
           setActiveOng(data);
           setLoading(false);
@@ -61,7 +67,7 @@ function DetailsScreen({route, navigation}: any) {
         });
     }
     getOng();
-  }, [itemId]);
+  }, [Token, itemId, favorites]);
 
   const toggleOverlay = () => {
     setVisible(!visible);
@@ -71,25 +77,16 @@ function DetailsScreen({route, navigation}: any) {
     navigation.goBack();
   };
 
-  let active = false;
-  favorites.map((favorite: number) => {
-    favorite === itemId
-      ? (active = true)
-      : (active = false);
-  });
-
   const handleFavorite = async (OngItem: any) => {
     await api
       .put(
-        `auth/ngo/${OngItem?.id}/favorite`,
+        `/auth/favorite-ngos/${OngItem?.id}`,
         {},
         {
           headers: {Authorization: `Bearer ${Token}`},
         },
       )
-      .then(() => {
-        setFavorites([...favorites, OngItem?.id]);
-      })
+      .then((data: any) => setFavorites(data))
       .catch((err: any) => {
         setVisible(true);
         setError(JSON.stringify(err).substr(0, 100));
@@ -104,14 +101,12 @@ function DetailsScreen({route, navigation}: any) {
     />
   );
 
-  const FavoriteIcon = (props: any) => (
+  const FavoriteIcon = (props: any, favorited: any) => (
     <IconNative
       {...props}
       size="30"
       name="heart"
-      fill={
-        props.active ? '#f00946' : 'rgba(0, 0, 0, 0.54)'
-      }
+      fill={favorited ? '#f00946' : 'rgba(0, 0, 0, 0.54)'}
     />
   );
 
@@ -181,7 +176,7 @@ function DetailsScreen({route, navigation}: any) {
               <View style={styles.container}>
                 <ImgView
                   source={{
-                    uri: activeOng?.picture?.url,
+                    uri: activeOng?.pictures[0]?.url,
                   }}
                 />
                 <LinearGradient
@@ -194,11 +189,12 @@ function DetailsScreen({route, navigation}: any) {
               </View>
               <OngCard>
                 <FavoriteButton
-                  onPress={() =>
-                    !active && handleFavorite(activeOng)
-                  }
+                  onPress={() => handleFavorite(activeOng)}
                   accessoryLeft={(props) =>
-                    FavoriteIcon({...props, active})
+                    FavoriteIcon(
+                      {...props},
+                      activeOng?.favorited,
+                    )
                   }
                 />
                 <ShareButton

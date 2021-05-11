@@ -22,27 +22,35 @@ import {
   ViewAvatar,
 } from './styles';
 import {useFavorite, useUsers} from '../../Contexts';
-import {Avatar, Text} from 'react-native-elements';
+import {Avatar, Overlay, Text} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 export const FavoriteScreen = ({navigation}: any) => {
   const [favoritesData, setFavoritesData] = useState<any>(
     [],
   );
-  const {favorites, setFavorites}: any = useFavorite();
+  const {favorites}: any = useFavorite();
+  const [visible, setVisible] = useState(false);
+  const [error, setError] = useState('');
   const {Token}: any = useUsers();
+
   useEffect(() => {
-    const getFavorites = async () => {
-      favorites?.map(async (favorite: number) => {
-        const {data} = await api.get(`/ngos/${favorite}`, {
+    const handleFavorites = async () => {
+      await api
+        .get('/auth/favorite-ngos', {
           headers: {Authorization: `Bearer ${Token}`},
+        })
+        .then(({data}: any) => {
+          setFavoritesData(data?.content);
+        })
+        .catch((err: any) => {
+          setVisible(true);
+          setError(JSON.stringify(err).substr(0, 100));
         });
-        setFavoritesData([...favoritesData, data]);
-      });
     };
-    getFavorites();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [favorites, Token, setFavorites]);
+    handleFavorites();
+  }, [Token, favorites]);
+
   const navigateDetails = (id: number) => {
     navigation.navigate('Details', {itemId: id});
   };
@@ -55,17 +63,26 @@ export const FavoriteScreen = ({navigation}: any) => {
     <IconKitten {...props} name="heart" fill={'#fff'} />
   );
 
-  const handleRemoveFavorite = (idOng: number) => {
-    const fav = favorites.filter((favorite: number) => {
-      return favorite !== idOng && favorite;
-    });
-    const favData = favoritesData.filter(
-      (favoriteData: any) => {
-        return favoriteData?.id !== idOng && favoriteData;
-      },
-    );
-    setFavorites(fav);
-    setFavoritesData(favData);
+  const handleFavorite = async (OngItem: any) => {
+    await api
+      .put(
+        `/auth/favorite-ngos/${OngItem?.id}`,
+        {},
+        {
+          headers: {Authorization: `Bearer ${Token}`},
+        },
+      )
+      .then(() => {
+        setFavoritesData(
+          favoritesData?.filter(
+            (favorite: any) => favorite.id !== OngItem?.id,
+          ),
+        );
+      })
+      .catch((err: any) => {
+        setVisible(true);
+        setError(JSON.stringify(err).substr(0, 100));
+      });
   };
 
   const styles = StyleSheet.create({
@@ -104,9 +121,18 @@ export const FavoriteScreen = ({navigation}: any) => {
     },
   });
 
+  const toggleOverlay = () => {
+    setVisible(!visible);
+  };
+
   return (
     <ScrollView style={styles.scrollView}>
       <SafeAreaView>
+        <Overlay
+          isVisible={visible}
+          onBackdropPress={toggleOverlay}>
+          <Text>Problemas na api!!! -{error}</Text>
+        </Overlay>
         <TopNavigation
           alignment="center"
           style={styles.topNavigation}
@@ -133,43 +159,40 @@ export const FavoriteScreen = ({navigation}: any) => {
       </SafeAreaView>
       <Layout style={styles.layout}>
         <Container>
-          {favorites.length < 1 && (
+          {favoritesData?.length < 1 && (
             <ErrorMsg>
               <Text h4 style={styles.erroMsg}>
                 Nenhum favorito encontrado...
               </Text>
             </ErrorMsg>
           )}
-          {favorites &&
-            favoritesData?.map(
-              (favorite: any, index: number) => (
-                <TouchableOpacity
-                  onPress={() =>
-                    navigateDetails(favorite?.id)
-                  }
-                  key={index}>
-                  <FavoriteItem>
-                    <ImageUI
-                      source={{
-                        uri: favorite?.picture?.url,
-                      }}
-                    />
-                    <FavoriteButton
-                      onPress={() =>
-                        handleRemoveFavorite(favorite?.id)
-                      }
-                      accessoryLeft={(props) =>
-                        RemoveIcon({...props})
-                      }
-                    />
-                  </FavoriteItem>
-                  <ItemTitle>{favorite?.name}</ItemTitle>
-                  <ItemDescription>
-                    {favorite?.description}
-                  </ItemDescription>
-                </TouchableOpacity>
-              ),
-            )}
+          {favoritesData?.map(
+            (favorite: any, index: number) => (
+              <TouchableOpacity
+                onPress={() =>
+                  navigateDetails(favorite?.id)
+                }
+                key={index}>
+                <FavoriteItem>
+                  <ImageUI
+                    source={{
+                      uri: favorite?.picture?.url,
+                    }}
+                  />
+                  <FavoriteButton
+                    onPress={() => handleFavorite(favorite)}
+                    accessoryLeft={(props) =>
+                      RemoveIcon({...props})
+                    }
+                  />
+                </FavoriteItem>
+                <ItemTitle>{favorite?.name}</ItemTitle>
+                <ItemDescription>
+                  {favorite?.description}
+                </ItemDescription>
+              </TouchableOpacity>
+            ),
+          )}
         </Container>
       </Layout>
     </ScrollView>
