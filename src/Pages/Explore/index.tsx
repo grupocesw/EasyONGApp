@@ -44,12 +44,18 @@ import {
   Text as TextElement,
 } from 'react-native-elements';
 import SearchBar from '../../components/SearchBar';
-import {Switch} from 'react-native-elements';
-import {Overlay} from 'react-native-elements';
+import {
+  Switch,
+  ListItem,
+  Overlay,
+} from 'react-native-elements';
 
 export const ExploreScreen = ({navigation}: any) => {
   const [Loading, setLoading] = useState(false);
   const [switchvalue, setSwitchvalue] = useState(false);
+  const [visible, setVisible] = useState(false);
+  const [error, setError] = useState('');
+  const [openMenu, setOpenMenu] = useState(false);
 
   const {
     Ongs,
@@ -58,8 +64,7 @@ export const ExploreScreen = ({navigation}: any) => {
     setOngs,
   }: OngsContextType = useOng();
 
-  const [visible, setVisible] = useState(false);
-  const [error, setError] = useState('');
+  const {Token, setToken}: any = useUsers();
 
   const navigateDetails = (id: number) => {
     navigation.navigate('Details', {
@@ -70,7 +75,21 @@ export const ExploreScreen = ({navigation}: any) => {
   const handleSwitchValue = () => {
     setSwitchvalue(!switchvalue);
   };
-  const {Token}: any = useUsers();
+
+  const handleOpenMenu = () => {
+    setOpenMenu(!openMenu);
+  };
+
+  const toggleOverlay = () => {
+    setVisible(!visible);
+  };
+
+  const handleLogout = () => {
+    setToken(null);
+    setOpenMenu(false);
+    navigation.navigate('Login');
+  };
+
   useEffect(() => {
     async function getData() {
       setLoading(true);
@@ -111,32 +130,6 @@ export const ExploreScreen = ({navigation}: any) => {
     getDataSuggest();
   }, [setOngsSuggest, Token]);
 
-  /*   const ratingCompleted = (rating: any) => {
-    console.log('Rating is: ' + rating);
-  }; */
-
-  const toggleOverlay = () => {
-    setVisible(!visible);
-  };
-
-  /* const handleFavorite = async (OngItem: any) => {
-    await api
-      .put(
-        `/auth/favorite-ngos/${OngItem?.id}`,
-        {},
-        {
-          headers: {Authorization: `Bearer ${Token}`},
-        },
-      )
-      .then(() => {
-        setFavorites([...favorites, OngItem?.id]);
-      })
-      .catch((err: any) => {
-        setVisible(true);
-        setError(JSON.stringify(err).substr(0, 100));
-      });
-  };
- */
   const renderHorizontalOngItem = ({item: Ong}: any) => (
     <OngCardItem
       style={styles.cardItem}
@@ -150,26 +143,74 @@ export const ExploreScreen = ({navigation}: any) => {
       <ItemDescription>
         {Ong.description.substr(0, 55)}
       </ItemDescription>
-      <RattingContainer>
-        {/*  <Rating
-          style={styles.rating}
-          imageSize={15}
-          onFinishRating={ratingCompleted}
-        /> */}
-        {/* <FavoriteButton onPress={() => handleFavorite(Ong)}>
-          <Icon
-            name="heart"
-            size={14}
-            color={
-              Ong?.favorited
-                ? '#f00946'
-                : 'rgba(0, 0, 0, 0.54)'
-            }
-          />
-        </FavoriteButton> */}
-      </RattingContainer>
+      <RattingContainer />
     </OngCardItem>
   );
+
+  const styles = StyleSheet.create({
+    safeArea: {
+      flex: 1,
+      backgroundColor: '#ffffff',
+      zIndex: 0,
+    },
+    displayList: {
+      display: openMenu ? 'flex' : 'none',
+      marginHorizontal: 5,
+    },
+    listItem: {
+      position: 'absolute',
+      flexDirection: 'row',
+      right: 40,
+      top: -2,
+      zIndex: 1,
+      backgroundColor: 'rgba(0, 0, 0,0.3)',
+      padding: openMenu ? 10 : 0,
+      color: '#ffffff',
+    },
+    switch: {},
+    submitButtonIcon: {
+      color: '#000000',
+    },
+    topNavigation: {
+      zIndex: 1,
+      backgroundColor: '#ffffff',
+      margin: 10,
+    },
+    textStyle: {
+      color: '#5db075',
+    },
+    rating: {
+      margin: 10,
+    },
+    cardItem: {
+      backgroundColor: '#ffffff',
+      shadowColor: '#000',
+      shadowOffset: {width: 0, height: 2},
+      shadowOpacity: 0.2,
+      elevation: 2,
+      paddingBottom: 15,
+    },
+    layoutGlobal: {
+      zIndex: 0,
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    scrollView: {
+      zIndex: 0,
+      width: '100%',
+      padding: 8,
+      backgroundColor: 'transparent',
+    },
+    titleTopNavigation: {
+      fontSize: 18,
+      fontWeight: '700',
+    },
+    horizontalOngList: {
+      backgroundColor: 'transparent',
+      marginTop: -20,
+    },
+  });
 
   return (
     <>
@@ -203,12 +244,26 @@ export const ExploreScreen = ({navigation}: any) => {
               </ViewSwitch>
               <Avatar
                 rounded
+                onPress={handleOpenMenu}
                 source={{
                   uri:
                     'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
                 }}>
                 <Avatar.Accessory />
               </Avatar>
+              <ListItem.Content
+                style={
+                  (styles.displayList, styles.listItem)
+                }>
+                {/*  <ListItem.Title style={styles.displayList}>
+                  Meu perfil
+                </ListItem.Title> */}
+                <ListItem.Title
+                  onPress={handleLogout}
+                  style={styles.displayList}>
+                  Sair
+                </ListItem.Title>
+              </ListItem.Content>
             </ViewAvatar>
           )}
         />
@@ -283,50 +338,3 @@ export const ExploreScreen = ({navigation}: any) => {
     </>
   );
 };
-
-const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    backgroundColor: '#ffffff',
-  },
-  switch: {},
-  submitButtonIcon: {
-    color: '#000000',
-  },
-  topNavigation: {
-    backgroundColor: '#ffffff',
-    margin: 10,
-  },
-  textStyle: {
-    color: '#5db075',
-  },
-  rating: {
-    margin: 10,
-  },
-  cardItem: {
-    backgroundColor: '#ffffff',
-    shadowColor: '#000',
-    shadowOffset: {width: 0, height: 2},
-    shadowOpacity: 0.2,
-    elevation: 2,
-    paddingBottom: 15,
-  },
-  layoutGlobal: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  scrollView: {
-    width: '100%',
-    padding: 8,
-    backgroundColor: 'transparent',
-  },
-  titleTopNavigation: {
-    fontSize: 18,
-    fontWeight: '700',
-  },
-  horizontalOngList: {
-    backgroundColor: 'transparent',
-    marginTop: -20,
-  },
-});

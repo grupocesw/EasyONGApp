@@ -37,7 +37,7 @@ function DetailsScreen({route, navigation}: any) {
   const {itemId} = route.params;
   const {favorites, setFavorites}: any = useFavorite();
 
-  const {Token}: any = useUsers();
+  const {Token /* setToken */}: any = useUsers();
   const [Loading, setLoading] = useState<any>(true);
   const [activeOng, setActiveOng] = useState<Ong>(
     {} as Ong,
@@ -47,6 +47,7 @@ function DetailsScreen({route, navigation}: any) {
   const [error, setError] = useState('');
 
   if (!Token) {
+    /* setToken(''); */
     navigation.navigate('Login');
   }
 
