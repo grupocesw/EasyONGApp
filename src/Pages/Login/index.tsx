@@ -10,7 +10,12 @@ import {
   Overlay,
 } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {Layout, Divider, Text} from '@ui-kitten/components';
+import {
+  Layout,
+  Divider,
+  Text,
+  Spinner,
+} from '@ui-kitten/components';
 import {
   Container,
   CardItem,
@@ -19,15 +24,18 @@ import {
 } from './styles';
 import {useUsers} from '../../Contexts/index';
 import api from '../../services/api';
+import Wrapper from '../../components/Wrapper';
 
 export const LoginScreen = ({navigation}: any) => {
-  const {Token, setToken}: any = useUsers();
+  const [Loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [visible, setVisible] = useState(false);
   const [error, setError] = useState('');
+  const {Token, setToken}: any = useUsers();
 
   const handleLogin = async () => {
+    setLoading(true);
     await api
       .post('/auth/login', {
         username: email,
@@ -35,10 +43,12 @@ export const LoginScreen = ({navigation}: any) => {
       })
       .then(({data}: any) => {
         setToken(data?.accessToken);
+        setLoading(false);
       })
       .catch((err: any) => {
         setVisible(true);
         setError(JSON.stringify(err).substr(0, 200));
+        setLoading(false);
       });
   };
 
@@ -64,60 +74,66 @@ export const LoginScreen = ({navigation}: any) => {
         </Overlay>
         <Divider />
         <Layout style={styles.layoutGlobal}>
-          <ScrollView style={styles.scrollView}>
-            <Container>
-              <Text style={styles.welcomeText}>
-                Bem Vindo ao Easy Ong
-              </Text>
-              <CardItem>
-                <Input
-                  placeholder="E-mail de cadastro"
-                  onChangeText={(text) => setEmail(text)}
-                  value={email}
-                  leftIcon={
-                    <Icon
-                      name="user"
-                      size={24}
-                      color="#5DB075"
-                    />
-                  }
-                />
-                <Input
-                  placeholder="Sua senha"
-                  onChangeText={(text) => setSenha(text)}
-                  value={senha}
-                  secureTextEntry={true}
-                  leftIcon={
-                    <Icon
-                      name="lock"
-                      size={24}
-                      color="#5DB075"
-                    />
-                  }
-                />
-
-                <ButtonsView>
-                  <Button
-                    onPress={handleLogin}
-                    title="Efetuar login"
-                    iconRight
-                    buttonStyle={styles.submitButton}
-                    icon={
+          {Loading ? (
+            <Wrapper>
+              <Spinner size="large" />
+            </Wrapper>
+          ) : (
+            <ScrollView style={styles.scrollView}>
+              <Container>
+                <Text style={styles.welcomeText}>
+                  Bem Vindo ao Easy Ong
+                </Text>
+                <CardItem>
+                  <Input
+                    placeholder="E-mail de cadastro"
+                    onChangeText={(text) => setEmail(text)}
+                    value={email}
+                    leftIcon={
                       <Icon
-                        style={styles.submitButtonIcon}
-                        name="arrow-right"
-                        size={15}
-                        color="white"
+                        name="user"
+                        size={24}
+                        color="#5DB075"
                       />
                     }
                   />
-                  <ButtonRegister onPress={showRegister}>
-                    <Text>ou Cadastre-se</Text>
-                  </ButtonRegister>
-                </ButtonsView>
-              </CardItem>
-            </Container>
-          </ScrollView>
+                  <Input
+                    placeholder="Sua senha"
+                    onChangeText={(text) => setSenha(text)}
+                    value={senha}
+                    secureTextEntry={true}
+                    leftIcon={
+                      <Icon
+                        name="lock"
+                        size={24}
+                        color="#5DB075"
+                      />
+                    }
+                  />
+
+                  <ButtonsView>
+                    <Button
+                      onPress={handleLogin}
+                      title="Efetuar login"
+                      iconRight
+                      buttonStyle={styles.submitButton}
+                      icon={
+                        <Icon
+                          style={styles.submitButtonIcon}
+                          name="arrow-right"
+                          size={15}
+                          color="white"
+                        />
+                      }
+                    />
+                    <ButtonRegister onPress={showRegister}>
+                      <Text>ou Cadastre-se</Text>
+                    </ButtonRegister>
+                  </ButtonsView>
+                </CardItem>
+              </Container>
+            </ScrollView>
+          )}
         </Layout>
       </SafeAreaView>
     </>

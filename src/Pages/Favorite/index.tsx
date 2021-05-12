@@ -34,6 +34,10 @@ export const FavoriteScreen = ({navigation}: any) => {
   const [error, setError] = useState('');
   const {Token}: any = useUsers();
 
+  if (!Token) {
+    navigation.navigate('Login');
+  }
+
   useEffect(() => {
     const handleFavorites = async () => {
       await api

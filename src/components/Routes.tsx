@@ -8,15 +8,23 @@ import {NotificationScreen} from '../Pages/Notification';
 import {ProfileScreen} from '../Pages/Profile';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {BottomNavigationTabs} from './BottomNavigation';
+import {useUsers} from '../Contexts';
+import {Text} from 'react-native-elements';
 
 export const NavigatorHandle = () => {
+  const {Token}: any = useUsers();
+
   const {Navigator, Screen} = createBottomTabNavigator();
   return (
     <>
       <Navigator
-        tabBar={(props) => (
-          <BottomNavigationTabs {...props} />
-        )}>
+        tabBar={(props) =>
+          Token ? (
+            <BottomNavigationTabs {...props} />
+          ) : (
+            <Text />
+          )
+        }>
         <Screen name="Login" component={LoginScreen} />
         <Screen
           name="Register"
