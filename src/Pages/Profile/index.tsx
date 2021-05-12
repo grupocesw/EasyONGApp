@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -19,10 +19,10 @@ import {
   ItemTitle,
   ItemDescription,
 } from './styles';
-import {OngsContext} from '../../Contexts/index';
+import {useOng} from '../../Contexts/index';
 
 export const ProfileScreen = () => {
-  const {Ongs}: any = useContext(OngsContext);
+  const {Ongs}: any = useOng();
   return (
     <>
       <SafeAreaView style={styles.safeArea}>
