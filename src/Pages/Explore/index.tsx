@@ -287,6 +287,7 @@ export const ExploreScreen = ({navigation}: any) => {
                   accessoryRight={FilterIcon}>
                   Filtrar
                 </BoxButton>
+
                 <BoxButton
                   onPress={navigateDetails}
                   accessoryRight={ChevronDown}>
