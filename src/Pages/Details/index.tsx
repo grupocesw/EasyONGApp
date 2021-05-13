@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -27,13 +27,15 @@ import {
   ViewAvatar,
 } from './styles';
 import {useUsers, useFavorite} from '../../Contexts';
-
+import ViewShot from 'react-native-view-shot';
 import Wrapper from '../../components/Wrapper';
 import {Ong} from '../../interfaces/Ong';
 import {Avatar, Overlay} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import RNFS from 'react-native-fs';
 
 function DetailsScreen({route, navigation}: any) {
+  const viewShot = useRef<any>();
   const {itemId} = route.params;
   const {favorites, setFavorites}: any = useFavorite();
 
@@ -50,6 +52,27 @@ function DetailsScreen({route, navigation}: any) {
     /* setToken(''); */
     navigation.navigate('Login');
   }
+
+  const captureAndShareScreenshot = () => {
+    viewShot?.current?.capture().then((uri: any) => {
+      RNFS.readFile(uri, 'base64').then((res: any) => {
+        let urlString = 'data:image/jpeg;base64,' + res;
+        let options = {
+          title: 'Share Title',
+          message: 'Share Message',
+          url: urlString,
+          type: 'image/jpeg',
+        };
+        Share.open(options)
+          .then((resu: any) => {
+            console.log(resu);
+          })
+          .catch((erro: any) => {
+            erro && console.log(erro);
+          });
+      });
+    });
+  };
 
   useEffect(() => {
     async function getOng() {
@@ -111,22 +134,6 @@ function DetailsScreen({route, navigation}: any) {
     />
   );
 
-  const shareOptions = {
-    title: 'Share via',
-    message: 'some message',
-    url: 'some share url',
-  };
-
-  const ShareAction = async () => {
-    Share.open(shareOptions)
-      .then((res: Object) => {
-        console.log(res);
-      })
-      .catch((err: Object) => {
-        err && console.log(err);
-      });
-  };
-
   const ShareIcon = (props: Object) => (
     <IconNative
       {...props}
@@ -172,58 +179,67 @@ function DetailsScreen({route, navigation}: any) {
               </ViewAvatar>
             )}
           />
-          <ScrollView style={styles.scrollView}>
-            <Layout style={styles.layout}>
-              <View style={styles.container}>
-                <ImgView
-                  source={{
-                    uri: activeOng?.pictures[0]?.url,
-                  }}
-                />
-                <LinearGradient
-                  colors={['transparent', 'black']}
-                  style={styles.linearGradient}>
-                  <TextView style={styles.text}>
-                    {activeOng?.name}
-                  </TextView>
-                </LinearGradient>
-              </View>
-              <OngCard>
-                <FavoriteButton
-                  onPress={() => handleFavorite(activeOng)}
-                  accessoryLeft={(props) =>
-                    FavoriteIcon(
-                      {...props},
-                      activeOng?.favorited,
-                    )
-                  }
-                />
-                <ShareButton
-                  accessoryLeft={(props) =>
-                    ShareIcon({...props, active: true})
-                  }
-                  onPress={() => ShareAction()}
-                />
-                <ItemTitle>Descrição</ItemTitle>
-                <ItemDescription>
-                  {activeOng?.description}
-                </ItemDescription>
-                <ListItemBox
-                  title={() => (
-                    <Text>Mais informações</Text>
-                  )}
-                  accessoryRight={ArrowIcon}
-                  // onPress={() => navigation.navigate('Profile', {name: 'Jane'})}
-                />
-                <ListItemBox
-                  title={() => (
-                    <Text>Informações de Contato</Text>
-                  )}
-                  accessoryRight={ArrowIcon}
-                />
-              </OngCard>
-            </Layout>
-          </ScrollView>
+          <ViewShot
+            style={styles.viewShot}
+            ref={viewShot}
+            options={{format: 'jpg', quality: 0.9}}>
+            <ScrollView style={styles.scrollView}>
+              <Layout style={styles.layout}>
+                <View style={styles.container}>
+                  <ImgView
+                    source={{
+                      uri: activeOng?.pictures[0]?.url,
+                    }}
+                  />
+                  <LinearGradient
+                    colors={['transparent', 'black']}
+                    style={styles.linearGradient}>
+                    <TextView style={styles.text}>
+                      {activeOng?.name}
+                    </TextView>
+                  </LinearGradient>
+                </View>
+                <OngCard>
+                  <FavoriteButton
+                    onPress={() =>
+                      handleFavorite(activeOng)
+                    }
+                    accessoryLeft={(props) =>
+                      FavoriteIcon(
+                        {...props},
+                        activeOng?.favorited,
+                      )
+                    }
+                  />
+                  <ShareButton
+                    accessoryLeft={(props) =>
+                      ShareIcon({...props, active: true})
+                    }
+                    onPress={() =>
+                      captureAndShareScreenshot()
+                    }
+                  />
+                  <ItemTitle>Descrição</ItemTitle>
+                  <ItemDescription>
+                    {activeOng?.description}
+                  </ItemDescription>
+                  <ListItemBox
+                    title={() => (
+                      <Text>Mais informações</Text>
+                    )}
+                    accessoryRight={ArrowIcon}
+                    // onPress={() => navigation.navigate('Profile', {name: 'Jane'})}
+                  />
+                  <ListItemBox
+                    title={() => (
+                      <Text>Informações de Contato</Text>
+                    )}
+                    accessoryRight={ArrowIcon}
+                  />
+                </OngCard>
+              </Layout>
+            </ScrollView>
+          </ViewShot>
         </SafeAreaView>
       )}
     </>
@@ -232,6 +248,10 @@ function DetailsScreen({route, navigation}: any) {
 
 const styles = StyleSheet.create({
   scrollView: {
+    width: '100%',
+    backgroundColor: 'transparent',
+  },
+  viewShot: {
     width: '100%',
     backgroundColor: 'transparent',
   },
