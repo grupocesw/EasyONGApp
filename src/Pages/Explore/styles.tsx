@@ -2,6 +2,11 @@ import styled from 'styled-components/native';
 import {Button, Input, Text} from '@ui-kitten/components';
 import {View} from 'react-native';
 
+export const HideSuggest: any = styled.View`
+  display: ${(props: any) =>
+    props.hide ? 'none' : 'flex'};
+`;
+
 export const Container = styled.View`
   padding: 16px;
 `;
@@ -56,8 +61,9 @@ export const ViewSwitch = styled(View)`
   align-items: center;
 `;
 
-export const ViewFlex = styled(View)`
-  display: flex;
+export const ViewFlex: any = styled(View)`
+  display: ${(props: any) =>
+    props.hide ? 'none' : 'flex'};
   justify-content: center;
   align-items: flex-start;
   height: 80px;

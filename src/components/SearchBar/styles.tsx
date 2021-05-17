@@ -1,8 +1,15 @@
 import styled from 'styled-components/native';
 import {Button, Input} from '@ui-kitten/components';
 
-export const Container = styled.View`
+export const Container: any = styled.View`
+  display: ${(props: any) =>
+    props.hide ? 'none' : 'flex'};
   padding: 15px;
+`;
+
+export const ButtonUI = styled(Button)`
+  padding: 10px;
+  border: 1px solid black;
 `;
 
 export const BoxInput = styled.View`

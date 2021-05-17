@@ -27,6 +27,7 @@ import {
   RattingContainer,
   ViewAvatar,
   ViewSwitch,
+  HideSuggest,
 } from './styles';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {useOng, useUsers} from '../../Contexts/index';
@@ -56,6 +57,8 @@ export const ExploreScreen = ({navigation}: any) => {
   const [visible, setVisible] = useState(false);
   const [error, setError] = useState('');
   const [openMenu, setOpenMenu] = useState(false);
+  const [hide, setHide] = useState(false);
+  const [value, setValue] = useState<any>();
 
   const {
     Ongs,
@@ -97,6 +100,7 @@ export const ExploreScreen = ({navigation}: any) => {
   useEffect(() => {
     async function getData() {
       setLoading(true);
+      setHide(false);
       await api
         .get('ngos', {
           headers: {Authorization: `Bearer ${Token}`},
@@ -279,7 +283,15 @@ export const ExploreScreen = ({navigation}: any) => {
             </Wrapper>
           ) : (
             <ScrollView style={styles.scrollView}>
-              <SearchBar />
+              <SearchBar
+                hide={hide}
+                setHide={setHide}
+                value={value}
+                setValue={setValue}
+                setVisible={setVisible}
+                setLoading={setLoading}
+                setError={setError}
+              />
               <Container>
                 {/* <Box>
                 <BoxButton
@@ -294,19 +306,24 @@ export const ExploreScreen = ({navigation}: any) => {
                   Ordenar
                 </BoxButton>
               </Box> */}
-                <ViewFlex>
-                  <TextElement h4 style={styles.textStyle}>
-                    Sugestões para você
-                  </TextElement>
-                </ViewFlex>
-                <List
-                  style={styles.horizontalOngList}
-                  horizontal={true}
-                  showsHorizontalScrollIndicator={false}
-                  data={ongsSuggest}
-                  renderItem={renderHorizontalOngItem}
-                />
-                <ViewFlex>
+                <HideSuggest hide={hide}>
+                  <ViewFlex>
+                    <TextElement
+                      h4
+                      style={styles.textStyle}>
+                      Sugestões para você
+                    </TextElement>
+                  </ViewFlex>
+
+                  <List
+                    style={styles.horizontalOngList}
+                    horizontal={true}
+                    showsHorizontalScrollIndicator={false}
+                    data={ongsSuggest}
+                    renderItem={renderHorizontalOngItem}
+                  />
+                </HideSuggest>
+                <ViewFlex hide={hide}>
                   <TextElement h4 style={styles.textStyle}>
                     Veja mais
                   </TextElement>
