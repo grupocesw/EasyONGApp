@@ -69,9 +69,9 @@ export const ExploreScreen = ({navigation}: any) => {
 
   const {Token, setToken}: any = useUsers();
 
-  if (!Token) {
-    navigation.navigate('Login');
-  }
+  // if (!Token) {
+  //   navigation.navigate('Login');
+  // }
 
   const navigateDetails = (id: number) => {
     navigation.navigate('Details', {
@@ -79,9 +79,9 @@ export const ExploreScreen = ({navigation}: any) => {
     });
   };
 
-  const handleSwitchValue = () => {
-    setSwitchvalue(!switchvalue);
-  };
+  // const handleSwitchValue = () => {
+  //   setSwitchvalue(!switchvalue);
+  // };
 
   const handleOpenMenu = () => {
     setOpenMenu(!openMenu);
@@ -147,9 +147,9 @@ export const ExploreScreen = ({navigation}: any) => {
           uri: Ong?.picture?.url,
         }}
       />
-      <ItemTitle>{Ong.name}</ItemTitle>
-      <ItemDescription>
-        {Ong.description.substr(0, 55)}
+      <ItemTitle numberOfLines={2}>{Ong.name}</ItemTitle>
+      <ItemDescription numberOfLines={4}>
+        {Ong.description}
       </ItemDescription>
       <RattingContainer />
     </OngCardItem>
@@ -226,14 +226,16 @@ export const ExploreScreen = ({navigation}: any) => {
         <Overlay
           isVisible={visible}
           onBackdropPress={toggleOverlay}>
-          <Text>Problemas na api!!! -{error}</Text>
+          <Text>
+            Um problema inesperado ocorreu. Erro: -{error}
+          </Text>
         </Overlay>
         <TopNavigation
           alignment="center"
           style={styles.topNavigation}
           title={() => (
             <ViewAvatar>
-              <ViewSwitch>
+              {/* <ViewSwitch>
                 <Icon
                   name="sun-o"
                   size={14}
@@ -249,7 +251,7 @@ export const ExploreScreen = ({navigation}: any) => {
                   size={14}
                   color="#12101b"
                 />
-              </ViewSwitch>
+              </ViewSwitch> */}
               <Avatar
                 rounded
                 onPress={handleOpenMenu}
@@ -343,9 +345,12 @@ export const ExploreScreen = ({navigation}: any) => {
                               uri: Ong?.picture?.url,
                             }}
                           />
-                          <ItemTitle>{Ong.name}</ItemTitle>
-                          <ItemDescription>
-                            {Ong.description.substr(0, 55)}
+                          <ItemTitle numberOfLines={2}>
+                            {Ong.name}
+                          </ItemTitle>
+                          <ItemDescription
+                            numberOfLines={3}>
+                            {Ong.description}
                           </ItemDescription>
                         </CardItem>
                       );

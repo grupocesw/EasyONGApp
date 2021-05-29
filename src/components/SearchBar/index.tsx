@@ -75,7 +75,7 @@ const SearchBar: React.FC<any> = ({
         <View style={styles.BoxInput}>
           <SearchBarInput
             platform="android"
-            placeholder="Busque suas ong favoritas"
+            placeholder="Busque suas ONGS favoritas"
             onChangeText={handleValue}
             value={value}
             onSubmitEditing={handleSubmit}

@@ -135,7 +135,9 @@ export const FavoriteScreen = ({navigation}: any) => {
         <Overlay
           isVisible={visible}
           onBackdropPress={toggleOverlay}>
-          <Text>Problemas na api!!! -{error}</Text>
+          <Text>
+            Um problema inesperado ocorreu. Erro: -{error}
+          </Text>
         </Overlay>
         <TopNavigation
           alignment="center"

@@ -154,7 +154,9 @@ function DetailsScreen({route, navigation}: any) {
           <Overlay
             isVisible={visible}
             onBackdropPress={toggleOverlay}>
-            <Text>Problemas na api!!! -{error}</Text>
+            <Text>
+              Um problema inesperado ocorreu. Erro: -{error}
+            </Text>
           </Overlay>
           <TopNavigation
             alignment="center"
@@ -292,7 +294,7 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   text: {
-    top: '20%',
+    top: '15%',
   },
 });
 
