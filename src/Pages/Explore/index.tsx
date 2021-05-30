@@ -51,6 +51,8 @@ import {
   Overlay,
 } from 'react-native-elements';
 
+// import Crashlytics from '@react-native-firebase/crashlytics';
+
 export const ExploreScreen = ({navigation}: any) => {
   const [Loading, setLoading] = useState(false);
   const [switchvalue, setSwitchvalue] = useState(false);
@@ -74,6 +76,7 @@ export const ExploreScreen = ({navigation}: any) => {
   // }
 
   const navigateDetails = (id: number) => {
+    // testCrashlytics();
     navigation.navigate('Details', {
       itemId: id,
     });
@@ -96,6 +99,11 @@ export const ExploreScreen = ({navigation}: any) => {
     setOpenMenu(false);
     navigation.navigate('Login');
   };
+
+  // function testCrashlytics() {
+  //   Crashlytics().log('Test Message!');
+  //   Crashlytics().crash();
+  // }
 
   useEffect(() => {
     async function getData() {

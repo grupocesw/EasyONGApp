@@ -14,6 +14,10 @@ target 'EasyONGApp' do
 
   pod 'react-native-view-shot', :path => '../node_modules/react-native-view-shot'
 
+  pod 'RNFBApp', :path => '../node_modules/@react-native-firebase/app'
+
+  pod 'RNFBCrashlytics', :path => '../node_modules/@react-native-firebase/crashlytics'
+
   target 'EasyONGAppTests' do
     inherit! :complete
   end
