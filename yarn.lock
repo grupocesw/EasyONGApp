@@ -1201,10 +1201,10 @@
   resolved "https://registry.yarnpkg.com/@react-native-firebase/auth/-/auth-11.4.1.tgz#2e9baa1cea5efb9963188d70fedc753701d472a4"
   integrity sha512-PlPYx12oUx7Y6M1W9aZITsDPrhA85klgwvJT0xxwihuUmdL2EGpmwhI7cOgiWGO3e0hmMI9HuiDnDmcxw8J6cA==
 
-"@react-native-firebase/crashlytics@^11.4.1":
-  version "11.4.1"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/crashlytics/-/crashlytics-11.4.1.tgz#6bd79a437ab971f7227ede7afad4608e8a08897d"
-  integrity sha512-kR4/GJZOLElrZ2z9wmSiKBlAp/+KUGEfYhAf6NBQWJDlMa5yQxBloPeEOIH4Dw20MqIbvVL0oyGqwhXFVMNpwQ==
+"@react-native-firebase/crashlytics@^12.0.0":
+  version "12.0.0"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/crashlytics/-/crashlytics-12.0.0.tgz#a846798137d0215a34c40d3080616524cb209a8f"
+  integrity sha512-JQK/7ED09blkEJ1nl2ryv5ZVufmF4orkqbD4w9q+OQBqgeuXROsQFLr72vkxQr9+uGOh/eNMCdB0x4wy8g42jQ==
   dependencies:
     stacktrace-js "^2.0.0"
 

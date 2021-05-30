@@ -140,26 +140,33 @@ export const FavoriteScreen = ({navigation}: any) => {
           </Text>
         </Overlay>
         <TopNavigation
-          alignment="center"
+          // alignment="center"
           style={styles.topNavigation}
           title={() => (
-            <ViewAvatar>
-              <Icon
-                style={styles.submitButtonIcon}
-                name="arrow-left"
-                size={15}
-                color="black"
-                onPress={navigateBack}
-              />
-              <Avatar
-                rounded
-                source={{
-                  uri:
-                    'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
-                }}>
-                <Avatar.Accessory />
-              </Avatar>
-            </ViewAvatar>
+            <Icon
+              style={styles.submitButtonIcon}
+              name="arrow-left"
+              size={15}
+              color="white"
+              onPress={navigateBack}
+            />
+            // <ViewAvatar>
+            //   <Icon
+            //     style={styles.submitButtonIcon}
+            //     name="arrow-left"
+            //     size={15}
+            //     color="black"
+            //     onPress={navigateBack}
+            //   />
+            //   <Avatar
+            //     rounded
+            //     source={{
+            //       uri:
+            //         'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
+            //     }}>
+            //     <Avatar.Accessory />
+            //   </Avatar>
+            // </ViewAvatar>
           )}
         />
       </SafeAreaView>

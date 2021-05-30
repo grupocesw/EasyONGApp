@@ -16,7 +16,7 @@
     "@react-native-firebase/analytics": "^11.4.1",
     "@react-native-firebase/app": "^11.4.1",
     "@react-native-firebase/auth": "^11.4.1",
-    "@react-native-firebase/crashlytics": "^11.4.1",
+    "@react-native-firebase/crashlytics": "^12.0.0",
     "@react-native-firebase/perf": "^11.4.1",
     "@react-navigation/bottom-tabs": "^5.11.8",
     "@react-navigation/material-top-tabs": "^5.3.14",

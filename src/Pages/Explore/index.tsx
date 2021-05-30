@@ -257,7 +257,7 @@ export const ExploreScreen = ({navigation}: any) => {
                 onPress={handleOpenMenu}
                 source={{
                   uri:
-                    'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
+                    'https://image.flaticon.com/icons/png/512/847/847969.png',
                 }}>
                 <Avatar.Accessory />
               </Avatar>
