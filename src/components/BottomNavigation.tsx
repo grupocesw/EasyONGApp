@@ -4,7 +4,13 @@ import {
   BottomNavigation,
   BottomNavigationTab,
 } from '@ui-kitten/components';
-import {HomeIcon, FavoriteIcon} from './Icons';
+import {
+  HomeIcon,
+  FavoriteIcon,
+  AddIcon,
+  BellIcon,
+  ProfileIcon,
+} from './Icons';
 export const BottomNavigationTabs = ({navigation}: any) => {
   const [indice, setIndice] = useState(1);
   const [routeNames] = useState([
@@ -34,9 +40,15 @@ export const BottomNavigationTabs = ({navigation}: any) => {
         title="Favoritos"
         icon={FavoriteIcon}
       />
-      {/* <BottomNavigationTab title="" icon={AddIcon} /> */}
-      {/* <BottomNavigationTab title="Notificações" icon={BellIcon} /> */}
-      {/* <BottomNavigationTab title="Perfil" icon={ProfileIcon} /> */}
+      <BottomNavigationTab title="" icon={AddIcon} />
+      <BottomNavigationTab
+        title="Notificações"
+        icon={BellIcon}
+      />
+      <BottomNavigationTab
+        title="Perfil"
+        icon={ProfileIcon}
+      />
     </BottomNavigation>
   );
 };
