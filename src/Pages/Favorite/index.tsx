@@ -19,10 +19,9 @@ import {
   Container,
   ImageUI,
   ErrorMsg,
-  ViewAvatar,
 } from './styles';
 import {useFavorite, useUsers} from '../../Contexts';
-import {Avatar, Overlay, Text} from 'react-native-elements';
+import {Overlay, Text} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 export const FavoriteScreen = ({navigation}: any) => {
@@ -150,23 +149,6 @@ export const FavoriteScreen = ({navigation}: any) => {
               color="white"
               onPress={navigateBack}
             />
-            // <ViewAvatar>
-            //   <Icon
-            //     style={styles.submitButtonIcon}
-            //     name="arrow-left"
-            //     size={15}
-            //     color="black"
-            //     onPress={navigateBack}
-            //   />
-            //   <Avatar
-            //     rounded
-            //     source={{
-            //       uri:
-            //         'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
-            //     }}>
-            //     <Avatar.Accessory />
-            //   </Avatar>
-            // </ViewAvatar>
           )}
         />
       </SafeAreaView>

@@ -15,8 +15,6 @@ import {
 
 import {
   Container,
-  // Box,
-  // BoxButton,
   ViewFlex,
   OngCardItem,
   CardItem,
@@ -26,10 +24,8 @@ import {
   ImageUI,
   RattingContainer,
   ViewAvatar,
-  ViewSwitch,
   HideSuggest,
 } from './styles';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import {useOng, useUsers} from '../../Contexts/index';
 
 import {
@@ -45,17 +41,10 @@ import {
   Text as TextElement,
 } from 'react-native-elements';
 import SearchBar from '../../components/SearchBar';
-import {
-  Switch,
-  ListItem,
-  Overlay,
-} from 'react-native-elements';
-
-// import Crashlytics from '@react-native-firebase/crashlytics';
+import {ListItem, Overlay} from 'react-native-elements';
 
 export const ExploreScreen = ({navigation}: any) => {
   const [Loading, setLoading] = useState(false);
-  const [switchvalue, setSwitchvalue] = useState(false);
   const [visible, setVisible] = useState(false);
   const [error, setError] = useState('');
   const [openMenu, setOpenMenu] = useState(false);
@@ -76,15 +65,10 @@ export const ExploreScreen = ({navigation}: any) => {
   }
 
   const navigateDetails = (id: number) => {
-    // testCrashlytics();
     navigation.navigate('Details', {
       itemId: id,
     });
   };
-
-  // const handleSwitchValue = () => {
-  //   setSwitchvalue(!switchvalue);
-  // };
 
   const handleOpenMenu = () => {
     setOpenMenu(!openMenu);
@@ -99,11 +83,6 @@ export const ExploreScreen = ({navigation}: any) => {
     setOpenMenu(false);
     navigation.navigate('Login');
   };
-
-  // function testCrashlytics() {
-  //   Crashlytics().log('Test Message!');
-  //   Crashlytics().crash();
-  // }
 
   useEffect(() => {
     async function getData() {
@@ -243,23 +222,6 @@ export const ExploreScreen = ({navigation}: any) => {
           style={styles.topNavigation}
           title={() => (
             <ViewAvatar>
-              {/* <ViewSwitch>
-                <Icon
-                  name="sun-o"
-                  size={14}
-                  color="#ee2f0d"
-                />
-                <Switch
-                  style={styles.switch}
-                  value={switchvalue}
-                  onValueChange={handleSwitchValue}
-                />
-                <Icon
-                  name="moon-o"
-                  size={14}
-                  color="#12101b"
-                />
-              </ViewSwitch> */}
               <Avatar
                 rounded
                 onPress={handleOpenMenu}
@@ -273,9 +235,6 @@ export const ExploreScreen = ({navigation}: any) => {
                 style={
                   (styles.displayList, styles.listItem)
                 }>
-                {/*  <ListItem.Title style={styles.displayList}>
-                  Meu perfil
-                </ListItem.Title> */}
                 <ListItem.Title
                   onPress={handleLogout}
                   style={styles.displayList}>
@@ -303,19 +262,6 @@ export const ExploreScreen = ({navigation}: any) => {
                 setError={setError}
               />
               <Container>
-                {/* <Box>
-                <BoxButton
-                  onPress={navigateDetails}
-                  accessoryRight={FilterIcon}>
-                  Filtrar
-                </BoxButton>
-
-                <BoxButton
-                  onPress={navigateDetails}
-                  accessoryRight={ChevronDown}>
-                  Ordenar
-                </BoxButton>
-              </Box> */}
                 <HideSuggest hide={hide}>
                   <ViewFlex>
                     <TextElement

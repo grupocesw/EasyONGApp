@@ -24,13 +24,12 @@ import {
   ListItemBox,
   FavoriteButton,
   ShareButton,
-  ViewAvatar,
 } from './styles';
 import {useUsers, useFavorite} from '../../Contexts';
 import ViewShot from 'react-native-view-shot';
 import Wrapper from '../../components/Wrapper';
 import {Ong} from '../../interfaces/Ong';
-import {Avatar, Overlay} from 'react-native-elements';
+import {Overlay} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import RNFS from 'react-native-fs';
 
@@ -159,7 +158,6 @@ function DetailsScreen({route, navigation}: any) {
             </Text>
           </Overlay>
           <TopNavigation
-            // alignment="left"
             style={styles.topNavigation}
             title={() => (
               <Icon
@@ -169,23 +167,6 @@ function DetailsScreen({route, navigation}: any) {
                 color="white"
                 onPress={navigateBack}
               />
-              // <ViewAvatar>
-              //   <Icon
-              //     style={styles.submitButtonIcon}
-              //     name="arrow-left"
-              //     size={15}
-              //     color="white"
-              //     onPress={navigateBack}
-              //   />
-              //   <Avatar
-              //     rounded
-              //     source={{
-              //       uri:
-              //         'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
-              //     }}>
-              //     <Avatar.Accessory />
-              //   </Avatar>
-              // </ViewAvatar>
             )}
           />
           <ViewShot
