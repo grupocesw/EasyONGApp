@@ -71,9 +71,9 @@ export const ExploreScreen = ({navigation}: any) => {
 
   const {Token, setToken}: any = useUsers();
 
-  // if (!Token) {
-  //   navigation.navigate('Login');
-  // }
+  if (!Token) {
+    navigation.navigate('Login');
+  }
 
   const navigateDetails = (id: number) => {
     // testCrashlytics();
