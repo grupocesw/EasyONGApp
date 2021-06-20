@@ -118,8 +118,9 @@ export const ItemTitle = styled(Text)`
   font-size: 16px;
   line-height: 18px;
   font-weight: 700;
-  margin-bottom: 5px;
+  margin-bottom: 4px;
   margin-left: 10px;
+  margin-right: 10px;
 `;
 export const ItemDescription = styled(Text)`
   font-size: 14px;
@@ -132,7 +133,7 @@ export const ItemDescription = styled(Text)`
 export const ListCardItem = styled(View)`
   flex-direction: row;
   justify-content: space-between;
-  margin-bottom: 16px;
+  margin-bottom: 48px;
   width: 100%;
   flex-wrap: wrap;
 `;

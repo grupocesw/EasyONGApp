@@ -15,8 +15,6 @@ import {
 
 import {
   Container,
-  // Box,
-  // BoxButton,
   ViewFlex,
   OngCardItem,
   CardItem,
@@ -26,10 +24,8 @@ import {
   ImageUI,
   RattingContainer,
   ViewAvatar,
-  ViewSwitch,
   HideSuggest,
 } from './styles';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import {useOng, useUsers} from '../../Contexts/index';
 
 import {
@@ -45,15 +41,10 @@ import {
   Text as TextElement,
 } from 'react-native-elements';
 import SearchBar from '../../components/SearchBar';
-import {
-  Switch,
-  ListItem,
-  Overlay,
-} from 'react-native-elements';
+import {ListItem, Overlay} from 'react-native-elements';
 
 export const ExploreScreen = ({navigation}: any) => {
   const [Loading, setLoading] = useState(false);
-  const [switchvalue, setSwitchvalue] = useState(false);
   const [visible, setVisible] = useState(false);
   const [error, setError] = useState('');
   const [openMenu, setOpenMenu] = useState(false);
@@ -77,10 +68,6 @@ export const ExploreScreen = ({navigation}: any) => {
     navigation.navigate('Details', {
       itemId: id,
     });
-  };
-
-  const handleSwitchValue = () => {
-    setSwitchvalue(!switchvalue);
   };
 
   const handleOpenMenu = () => {
@@ -147,9 +134,9 @@ export const ExploreScreen = ({navigation}: any) => {
           uri: Ong?.picture?.url,
         }}
       />
-      <ItemTitle>{Ong.name}</ItemTitle>
-      <ItemDescription>
-        {Ong.description.substr(0, 55)}
+      <ItemTitle numberOfLines={2}>{Ong.name}</ItemTitle>
+      <ItemDescription numberOfLines={4}>
+        {Ong.description}
       </ItemDescription>
       <RattingContainer />
     </OngCardItem>
@@ -226,36 +213,21 @@ export const ExploreScreen = ({navigation}: any) => {
         <Overlay
           isVisible={visible}
           onBackdropPress={toggleOverlay}>
-          <Text>Problemas na api!!! -{error}</Text>
+          <Text>
+            Um problema inesperado ocorreu. Erro: -{error}
+          </Text>
         </Overlay>
         <TopNavigation
           alignment="center"
           style={styles.topNavigation}
           title={() => (
             <ViewAvatar>
-              <ViewSwitch>
-                <Icon
-                  name="sun-o"
-                  size={14}
-                  color="#ee2f0d"
-                />
-                <Switch
-                  style={styles.switch}
-                  value={switchvalue}
-                  onValueChange={handleSwitchValue}
-                />
-                <Icon
-                  name="moon-o"
-                  size={14}
-                  color="#12101b"
-                />
-              </ViewSwitch>
               <Avatar
                 rounded
                 onPress={handleOpenMenu}
                 source={{
                   uri:
-                    'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
+                    'https://image.flaticon.com/icons/png/512/847/847969.png',
                 }}>
                 <Avatar.Accessory />
               </Avatar>
@@ -263,9 +235,6 @@ export const ExploreScreen = ({navigation}: any) => {
                 style={
                   (styles.displayList, styles.listItem)
                 }>
-                {/*  <ListItem.Title style={styles.displayList}>
-                  Meu perfil
-                </ListItem.Title> */}
                 <ListItem.Title
                   onPress={handleLogout}
                   style={styles.displayList}>
@@ -293,19 +262,6 @@ export const ExploreScreen = ({navigation}: any) => {
                 setError={setError}
               />
               <Container>
-                {/* <Box>
-                <BoxButton
-                  onPress={navigateDetails}
-                  accessoryRight={FilterIcon}>
-                  Filtrar
-                </BoxButton>
-
-                <BoxButton
-                  onPress={navigateDetails}
-                  accessoryRight={ChevronDown}>
-                  Ordenar
-                </BoxButton>
-              </Box> */}
                 <HideSuggest hide={hide}>
                   <ViewFlex>
                     <TextElement
@@ -343,9 +299,12 @@ export const ExploreScreen = ({navigation}: any) => {
                               uri: Ong?.picture?.url,
                             }}
                           />
-                          <ItemTitle>{Ong.name}</ItemTitle>
-                          <ItemDescription>
-                            {Ong.description.substr(0, 55)}
+                          <ItemTitle numberOfLines={2}>
+                            {Ong.name}
+                          </ItemTitle>
+                          <ItemDescription
+                            numberOfLines={3}>
+                            {Ong.description}
                           </ItemDescription>
                         </CardItem>
                       );
