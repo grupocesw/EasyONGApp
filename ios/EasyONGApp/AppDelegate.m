@@ -14,6 +14,8 @@
 
 #import <Firebase.h>
 
+#import "RNSplashScreen.h"
+
 static void InitializeFlipper(UIApplication *application) {
   FlipperClient *client = [FlipperClient sharedClient];
   SKDescriptorMapper *layoutDescriptorMapper = [[SKDescriptorMapper alloc] initWithDefaults];
@@ -48,6 +50,7 @@ static void InitializeFlipper(UIApplication *application) {
 
   if ([FIRApp defaultApp] == nil) { [FIRApp configure]; }
 
+  [RNSplashScreen show];
   return YES;
 }
 

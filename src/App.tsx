@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {StyleSheet, SafeAreaView} from 'react-native';
 import * as eva from '@eva-design/eva';
 import {
@@ -13,6 +13,7 @@ import {
   UsersProvider,
   OngProvider,
 } from './Contexts';
+import SplashScreen from 'react-native-splash-screen';
 
 export default () => {
   const styles = StyleSheet.create({
@@ -21,6 +22,11 @@ export default () => {
       backgroundColor: '#fff',
     },
   });
+
+  useEffect(() => {
+    SplashScreen.hide();
+  });
+
   return (
     <>
       <SafeAreaView style={styles.container}>

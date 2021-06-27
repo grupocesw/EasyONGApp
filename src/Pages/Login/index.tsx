@@ -1,58 +1,75 @@
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {
+  View,
+  Dimensions,
   SafeAreaView,
   StyleSheet,
   ScrollView,
+  Alert,
 } from 'react-native';
-import {
-  Button,
-  Input,
-  Overlay,
-} from 'react-native-elements';
+import {Button, Input} from 'react-native-elements';
+import {Image} from 'react-native-elements/dist/image/Image';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {
-  Layout,
-  Divider,
-  Text,
-  Spinner,
-} from '@ui-kitten/components';
-import {
-  Container,
-  CardItem,
-  ButtonsView,
-  ButtonRegister,
-} from './styles';
-import {useUsers} from '../../Contexts/index';
+import {Layout} from '@ui-kitten/components';
+import {Container, ButtonsView} from './styles';
 import api from '../../services/api';
-import Wrapper from '../../components/Wrapper';
+import * as yup from 'yup';
+import {useFormik} from 'formik';
 
 export const LoginScreen = ({navigation}: any) => {
-  const [Loading, setLoading] = useState(false);
-  const [email, setEmail] = useState('');
-  const [senha, setSenha] = useState('');
-  const [visible, setVisible] = useState(false);
-  const [error, setError] = useState('');
-  const {Token, setToken}: any = useUsers();
+  const [loading, setLoading] = useState(false);
+  const email = useRef('');
+  const password = useRef('');
+  const [token, setToken] = useState('');
 
-  const handleLogin = async () => {
+  const signInValidationSchema = yup.object().shape({
+    email: yup
+      .string()
+      .email('E-mail inválido')
+      .required('Campo obrigatório'),
+    password: yup
+      .string()
+      .min(6, 'Senha menor que 6 caracteres!')
+      .max(10, 'Senha maior que 10 caracteres!')
+      .required('Campo obrigatório'),
+  });
+  const {
+    handleChange,
+    handleSubmit,
+    handleBlur,
+    // values,
+    errors,
+  } = useFormik({
+    validationSchema: signInValidationSchema,
+    initialValues: {email: '', password: ''},
+    onSubmit: (values) => {
+      handleLogin(values.email, values.password);
+    },
+  });
+
+  const handleLogin = async (email, password) => {
     setLoading(true);
     await api
       .post('/auth/login', {
         username: email,
-        password: senha,
+        password: password,
       })
       .then(({data}: any) => {
-        setToken(data?.accessToken);
         setLoading(false);
+        setToken(data?.accessToken);
       })
       .catch((err: any) => {
-        setVisible(true);
-        setError(JSON.stringify(err).substr(0, 200));
         setLoading(false);
+        Alert.alert(
+          'Oops!...',
+          `Um problema inesperado ocorreu. Erro: ${JSON.stringify(
+            err,
+          ).substr(0, 200)}`,
+        );
       });
   };
 
-  if (Token) {
+  if (token) {
     navigation.navigate('Explore');
   }
 
@@ -60,89 +77,92 @@ export const LoginScreen = ({navigation}: any) => {
     navigation.navigate('Register');
   };
 
-  const toggleOverlay = () => {
-    setVisible(!visible);
-  };
-
   return (
     <>
       <SafeAreaView style={styles.safeArea}>
-        <Overlay
-          isVisible={visible}
-          onBackdropPress={toggleOverlay}>
-          <Text>
-            Um problema inesperado ocorreu. Erro: -{error}
-          </Text>
-        </Overlay>
-        <Divider />
         <Layout style={styles.layoutGlobal}>
-          {Loading ? (
-            <Wrapper>
-              <Spinner size="large" />
-            </Wrapper>
-          ) : (
-            <ScrollView style={styles.scrollView}>
-              <Container>
-                <Text style={styles.welcomeText}>
-                  Bem Vindo ao Easy Ong
-                </Text>
-                <CardItem>
-                  <Input
-                    placeholder="E-mail de cadastro"
-                    onChangeText={(text) => setEmail(text)}
-                    value={email}
-                    leftIcon={
-                      <Icon
-                        name="user"
-                        size={24}
-                        color="#5DB075"
-                      />
-                    }
-                  />
-                  <Input
-                    placeholder="Sua senha"
-                    onChangeText={(text) => setSenha(text)}
-                    value={senha}
-                    secureTextEntry={true}
-                    leftIcon={
-                      <Icon
-                        name="lock"
-                        size={24}
-                        color="#5DB075"
-                      />
-                    }
-                  />
-
-                  <ButtonsView>
-                    <Button
-                      onPress={handleLogin}
-                      title="Efetuar login"
-                      iconRight
-                      buttonStyle={styles.submitButton}
-                      icon={
-                        <Icon
-                          style={styles.submitButtonIcon}
-                          name="arrow-right"
-                          size={15}
-                          color="white"
-                        />
-                      }
+          <ScrollView style={styles.scrollView}>
+            <Container style={styles.container}>
+              <View style={styles.input}>
+                <Image
+                  source={require('./logo5.png')}
+                  style={styles.logo}
+                />
+                <Input
+                  ref={email}
+                  placeholder="Seu e-mail"
+                  onChangeText={handleChange('email')}
+                  onSubmitEditing={() =>
+                    password.current?.focus()
+                  }
+                  onBlur={handleBlur('email')}
+                  errorMessage={errors.email}
+                  leftIcon={
+                    <Icon
+                      name="user"
+                      size={24}
+                      color="#4ECCA3"
                     />
-                    <ButtonRegister onPress={showRegister}>
-                      <Text>ou Cadastre-se</Text>
-                    </ButtonRegister>
-                  </ButtonsView>
-                </CardItem>
-              </Container>
-            </ScrollView>
-          )}
+                  }
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  keyboardAppearance="light"
+                  keyboardType="email-address"
+                  returnKeyType="next"
+                />
+                <Input
+                  ref={password}
+                  placeholder="Sua senha"
+                  onChangeText={handleChange('password')}
+                  onBlur={handleBlur('password')}
+                  onSubmitEditing={() => handleSubmit()}
+                  errorMessage={errors.password}
+                  secureTextEntry={true}
+                  leftIcon={
+                    <Icon
+                      name="lock"
+                      size={24}
+                      color="#4ECCA3"
+                    />
+                  }
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  keyboardAppearance="light"
+                  keyboardType="default"
+                  returnKeyType="next"
+                />
+                <ButtonsView>
+                  <Button
+                    onPress={handleSubmit}
+                    title="Entrar"
+                    iconRight
+                    buttonStyle={styles.signInButton}
+                    loading={loading}
+                  />
+                  <Button
+                    buttonStyle={styles.signUpButton}
+                    onPress={showRegister}
+                    type="outline"
+                    title="Não tem conta? Registrar-se"
+                  />
+                </ButtonsView>
+              </View>
+            </Container>
+          </ScrollView>
         </Layout>
       </SafeAreaView>
     </>
   );
 };
 
+const windowWidth = Dimensions.get('window').width - 64;
+
 const styles = StyleSheet.create({
+  container: {
+    marginTop: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   listBox: {
     backgroundColor: 'transparent',
   },
@@ -150,12 +170,29 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontWeight: '700',
   },
-  submitButton: {
-    backgroundColor: '#5DB075',
-    padding: 10,
+  input: {
+    width: windowWidth,
   },
-  submitButtonIcon: {
-    marginLeft: 15,
+  signInButton: {
+    marginTop: 24,
+    height: 48,
+    width: windowWidth, //#393E46 //#4ecca3
+    backgroundColor: '#4ECCA3', //5DB075
+    color: '#fff',
+    textAlign: 'center',
+    borderRadius: 24,
+    borderWidth: 1,
+    borderColor: '#fff',
+  },
+  signInButtonIcon: {
+    marginLeft: 16,
+  },
+  signUpButton: {
+    marginTop: 24,
+    height: 48,
+    width: windowWidth,
+    textAlign: 'center',
+    borderRadius: 24,
   },
   titleTopNavigation: {
     fontSize: 18,
@@ -210,5 +247,10 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     borderTopLeftRadius: 8,
     borderBottomLeftRadius: 8,
+  },
+  logo: {
+    resizeMode: 'contain',
+    height: 300,
+    marginBottom: 32,
   },
 });
