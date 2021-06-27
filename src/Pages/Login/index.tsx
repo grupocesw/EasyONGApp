@@ -1,5 +1,7 @@
 import React, {useState} from 'react';
 import {
+  View,
+  Dimensions,
   SafeAreaView,
   StyleSheet,
   ScrollView,
@@ -16,15 +18,11 @@ import {
   Text,
   Spinner,
 } from '@ui-kitten/components';
-import {
-  Container,
-  CardItem,
-  ButtonsView,
-  ButtonRegister,
-} from './styles';
+import {Container, ButtonsView} from './styles';
 import {useUsers} from '../../Contexts/index';
 import api from '../../services/api';
 import Wrapper from '../../components/Wrapper';
+import {Image} from 'react-native-elements/dist/image/Image';
 
 export const LoginScreen = ({navigation}: any) => {
   const [Loading, setLoading] = useState(false);
@@ -82,22 +80,28 @@ export const LoginScreen = ({navigation}: any) => {
             </Wrapper>
           ) : (
             <ScrollView style={styles.scrollView}>
-              <Container>
-                <Text style={styles.welcomeText}>
-                  Bem Vindo ao Easy Ong
-                </Text>
-                <CardItem>
+              <Container style={styles.container}>
+                <View style={styles.input}>
+                  <Image
+                    source={require('./logo5.png')}
+                    style={styles.logo}
+                  />
                   <Input
-                    placeholder="E-mail de cadastro"
+                    placeholder="Seu e-mail"
                     onChangeText={(text) => setEmail(text)}
                     value={email}
                     leftIcon={
                       <Icon
                         name="user"
                         size={24}
-                        color="#5DB075"
+                        color="#4ECCA3"
                       />
                     }
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    keyboardAppearance="light"
+                    keyboardType="email-address"
+                    returnKeyType="next"
                   />
                   <Input
                     placeholder="Sua senha"
@@ -108,31 +112,30 @@ export const LoginScreen = ({navigation}: any) => {
                       <Icon
                         name="lock"
                         size={24}
-                        color="#5DB075"
+                        color="#4ECCA3"
                       />
                     }
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    keyboardAppearance="light"
+                    keyboardType="default"
+                    returnKeyType="next"
                   />
-
                   <ButtonsView>
                     <Button
                       onPress={handleLogin}
                       title="Efetuar login"
                       iconRight
-                      buttonStyle={styles.submitButton}
-                      icon={
-                        <Icon
-                          style={styles.submitButtonIcon}
-                          name="arrow-right"
-                          size={15}
-                          color="white"
-                        />
-                      }
+                      buttonStyle={styles.signInButton}
                     />
-                    <ButtonRegister onPress={showRegister}>
-                      <Text>ou Cadastre-se</Text>
-                    </ButtonRegister>
+                    <Button
+                      buttonStyle={styles.signUpButton}
+                      onPress={showRegister}
+                      type="outline"
+                      title="Não tem conta? Inscrever-se"
+                    />
                   </ButtonsView>
-                </CardItem>
+                </View>
               </Container>
             </ScrollView>
           )}
@@ -142,7 +145,14 @@ export const LoginScreen = ({navigation}: any) => {
   );
 };
 
+const windowWidth = Dimensions.get('window').width - 64;
+
 const styles = StyleSheet.create({
+  container: {
+    marginTop: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   listBox: {
     backgroundColor: 'transparent',
   },
@@ -150,12 +160,29 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontWeight: '700',
   },
-  submitButton: {
-    backgroundColor: '#5DB075',
-    padding: 10,
+  input: {
+    width: windowWidth,
   },
-  submitButtonIcon: {
-    marginLeft: 15,
+  signInButton: {
+    marginTop: 24,
+    height: 48,
+    width: windowWidth, //#393E46 //#4ecca3
+    backgroundColor: '#4ECCA3', //5DB075
+    color: '#fff',
+    textAlign: 'center',
+    borderRadius: 24,
+    borderWidth: 1,
+    borderColor: '#fff',
+  },
+  signInButtonIcon: {
+    marginLeft: 16,
+  },
+  signUpButton: {
+    marginTop: 24,
+    height: 48,
+    width: windowWidth,
+    textAlign: 'center',
+    borderRadius: 24,
   },
   titleTopNavigation: {
     fontSize: 18,
@@ -210,5 +237,10 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     borderTopLeftRadius: 8,
     borderBottomLeftRadius: 8,
+  },
+  logo: {
+    resizeMode: 'contain',
+    height: 300,
+    marginBottom: 32,
   },
 });
