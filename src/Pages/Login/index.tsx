@@ -13,20 +13,37 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import {Layout} from '@ui-kitten/components';
 import {Container, ButtonsView} from './styles';
 import api from '../../services/api';
-import * as Yup from 'yup';
+import * as yup from 'yup';
 import {useFormik} from 'formik';
 
 export const LoginScreen = ({navigation}: any) => {
   const [loading, setLoading] = useState(false);
-  const email = useRef(null);
-  const password = useRef(null);
+  const email = useRef('');
+  const password = useRef('');
   const [token, setToken] = useState('');
 
-  const loginSchema = Yup.object().shape({
-    email: Yup.string()
+  // const loginValidationSchema = yup.object().shape({
+  //   email: yup
+  //     .string()
+  //     .email('Please enter valid email')
+  //     .required('Email Address is Required'),
+  //   password: yup
+  //     .string()
+  //     .min(
+  //       8,
+  //       ({min}) =>
+  //         `Password must be at least ${min} characters`,
+  //     )
+  //     .required('Password is required'),
+  // });
+
+  const loginSchema = yup.object().shape({
+    email: yup
+      .string()
       .email('E-mail inválido')
       .required('Campo obrigatório'),
-    password: Yup.string()
+    password: yup
+      .string()
       .min(6, 'Senha menor que 6 caracteres!')
       .max(10, 'Senha maior que 10 caracteres!')
       .required('Campo obrigatório'),
@@ -112,6 +129,7 @@ export const LoginScreen = ({navigation}: any) => {
                   ref={password}
                   placeholder="Sua senha"
                   onChangeText={handleChange('password')}
+                  onBlur={handleBlur('password')}
                   onSubmitEditing={() => handleSubmit()}
                   errorMessage={errors.password}
                   secureTextEntry={true}

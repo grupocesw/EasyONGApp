@@ -1,9 +1,10 @@
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {
   Dimensions,
   SafeAreaView,
   StyleSheet,
   ScrollView,
+  Alert,
 } from 'react-native';
 import {
   TopNavigation,
@@ -11,34 +12,68 @@ import {
   Divider,
   Text,
 } from '@ui-kitten/components';
-import {
-  Button,
-  Input,
-  Overlay,
-} from 'react-native-elements';
+import {Button, Input} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {Container, CardItem, ButtonsView} from './styles';
 import api from '../../services/api';
 import * as yup from 'yup';
+import {Formik} from 'formik';
 
 export const RegisterScreen = ({navigation}: any) => {
-  const [name, setName] = useState('');
-  const [birthday, setBirthday] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [visible, setVisible] = useState(false);
-  const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const fullName = useRef('');
+  const email = useRef('');
+  const password = useRef('');
+  const confirmPassword = useRef('');
 
-  const handleCreateUser = async () => {
+  const signUpValidationSchema = yup.object().shape({
+    fullName: yup
+      .string()
+      .matches(/(\w.+\s).+/, 'Insira pelo menos 2 nomes')
+      .required('Nome completo é obrigatório'),
+    email: yup
+      .string()
+      .email('Por favor insira um email válido')
+      .required('E-mail é obrigatório'),
+    password: yup
+      .string()
+      .matches(
+        /\w*[a-z]\w*/,
+        'A senha deve conter uma letra minúscula',
+      )
+      .matches(
+        /\w*[A-Z]\w*/,
+        'A senha deve ter uma letra maiúscula',
+      )
+      .matches(/\d/, 'A senha deve ter um número')
+      .matches(
+        /[!@#$%^&*()\-_"=+{}; :,<.>]/,
+        'A senha deve ter um caractere especial',
+      )
+      .min(
+        8,
+        ({min}) =>
+          `A senha deve ser pelo menos ${min} caracteres`,
+      )
+      .required('Senha requerida'),
+    confirmPassword: yup
+      .string()
+      .oneOf(
+        [yup.ref('password')],
+        'As senhas não coincidem',
+      )
+      .required('É necessário confirmar a senha'),
+  });
+
+  const handleCreateUser = async (values) => {
     setLoading(true);
     await api
       .post('/registration', {
-        name,
+        name: values.fullName,
         birthday: '1990-09-22',
         gender: 0,
-        username: email,
-        password: password,
+        username: values.email,
+        password: values.password,
         causes: [{id: 1}],
       })
       .then(() => {
@@ -47,17 +82,17 @@ export const RegisterScreen = ({navigation}: any) => {
       })
       .catch((err: any) => {
         setLoading(false);
-        setVisible(true);
-        setError(JSON.stringify(err).substr(0, 100));
+        Alert.alert(
+          'Oops!...',
+          `Um problema inesperado ocorreu. Erro: ${JSON.stringify(
+            err,
+          ).substr(0, 200)}`,
+        );
       });
   };
 
   const showLogin = () => {
     navigation.navigate('Login');
-  };
-
-  const toggleOverlay = () => {
-    setVisible(!visible);
   };
 
   const navigateBack = () => {
@@ -77,13 +112,6 @@ export const RegisterScreen = ({navigation}: any) => {
   return (
     <>
       <SafeAreaView style={styles.safeArea}>
-        <Overlay
-          isVisible={visible}
-          onBackdropPress={toggleOverlay}>
-          <Text>
-            Um problema inesperado ocorreu. Erro: -{error}
-          </Text>
-        </Overlay>
         <TopNavigation
           alignment="center"
           title={() => (
@@ -94,80 +122,164 @@ export const RegisterScreen = ({navigation}: any) => {
           accessoryLeft={backAction}
         />
         <Divider />
-        <Layout style={styles.layoutGlobal}>
-          <ScrollView style={styles.scrollView}>
-            <Container>
-              <CardItem>
-                <Input
-                  placeholder="Nome completo"
-                  onChangeText={(text) => setName(text)}
-                  value={name}
-                  leftIcon={
-                    <Icon
-                      name="user"
-                      size={24}
-                      color="#4ECCA3"
-                    />
-                  }
-                />
-                <Input
-                  placeholder="Data de nascimento"
-                  onChangeText={(text) => setBirthday(text)}
-                  value={birthday}
-                  leftIcon={
-                    <Icon
-                      name="calendar"
-                      size={24}
-                      color="#4ECCA3"
-                    />
-                  }
-                />
-                <Input
-                  placeholder="E-mail"
-                  onChangeText={(text) => setEmail(text)}
-                  value={email}
-                  leftIcon={
-                    <Icon
-                      name="inbox"
-                      size={24}
-                      color="#4ECCA3"
-                    />
-                  }
-                />
-                <Input
-                  placeholder="Senha"
-                  onChangeText={(text) => setPassword(text)}
-                  value={password}
-                  secureTextEntry={true}
-                  leftIcon={
-                    <Icon
-                      name="lock"
-                      size={24}
-                      color="#4ECCA3"
-                    />
-                  }
-                />
+        <Formik
+          validationSchema={signUpValidationSchema}
+          initialValues={{
+            fullName: '',
+            email: '',
+            password: '',
+            confirmPassword: '',
+          }}
+          onSubmit={(values) => {
+            console.warn(values.email);
+            handleCreateUser(values);
+          }}>
+          {({
+            handleChange,
+            handleBlur,
+            handleSubmit,
+            values,
+            errors,
+            isValid,
+          }) => (
+            <>
+              <Layout style={styles.layoutGlobal}>
+                <ScrollView style={styles.scrollView}>
+                  <Container>
+                    <CardItem>
+                      <Input
+                        ref={fullName}
+                        value={fullName}
+                        placeholder="Nome completo"
+                        onChangeText={handleChange(
+                          'fullName',
+                        )}
+                        errorMessage={errors.fullName}
+                        onBlur={handleBlur('fullName')}
+                        onSubmitEditing={() =>
+                          email.current?.focus()
+                        }
+                        leftIcon={
+                          <Icon
+                            name="user"
+                            size={24}
+                            color="#4ECCA3"
+                          />
+                        }
+                        autoCompleteType="name"
+                        autoCapitalize="none"
+                        autoCorrect={false}
+                        keyboardAppearance="light"
+                        keyboardType="email-address"
+                        returnKeyType="next"
+                      />
+                      <Input
+                        ref={email}
+                        value={email}
+                        placeholder="E-mail"
+                        onChangeText={handleChange('email')}
+                        onSubmitEditing={() =>
+                          password.current?.focus()
+                        }
+                        onBlur={handleBlur('email')}
+                        errorMessage={errors.email}
+                        leftIcon={
+                          <Icon
+                            name="envelope"
+                            size={24}
+                            color="#4ECCA3"
+                          />
+                        }
+                        keyboardType="email-address"
+                        autoCompleteType="email"
+                        autoCapitalize="none"
+                        autoCorrect={false}
+                        keyboardAppearance="light"
+                        returnKeyType="next"
+                      />
+                      <Input
+                        ref={password}
+                        value={password}
+                        placeholder="Sua senha"
+                        onChangeText={handleChange(
+                          'password',
+                        )}
+                        onBlur={handleBlur('password')}
+                        onSubmitEditing={() =>
+                          confirmPassword.current?.focus()
+                        }
+                        errorMessage={errors.password}
+                        secureTextEntry={true}
+                        leftIcon={
+                          <Icon
+                            name="lock"
+                            size={24}
+                            color="#4ECCA3"
+                          />
+                        }
+                        autoCompleteType="password"
+                        autoCapitalize="none"
+                        autoCorrect={false}
+                        keyboardAppearance="light"
+                        keyboardType="default"
+                        returnKeyType="next"
+                      />
+                      <Input
+                        ref={confirmPassword}
+                        value={confirmPassword}
+                        placeholder="Confirme sua senha"
+                        onChangeText={handleChange(
+                          'confirmPassword',
+                        )}
+                        onBlur={handleBlur(
+                          'confirmPassword',
+                        )}
+                        onSubmitEditing={() =>
+                          handleSubmit()
+                        }
+                        errorMessage={
+                          errors.confirmPassword
+                        }
+                        secureTextEntry={true}
+                        leftIcon={
+                          <Icon
+                            name="lock"
+                            size={24}
+                            color="#4ECCA3"
+                          />
+                        }
+                        autoCompleteType="password"
+                        autoCapitalize="none"
+                        autoCorrect={false}
+                        keyboardAppearance="light"
+                        keyboardType="default"
+                        returnKeyType="next"
+                      />
 
-                <ButtonsView>
-                  <Button
-                    onPress={handleCreateUser}
-                    title="Criar uma conta"
-                    iconRight
-                    buttonStyle={styles.signUpButton}
-                  />
-                  <Button
-                    onPress={showLogin}
-                    title="Já tem uma conta? Entrar"
-                    iconRight
-                    buttonStyle={styles.signInButton}
-                    type="clear"
-                    loading={loading}
-                  />
-                </ButtonsView>
-              </CardItem>
-            </Container>
-          </ScrollView>
-        </Layout>
+                      <ButtonsView>
+                        <Button
+                          onPress={handleSubmit}
+                          title="Criar uma conta"
+                          iconRight
+                          buttonStyle={styles.signUpButton}
+                          disabled={!isValid}
+                          loading={loading}
+                        />
+                        <Button
+                          onPress={showLogin}
+                          title="Já tem uma conta? Entrar"
+                          iconRight
+                          buttonStyle={styles.signInButton}
+                          type="clear"
+                        />
+                      </ButtonsView>
+                    </CardItem>
+                  </Container>
+                </ScrollView>
+              </Layout>
+            </>
+          )}
+        </Formik>
       </SafeAreaView>
     </>
   );
