@@ -37,6 +37,7 @@ import Wrapper from '../../components/Wrapper';
 import {Spinner} from '@ui-kitten/components';
 import {
   Avatar,
+  Icon,
   Text,
   Text as TextElement,
 } from 'react-native-elements';
@@ -58,9 +59,9 @@ export const ExploreScreen = ({navigation}: any) => {
     setOngs,
   }: OngsContextType = useOng();
 
-  const {Token, setToken}: any = useUsers();
+  const {token, setToken}: any = useUsers();
 
-  if (!Token) {
+  if (!token) {
     navigation.navigate('Login');
   }
 
@@ -90,7 +91,7 @@ export const ExploreScreen = ({navigation}: any) => {
       setHide(false);
       await api
         .get('ngos', {
-          headers: {Authorization: `Bearer ${Token}`},
+          headers: {Authorization: `Bearer ${token}`},
         })
         .then(({data}: any) => {
           setOngs(data?.content);
@@ -103,14 +104,14 @@ export const ExploreScreen = ({navigation}: any) => {
         });
     }
     getData();
-  }, [setOngs, Token]);
+  }, [setOngs, token]);
 
   useEffect(() => {
     async function getDataSuggest() {
       setLoading(true);
       await api
         .get('ngos/suggested', {
-          headers: {Authorization: `Bearer ${Token}`},
+          headers: {Authorization: `Bearer ${token}`},
         })
         .then(({data}: any) => {
           setOngsSuggest(data?.content);
@@ -123,7 +124,7 @@ export const ExploreScreen = ({navigation}: any) => {
         });
     }
     getDataSuggest();
-  }, [setOngsSuggest, Token]);
+  }, [setOngsSuggest, token]);
 
   const renderHorizontalOngItem = ({item: Ong}: any) => (
     <OngCardItem

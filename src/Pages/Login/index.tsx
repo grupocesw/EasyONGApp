@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {
   View,
   Dimensions,
@@ -7,29 +7,45 @@ import {
   ScrollView,
   Alert,
 } from 'react-native';
-import {
-  Button,
-  Input,
-  Overlay,
-} from 'react-native-elements';
+import {Button, Input} from 'react-native-elements';
 import {Image} from 'react-native-elements/dist/image/Image';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {Layout, Divider, Text} from '@ui-kitten/components';
+import {Layout} from '@ui-kitten/components';
 import {Container, ButtonsView} from './styles';
-import {useUsers} from '../../Contexts/index';
 import api from '../../services/api';
-import * as yup from 'yup';
-// import {useForm} from 'react-hook-form';
+import * as Yup from 'yup';
+import {useFormik} from 'formik';
 
 export const LoginScreen = ({navigation}: any) => {
   const [loading, setLoading] = useState(false);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [visible, setVisible] = useState(false);
-  const [error, setError] = useState('');
-  const {token, setToken}: any = useUsers();
+  const email = useRef(null);
+  const password = useRef(null);
+  const [token, setToken] = useState('');
 
-  const handleLogin = async () => {
+  const loginSchema = Yup.object().shape({
+    email: Yup.string()
+      .email('E-mail inválido')
+      .required('Campo obrigatório'),
+    password: Yup.string()
+      .min(6, 'Senha menor que 6 caracteres!')
+      .max(10, 'Senha maior que 10 caracteres!')
+      .required('Campo obrigatório'),
+  });
+  const {
+    handleChange,
+    handleSubmit,
+    handleBlur,
+    values,
+    errors,
+  } = useFormik({
+    validationSchema: loginSchema,
+    initialValues: {email: '', password: ''},
+    onSubmit: (values) => {
+      handleLogin(values.email, values.password);
+    },
+  });
+
+  const handleLogin = async (email, password) => {
     setLoading(true);
     await api
       .post('/auth/login', {
@@ -37,13 +53,17 @@ export const LoginScreen = ({navigation}: any) => {
         password: password,
       })
       .then(({data}: any) => {
-        setToken(data?.accessToken);
         setLoading(false);
+        setToken(data?.accessToken);
       })
       .catch((err: any) => {
-        setVisible(true);
-        setError(JSON.stringify(err).substr(0, 200));
         setLoading(false);
+        Alert.alert(
+          'Oops!...',
+          `Um problema inesperado ocorreu. Erro: ${JSON.stringify(
+            err,
+          ).substr(0, 200)}`,
+        );
       });
   };
 
@@ -55,21 +75,9 @@ export const LoginScreen = ({navigation}: any) => {
     navigation.navigate('Register');
   };
 
-  const toggleOverlay = () => {
-    setVisible(!visible);
-  };
-
   return (
     <>
       <SafeAreaView style={styles.safeArea}>
-        <Overlay
-          isVisible={visible}
-          onBackdropPress={toggleOverlay}>
-          <Text>
-            Um problema inesperado ocorreu. Erro: -{error}
-          </Text>
-        </Overlay>
-        <Divider />
         <Layout style={styles.layoutGlobal}>
           <ScrollView style={styles.scrollView}>
             <Container style={styles.container}>
@@ -79,9 +87,14 @@ export const LoginScreen = ({navigation}: any) => {
                   style={styles.logo}
                 />
                 <Input
+                  ref={email}
                   placeholder="Seu e-mail"
-                  onChangeText={(text) => setEmail(text)}
-                  value={email}
+                  onChangeText={handleChange('email')}
+                  onSubmitEditing={() =>
+                    password.current?.focus()
+                  }
+                  onBlur={handleBlur('email')}
+                  errorMessage={errors.email}
                   leftIcon={
                     <Icon
                       name="user"
@@ -96,9 +109,11 @@ export const LoginScreen = ({navigation}: any) => {
                   returnKeyType="next"
                 />
                 <Input
+                  ref={password}
                   placeholder="Sua senha"
-                  onChangeText={(text) => setPassword(text)}
-                  value={password}
+                  onChangeText={handleChange('password')}
+                  onSubmitEditing={() => handleSubmit()}
+                  errorMessage={errors.password}
                   secureTextEntry={true}
                   leftIcon={
                     <Icon
@@ -115,7 +130,7 @@ export const LoginScreen = ({navigation}: any) => {
                 />
                 <ButtonsView>
                   <Button
-                    onPress={handleLogin}
+                    onPress={handleSubmit}
                     title="Entrar"
                     iconRight
                     buttonStyle={styles.signInButton}

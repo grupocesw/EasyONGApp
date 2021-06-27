@@ -74,17 +74,6 @@ export const RegisterScreen = ({navigation}: any) => {
     />
   );
 
-  const fieldsValidationSchema = yup.object().shape({
-    email: yup
-      .string()
-      .required('O email não pode ser vazio')
-      .email('Digite um email válido'),
-    password: yup
-      .string()
-      .required('A senha não pode ser vazia')
-      .min(6, 'A senha deve conter pelo menos 6 dígitos'),
-  });
-
   return (
     <>
       <SafeAreaView style={styles.safeArea}>
@@ -95,7 +84,6 @@ export const RegisterScreen = ({navigation}: any) => {
             Um problema inesperado ocorreu. Erro: -{error}
           </Text>
         </Overlay>
-
         <TopNavigation
           alignment="center"
           title={() => (

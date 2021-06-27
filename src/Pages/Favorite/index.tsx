@@ -21,7 +21,11 @@ import {
   ErrorMsg,
 } from './styles';
 import {useFavorite, useUsers} from '../../Contexts';
-import {Overlay, Text} from 'react-native-elements';
+import {
+  Divider,
+  Overlay,
+  Text,
+} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 export const FavoriteScreen = ({navigation}: any) => {
@@ -56,10 +60,6 @@ export const FavoriteScreen = ({navigation}: any) => {
 
   const navigateDetails = (id: number) => {
     navigation.navigate('Details', {itemId: id});
-  };
-
-  const navigateBack = () => {
-    navigation.goBack();
   };
 
   const RemoveIcon = (props: Object) => (
@@ -108,13 +108,9 @@ export const FavoriteScreen = ({navigation}: any) => {
       justifyContent: 'center',
       alignItems: 'center',
     },
-    topNavigation: {
-      backgroundColor: '#ffffff',
-      width: '90%',
-      margin: 10,
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
+    titleTopNavigation: {
+      fontSize: 18,
+      fontWeight: '700',
     },
     submitButtonIcon: {
       color: '#000000',
@@ -139,18 +135,14 @@ export const FavoriteScreen = ({navigation}: any) => {
           </Text>
         </Overlay>
         <TopNavigation
-          // alignment="center"
-          style={styles.topNavigation}
+          alignment="center"
           title={() => (
-            <Icon
-              style={styles.submitButtonIcon}
-              name="arrow-left"
-              size={16}
-              color="white"
-              onPress={navigateBack}
-            />
+            <Text style={styles.titleTopNavigation}>
+              Favoritos
+            </Text>
           )}
         />
+        <Divider />
       </SafeAreaView>
       <Layout style={styles.layout}>
         <Container>
