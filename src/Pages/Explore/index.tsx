@@ -11,7 +11,6 @@ import {
   TopNavigation,
   Divider,
   List,
-  MenuItem,
 } from '@ui-kitten/components';
 
 import {
@@ -38,7 +37,6 @@ import Wrapper from '../../components/Wrapper';
 import {Spinner} from '@ui-kitten/components';
 import {
   Avatar,
-  Icon,
   Text,
   Text as TextElement,
 } from 'react-native-elements';

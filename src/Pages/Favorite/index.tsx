@@ -26,7 +26,6 @@ import {
   Overlay,
   Text,
 } from 'react-native-elements';
-import Icon from 'react-native-vector-icons/FontAwesome';
 
 export const FavoriteScreen = ({navigation}: any) => {
   const [favoritesData, setFavoritesData] = useState<any>(

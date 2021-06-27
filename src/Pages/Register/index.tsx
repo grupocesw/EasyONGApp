@@ -138,7 +138,6 @@ export const RegisterScreen = ({navigation}: any) => {
             handleChange,
             handleBlur,
             handleSubmit,
-            values,
             errors,
             isValid,
           }) => (

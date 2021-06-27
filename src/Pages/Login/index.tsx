@@ -22,22 +22,7 @@ export const LoginScreen = ({navigation}: any) => {
   const password = useRef('');
   const [token, setToken] = useState('');
 
-  // const loginValidationSchema = yup.object().shape({
-  //   email: yup
-  //     .string()
-  //     .email('Please enter valid email')
-  //     .required('Email Address is Required'),
-  //   password: yup
-  //     .string()
-  //     .min(
-  //       8,
-  //       ({min}) =>
-  //         `Password must be at least ${min} characters`,
-  //     )
-  //     .required('Password is required'),
-  // });
-
-  const loginSchema = yup.object().shape({
+  const signInValidationSchema = yup.object().shape({
     email: yup
       .string()
       .email('E-mail inválido')
@@ -52,10 +37,10 @@ export const LoginScreen = ({navigation}: any) => {
     handleChange,
     handleSubmit,
     handleBlur,
-    values,
+    // values,
     errors,
   } = useFormik({
-    validationSchema: loginSchema,
+    validationSchema: signInValidationSchema,
     initialValues: {email: '', password: ''},
     onSubmit: (values) => {
       handleLogin(values.email, values.password);
