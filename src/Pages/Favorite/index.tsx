@@ -145,7 +145,7 @@ export const FavoriteScreen = ({navigation}: any) => {
             <Icon
               style={styles.submitButtonIcon}
               name="arrow-left"
-              size={15}
+              size={16}
               color="white"
               onPress={navigateBack}
             />

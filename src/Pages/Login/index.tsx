@@ -5,39 +5,36 @@ import {
   SafeAreaView,
   StyleSheet,
   ScrollView,
+  Alert,
 } from 'react-native';
 import {
   Button,
   Input,
   Overlay,
 } from 'react-native-elements';
+import {Image} from 'react-native-elements/dist/image/Image';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {
-  Layout,
-  Divider,
-  Text,
-  Spinner,
-} from '@ui-kitten/components';
+import {Layout, Divider, Text} from '@ui-kitten/components';
 import {Container, ButtonsView} from './styles';
 import {useUsers} from '../../Contexts/index';
 import api from '../../services/api';
-import Wrapper from '../../components/Wrapper';
-import {Image} from 'react-native-elements/dist/image/Image';
+import * as yup from 'yup';
+// import {useForm} from 'react-hook-form';
 
 export const LoginScreen = ({navigation}: any) => {
-  const [Loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
-  const [senha, setSenha] = useState('');
+  const [password, setPassword] = useState('');
   const [visible, setVisible] = useState(false);
   const [error, setError] = useState('');
-  const {Token, setToken}: any = useUsers();
+  const {token, setToken}: any = useUsers();
 
   const handleLogin = async () => {
     setLoading(true);
     await api
       .post('/auth/login', {
         username: email,
-        password: senha,
+        password: password,
       })
       .then(({data}: any) => {
         setToken(data?.accessToken);
@@ -50,7 +47,7 @@ export const LoginScreen = ({navigation}: any) => {
       });
   };
 
-  if (Token) {
+  if (token) {
     navigation.navigate('Explore');
   }
 
@@ -74,71 +71,66 @@ export const LoginScreen = ({navigation}: any) => {
         </Overlay>
         <Divider />
         <Layout style={styles.layoutGlobal}>
-          {Loading ? (
-            <Wrapper>
-              <Spinner size="large" />
-            </Wrapper>
-          ) : (
-            <ScrollView style={styles.scrollView}>
-              <Container style={styles.container}>
-                <View style={styles.input}>
-                  <Image
-                    source={require('./logo5.png')}
-                    style={styles.logo}
-                  />
-                  <Input
-                    placeholder="Seu e-mail"
-                    onChangeText={(text) => setEmail(text)}
-                    value={email}
-                    leftIcon={
-                      <Icon
-                        name="user"
-                        size={24}
-                        color="#4ECCA3"
-                      />
-                    }
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                    keyboardAppearance="light"
-                    keyboardType="email-address"
-                    returnKeyType="next"
-                  />
-                  <Input
-                    placeholder="Sua senha"
-                    onChangeText={(text) => setSenha(text)}
-                    value={senha}
-                    secureTextEntry={true}
-                    leftIcon={
-                      <Icon
-                        name="lock"
-                        size={24}
-                        color="#4ECCA3"
-                      />
-                    }
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                    keyboardAppearance="light"
-                    keyboardType="default"
-                    returnKeyType="next"
-                  />
-                  <ButtonsView>
-                    <Button
-                      onPress={handleLogin}
-                      title="Efetuar login"
-                      iconRight
-                      buttonStyle={styles.signInButton}
+          <ScrollView style={styles.scrollView}>
+            <Container style={styles.container}>
+              <View style={styles.input}>
+                <Image
+                  source={require('./logo5.png')}
+                  style={styles.logo}
+                />
+                <Input
+                  placeholder="Seu e-mail"
+                  onChangeText={(text) => setEmail(text)}
+                  value={email}
+                  leftIcon={
+                    <Icon
+                      name="user"
+                      size={24}
+                      color="#4ECCA3"
                     />
-                    <Button
-                      buttonStyle={styles.signUpButton}
-                      onPress={showRegister}
-                      type="outline"
-                      title="Não tem conta? Inscrever-se"
+                  }
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  keyboardAppearance="light"
+                  keyboardType="email-address"
+                  returnKeyType="next"
+                />
+                <Input
+                  placeholder="Sua senha"
+                  onChangeText={(text) => setPassword(text)}
+                  value={password}
+                  secureTextEntry={true}
+                  leftIcon={
+                    <Icon
+                      name="lock"
+                      size={24}
+                      color="#4ECCA3"
                     />
-                  </ButtonsView>
-                </View>
-              </Container>
-            </ScrollView>
-          )}
+                  }
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  keyboardAppearance="light"
+                  keyboardType="default"
+                  returnKeyType="next"
+                />
+                <ButtonsView>
+                  <Button
+                    onPress={handleLogin}
+                    title="Entrar"
+                    iconRight
+                    buttonStyle={styles.signInButton}
+                    loading={loading}
+                  />
+                  <Button
+                    buttonStyle={styles.signUpButton}
+                    onPress={showRegister}
+                    type="outline"
+                    title="Não tem conta? Registrar-se"
+                  />
+                </ButtonsView>
+              </View>
+            </Container>
+          </ScrollView>
         </Layout>
       </SafeAreaView>
     </>
