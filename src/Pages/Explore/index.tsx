@@ -58,9 +58,9 @@ export const ExploreScreen = ({navigation}: any) => {
     setOngs,
   }: OngsContextType = useOng();
 
-  const {token, setToken}: any = useUsers();
+  const {Token, setToken}: any = useUsers();
 
-  if (!token) {
+  if (!Token) {
     navigation.navigate('Login');
   }
 
@@ -90,7 +90,7 @@ export const ExploreScreen = ({navigation}: any) => {
       setHide(false);
       await api
         .get('ngos', {
-          headers: {Authorization: `Bearer ${token}`},
+          headers: {Authorization: `Bearer ${Token}`},
         })
         .then(({data}: any) => {
           setOngs(data?.content);
@@ -103,14 +103,14 @@ export const ExploreScreen = ({navigation}: any) => {
         });
     }
     getData();
-  }, [setOngs, token]);
+  }, [setOngs, Token]);
 
   useEffect(() => {
     async function getDataSuggest() {
       setLoading(true);
       await api
         .get('ngos/suggested', {
-          headers: {Authorization: `Bearer ${token}`},
+          headers: {Authorization: `Bearer ${Token}`},
         })
         .then(({data}: any) => {
           setOngsSuggest(data?.content);
@@ -123,7 +123,7 @@ export const ExploreScreen = ({navigation}: any) => {
         });
     }
     getDataSuggest();
-  }, [setOngsSuggest, token]);
+  }, [setOngsSuggest, Token]);
 
   const renderHorizontalOngItem = ({item: Ong}: any) => (
     <OngCardItem

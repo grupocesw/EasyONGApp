@@ -15,12 +15,13 @@ import {Container, ButtonsView} from './styles';
 import api from '../../services/api';
 import * as yup from 'yup';
 import {useFormik} from 'formik';
+import { useUsers } from '../../Contexts';
 
 export const LoginScreen = ({navigation}: any) => {
   const [loading, setLoading] = useState(false);
   const email = useRef('');
   const password = useRef('');
-  const [token, setToken] = useState('');
+  const {Token, setToken}: any = useUsers();
 
   const signInValidationSchema = yup.object().shape({
     email: yup
@@ -47,7 +48,7 @@ export const LoginScreen = ({navigation}: any) => {
     },
   });
 
-  const handleLogin = async (email, password) => {
+  const handleLogin = async (email:string, password:string) => {
     setLoading(true);
     await api
       .post('/auth/login', {
@@ -69,7 +70,7 @@ export const LoginScreen = ({navigation}: any) => {
       });
   };
 
-  if (token) {
+  if (Token) {
     navigation.navigate('Explore');
   }
 
