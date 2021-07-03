@@ -15,7 +15,7 @@ import {Container, ButtonsView} from './styles';
 import api from '../../services/api';
 import * as yup from 'yup';
 import {useFormik} from 'formik';
-import { useUsers } from '../../Contexts';
+import {useUsers} from '../../Contexts';
 
 export const LoginScreen = ({navigation}: any) => {
   const [loading, setLoading] = useState(false);
@@ -34,13 +34,7 @@ export const LoginScreen = ({navigation}: any) => {
       .max(10, 'Senha maior que 10 caracteres!')
       .required('Campo obrigatório'),
   });
-  const {
-    handleChange,
-    handleSubmit,
-    handleBlur,
-    // values,
-    errors,
-  } = useFormik({
+  const {handleChange, handleSubmit, errors} = useFormik({
     validationSchema: signInValidationSchema,
     initialValues: {email: '', password: ''},
     onSubmit: (values) => {
@@ -48,7 +42,10 @@ export const LoginScreen = ({navigation}: any) => {
     },
   });
 
-  const handleLogin = async (email:string, password:string) => {
+  const handleLogin = async (
+    email: string,
+    password: string,
+  ) => {
     setLoading(true);
     await api
       .post('/auth/login', {
@@ -78,6 +75,10 @@ export const LoginScreen = ({navigation}: any) => {
     navigation.navigate('Register');
   };
 
+  const showRecoverPassword = () => {
+    navigation.navigate('RecoverPassword');
+  };
+
   return (
     <>
       <SafeAreaView style={styles.safeArea}>
@@ -96,7 +97,6 @@ export const LoginScreen = ({navigation}: any) => {
                   onSubmitEditing={() =>
                     password.current?.focus()
                   }
-                  onBlur={handleBlur('email')}
                   errorMessage={errors.email}
                   leftIcon={
                     <Icon
@@ -115,7 +115,6 @@ export const LoginScreen = ({navigation}: any) => {
                   ref={password}
                   placeholder="Sua senha"
                   onChangeText={handleChange('password')}
-                  onBlur={handleBlur('password')}
                   onSubmitEditing={() => handleSubmit()}
                   errorMessage={errors.password}
                   secureTextEntry={true}
@@ -145,6 +144,12 @@ export const LoginScreen = ({navigation}: any) => {
                     onPress={showRegister}
                     type="outline"
                     title="Não tem conta? Registrar-se"
+                  />
+                  <Button
+                    buttonStyle={styles.signUpButton}
+                    onPress={showRecoverPassword}
+                    type="clear"
+                    title="Recuperar acesso"
                   />
                 </ButtonsView>
               </View>

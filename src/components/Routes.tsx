@@ -3,6 +3,7 @@ import {DetailsScreen} from '../Pages/Details';
 import {ExploreScreen} from '../Pages/Explore';
 import {LoginScreen} from '../Pages/Login';
 import {RegisterScreen} from '../Pages/Register';
+import {RecoverPasswordScreen} from '../Pages/RecoverPassword';
 import {FavoriteScreen} from '../Pages/Favorite';
 import {NotificationScreen} from '../Pages/Notification';
 import {ProfileScreen} from '../Pages/Profile';
@@ -29,6 +30,10 @@ export const NavigatorHandle = () => {
         <Screen
           name="Register"
           component={RegisterScreen}
+        />
+        <Screen
+          name="RecoverPassword"
+          component={RecoverPasswordScreen}
         />
         <Screen name="Explore" component={ExploreScreen} />
         <Screen
