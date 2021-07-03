@@ -4,7 +4,7 @@ import {
   SafeAreaView,
   StyleSheet,
   ScrollView,
-  Alert,
+  //   Alert,
 } from 'react-native';
 import {
   TopNavigation,
@@ -20,7 +20,7 @@ import {
   ButtonsView,
   TextView,
 } from './styles';
-import api from '../../services/api';
+// import api from '../../services/api';
 import * as yup from 'yup';
 import {Formik} from 'formik';
 
@@ -39,7 +39,9 @@ export const RecoverPasswordScreen = ({
 
   //FALTA FAZER INTEGRAÇÃO, API SENDO DESENVOLVIDA
   const handleRecoverPassword = async (email: string) => {
-    // setLoading(true);
+    console.log(email);
+    setLoading(true);
+    setLoading(false);
     // await api
     //   .post('/auth//api/auth/...', {
     //     email: email,
