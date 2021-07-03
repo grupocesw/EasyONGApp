@@ -131,12 +131,10 @@ export const RegisterScreen = ({navigation}: any) => {
             confirmPassword: '',
           }}
           onSubmit={(values) => {
-            console.warn(values.email);
             handleCreateUser(values);
           }}>
           {({
             handleChange,
-            handleBlur,
             handleSubmit,
             errors,
             isValid,
@@ -154,7 +152,6 @@ export const RegisterScreen = ({navigation}: any) => {
                           'fullName',
                         )}
                         errorMessage={errors.fullName}
-                        onBlur={handleBlur('fullName')}
                         onSubmitEditing={() =>
                           email.current?.focus()
                         }
@@ -180,7 +177,6 @@ export const RegisterScreen = ({navigation}: any) => {
                         onSubmitEditing={() =>
                           password.current?.focus()
                         }
-                        onBlur={handleBlur('email')}
                         errorMessage={errors.email}
                         leftIcon={
                           <Icon
@@ -203,7 +199,6 @@ export const RegisterScreen = ({navigation}: any) => {
                         onChangeText={handleChange(
                           'password',
                         )}
-                        onBlur={handleBlur('password')}
                         onSubmitEditing={() =>
                           confirmPassword.current?.focus()
                         }
@@ -230,9 +225,6 @@ export const RegisterScreen = ({navigation}: any) => {
                         onChangeText={handleChange(
                           'confirmPassword',
                         )}
-                        onBlur={handleBlur(
-                          'confirmPassword',
-                        )}
                         onSubmitEditing={() =>
                           handleSubmit()
                         }
@@ -254,7 +246,6 @@ export const RegisterScreen = ({navigation}: any) => {
                         keyboardType="default"
                         returnKeyType="next"
                       />
-
                       <ButtonsView>
                         <Button
                           onPress={handleSubmit}
