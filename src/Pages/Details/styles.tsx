@@ -25,7 +25,7 @@ export const ViewAvatar = styled(View)`
 `;
 
 export const FavoriteButton = styled(Button)`
-  background: #ffffff;
+  background: #fafafa;
   display: flex;
   border: 0;
   justify-content: center;
@@ -41,7 +41,7 @@ export const FavoriteButton = styled(Button)`
 `;
 
 export const ShareButton = styled(Button)`
-  background: #ffffff;
+  background: #fafafa;
   display: flex;
   border: 0;
   justify-content: center;
@@ -68,7 +68,7 @@ export const ListItemBox = styled(ListItem)`
   margin: 15px 0px;
   padding: 0px 12px;
   background-color: #5db075;
-  color: #ffffff;
+  color: #fafafa;
 `;
 
 export const InputField = styled(Input)`
@@ -129,7 +129,7 @@ export const TextView = styled(Text)`
   text-align: left;
   margin-left: 16px;
   margin-bottom: 32px;
-  color: #ffffff;
+  color: #fafafa;
 `;
 
 export const OngCard = styled(View)`
@@ -139,7 +139,7 @@ export const OngCard = styled(View)`
   margin-top: -50px;
   align-items: flex-start;
   justify-content: flex-start;
-  background-color: #ffffff;
+  background-color: #fafafa;
   border-radius: 20px;
   color: #000000;
   padding: 24px;

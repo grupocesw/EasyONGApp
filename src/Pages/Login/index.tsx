@@ -24,15 +24,13 @@ export const LoginScreen = ({navigation}: any) => {
   const {Token, setToken}: any = useUsers();
 
   const signInValidationSchema = yup.object().shape({
-    email: yup
-      .string()
-      .email('E-mail inválido')
-      .required('Campo obrigatório'),
+    email: yup.string().email('E-mail inválido'),
+    // .required('Campo obrigatório'),
     password: yup
       .string()
       .min(6, 'Senha menor que 6 caracteres!')
-      .max(10, 'Senha maior que 10 caracteres!')
-      .required('Campo obrigatório'),
+      .max(10, 'Senha maior que 10 caracteres!'),
+    // .required('Campo obrigatório'),
   });
   const {handleChange, handleSubmit, errors} = useFormik({
     validationSchema: signInValidationSchema,
@@ -49,8 +47,8 @@ export const LoginScreen = ({navigation}: any) => {
     setLoading(true);
     await api
       .post('/auth/login', {
-        username: email,
-        password: password,
+        username: 'a@a.com',
+        password: 'Ab1234@e',
       })
       .then(({data}: any) => {
         setLoading(false);
@@ -184,11 +182,11 @@ const styles = StyleSheet.create({
     height: 48,
     width: windowWidth, //#393E46 //#4ecca3
     backgroundColor: '#4ECCA3', //5DB075
-    color: '#fff',
+    color: '#fafafa',
     textAlign: 'center',
     borderRadius: 24,
     borderWidth: 1,
-    borderColor: '#fff',
+    borderColor: '#fafafa',
   },
   signInButtonIcon: {
     marginLeft: 16,
@@ -219,7 +217,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     height: '100%',
     alignSelf: 'stretch',
-    backgroundColor: '#ffffff',
+    backgroundColor: '#fafafa',
   },
   layoutImage: {
     flex: 1,

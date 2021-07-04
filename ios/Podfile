@@ -12,7 +12,6 @@ target 'EasyONGApp' do
 
   use_react_native!(:path => config["reactNativePath"])
 
-  pod 'react-native-view-shot', :path => '../node_modules/react-native-view-shot'
 
 
 

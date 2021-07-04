@@ -4,7 +4,9 @@ import {ExploreScreen} from '../Pages/Explore';
 import {LoginScreen} from '../Pages/Login';
 import {RegisterScreen} from '../Pages/Register';
 import {RecoverPasswordScreen} from '../Pages/RecoverPassword';
+import {MapsScreen} from '../Pages/Maps';
 import {FavoriteScreen} from '../Pages/Favorite';
+import {AddScreen} from '../Pages/Add';
 import {NotificationScreen} from '../Pages/Notification';
 import {ProfileScreen} from '../Pages/Profile';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
@@ -40,12 +42,14 @@ export const NavigatorHandle = () => {
           name="Favorite"
           component={FavoriteScreen}
         />
+        <Screen name="Add" component={AddScreen} />
         <Screen
           name="Notification"
           component={NotificationScreen}
         />
         <Screen name="Profile" component={ProfileScreen} />
         <Screen name="Details" component={DetailsScreen} />
+        <Screen name="Maps" component={MapsScreen} />
       </Navigator>
     </>
   );

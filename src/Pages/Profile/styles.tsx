@@ -83,7 +83,7 @@ export const OngCard = styled(View)`
   margin-top: -50px;
   align-items: flex-start;
   justify-content: flex-start;
-  background-color: #ffffff;
+  background-color: #fafafa;
   border-radius: 20px;
   color: #000000;
   padding: 24px;

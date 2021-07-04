@@ -118,7 +118,7 @@ function DetailsScreen({route, navigation}: any) {
 
   const ArrowIcon = (props: any) => (
     <IconNative
-      fill="#ffffff"
+      fill="#fafafa"
       name="chevron-right"
       {...props}
     />
@@ -218,13 +218,25 @@ function DetailsScreen({route, navigation}: any) {
                       <Text>Mais informações</Text>
                     )}
                     accessoryRight={ArrowIcon}
-                    // onPress={() => navigation.navigate('Profile', {name: 'Jane'})}
+                    onPress={() =>
+                      navigation.navigate('Maps')
+                    }
                   />
                   <ListItemBox
                     title={() => (
                       <Text>Informações de Contato</Text>
                     )}
                     accessoryRight={ArrowIcon}
+                    onPress={() =>
+                      navigation.navigate('Maps')
+                    }
+                  />
+                  <ListItemBox
+                    title={() => <Text>Localização</Text>}
+                    accessoryRight={ArrowIcon}
+                    onPress={() =>
+                      navigation.navigate('Maps')
+                    }
                   />
                 </OngCard>
               </Layout>
@@ -246,13 +258,13 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
   safeAreaView: {
-    backgroundColor: '#ffffff',
+    backgroundColor: '#fafafa',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
   },
   topNavigation: {
-    backgroundColor: '#ffffff',
+    backgroundColor: '#fafafa',
     width: '90%',
     margin: 10,
     display: 'flex',

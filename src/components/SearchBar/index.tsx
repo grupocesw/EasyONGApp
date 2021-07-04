@@ -72,26 +72,31 @@ const SearchBar: React.FC<any> = ({
         </View>
       </Container>
       <Container hide={hide}>
-        <View style={styles.BoxInput}>
-          <SearchBarInput
-            platform="android"
-            placeholder="Busque suas ONGS favoritas"
-            onChangeText={handleValue}
-            value={value}
-            onSubmitEditing={handleSubmit}
-          />
-        </View>
+        <SearchBarInput
+          placeholder="Busque suas ONGs favoritas"
+          onChangeText={handleValue}
+          value={value}
+          onSubmitEditing={handleSubmit}
+          containerStyle={styles.searchBarContainer}
+          inputContainerStyle={
+            styles.searchBarInputContainer
+          }
+          lightTheme
+        />
       </Container>
     </>
   );
 };
 
 const styles = StyleSheet.create({
-  BoxInput: {
-    alignSelf: 'stretch',
-    borderStyle: 'solid',
-    borderBottomColor: '#000000',
-    borderBottomWidth: 1,
+  searchBarContainer: {
+    backgroundColor: '#fafafa',
+    borderBottomColor: 'transparent',
+    borderTopColor: 'transparent',
+  },
+  searchBarInputContainer: {
+    borderRadius: 24,
+    backgroundColor: '#eee',
   },
 });
 
