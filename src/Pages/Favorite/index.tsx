@@ -62,7 +62,7 @@ export const FavoriteScreen = ({navigation}: any) => {
   };
 
   const RemoveIcon = (props: Object) => (
-    <IconKitten {...props} name="heart" fill={'#fff'} />
+    <IconKitten {...props} name="heart" fill={'#fafafa'} />
   );
 
   const handleFavorite = async (OngItem: any) => {
@@ -91,7 +91,7 @@ export const FavoriteScreen = ({navigation}: any) => {
     scrollView: {
       width: '100%',
       height: '100%',
-      backgroundColor: '#ffffff',
+      backgroundColor: '#fafafa',
     },
     layout: {
       display: 'flex',
@@ -99,10 +99,10 @@ export const FavoriteScreen = ({navigation}: any) => {
       alignItems: 'center',
       flexDirection: 'column',
       color: 'red',
-      backgroundColor: '#ffffff',
+      backgroundColor: '#fafafa',
     },
     safeAreaView: {
-      backgroundColor: '#ffffff',
+      backgroundColor: '#fafafa',
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',

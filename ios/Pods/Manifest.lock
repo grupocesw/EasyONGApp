@@ -350,6 +350,8 @@ PODS:
     - React-cxxreact (= 0.63.4)
     - React-jsi (= 0.63.4)
   - React-jsinspector (0.63.4)
+  - react-native-maps (0.28.0):
+    - React-Core
   - react-native-safe-area-context (3.1.9):
     - React-Core
   - react-native-splash-screen (3.2.0):
@@ -491,6 +493,7 @@ DEPENDENCIES:
   - React-jsi (from `../node_modules/react-native/ReactCommon/jsi`)
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
+  - react-native-maps (from `../node_modules/react-native-maps`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - react-native-splash-screen (from `../node_modules/react-native-splash-screen`)
   - react-native-view-shot (from `../node_modules/react-native-view-shot`)
@@ -583,6 +586,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsiexecutor"
   React-jsinspector:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
+  react-native-maps:
+    :path: "../node_modules/react-native-maps"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
   react-native-splash-screen:
@@ -681,6 +686,7 @@ SPEC CHECKSUMS:
   React-jsi: a0418934cf48f25b485631deb27c64dc40fb4c31
   React-jsiexecutor: 93bd528844ad21dc07aab1c67cb10abae6df6949
   React-jsinspector: 58aef7155bc9a9683f5b60b35eccea8722a4f53a
+  react-native-maps: 2d405b4e8cee0282e4c02bac434d81450dfea877
   react-native-safe-area-context: b6e0e284002381d2ff29fa4fff42b4d8282e3c94
   react-native-splash-screen: 200d11d188e2e78cea3ad319964f6142b6384865
   react-native-view-shot: 4475fde003fe8a210053d1f98fb9e06c1d834e1c
@@ -709,6 +715,6 @@ SPEC CHECKSUMS:
   Yoga: 4bd86afe9883422a7c4028c00e34790f560923d6
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: e7014dde74bcd0ee720be58b65f92bbf4bb3c094
+PODFILE CHECKSUM: 6253f74b5deeb1d7166a8cd34bd88e4794dc62cc
 
 COCOAPODS: 1.10.1

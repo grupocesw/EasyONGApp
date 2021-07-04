@@ -145,22 +145,31 @@ export const ExploreScreen = ({navigation}: any) => {
   const styles = StyleSheet.create({
     safeArea: {
       flex: 1,
-      backgroundColor: '#ffffff',
+      backgroundColor: '#fafafa',
       zIndex: 0,
+    },
+    avatar: {
+      width: 40,
+      height: 40,
     },
     displayList: {
       display: openMenu ? 'flex' : 'none',
       marginHorizontal: 5,
+      color: '#4ECCA3',
+      fontWeight: '600',
     },
     listItem: {
       position: 'absolute',
       flexDirection: 'row',
-      right: 40,
-      top: -2,
+      right: 10,
       zIndex: 1,
-      backgroundColor: 'rgba(0, 0, 0,0.3)',
       padding: openMenu ? 10 : 0,
-      color: '#ffffff',
+      color: '#fafafa',
+      borderRadius: 24,
+      borderWidth: openMenu ? 1 : 0,
+      borderColor: '#4ECCA3',
+      width: 64,
+      height: 40,
     },
     switch: {},
     submitButtonIcon: {
@@ -168,11 +177,12 @@ export const ExploreScreen = ({navigation}: any) => {
     },
     topNavigation: {
       zIndex: 1,
-      backgroundColor: '#ffffff',
+      backgroundColor: '#fafafa',
       margin: 10,
     },
     textStyle: {
-      color: '#5db075',
+      fontWeight: '700',
+      color: '#4ECCA3',
     },
     rating: {
       margin: 10,
@@ -183,13 +193,14 @@ export const ExploreScreen = ({navigation}: any) => {
       shadowOffset: {width: 0, height: 2},
       shadowOpacity: 0.2,
       elevation: 2,
-      paddingBottom: 15,
+      paddingBottom: 16,
     },
     layoutGlobal: {
       zIndex: 0,
       flex: 1,
       justifyContent: 'center',
       alignItems: 'center',
+      backgroundColor: '#fafafa',
     },
     scrollView: {
       zIndex: 0,
@@ -203,7 +214,10 @@ export const ExploreScreen = ({navigation}: any) => {
     },
     horizontalOngList: {
       backgroundColor: 'transparent',
-      marginTop: -20,
+    },
+    verticalOngList: {
+      paddingTop: 16,
+      backgroundColor: 'transparent',
     },
   });
 
@@ -228,7 +242,8 @@ export const ExploreScreen = ({navigation}: any) => {
                 source={{
                   uri:
                     'https://image.flaticon.com/icons/png/512/847/847969.png',
-                }}>
+                }}
+                style={styles.avatar}>
                 <Avatar.Accessory />
               </Avatar>
               <ListItem.Content
@@ -284,7 +299,8 @@ export const ExploreScreen = ({navigation}: any) => {
                     Veja mais
                   </TextElement>
                 </ViewFlex>
-                <ListCardItem>
+                <ListCardItem
+                  style={styles.verticalOngList}>
                   {Ongs.sort().map(
                     (Ong: OngType, index: number) => {
                       return (

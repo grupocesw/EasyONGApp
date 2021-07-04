@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -19,10 +19,18 @@ import {
   ItemTitle,
   ItemDescription,
 } from './styles';
-import {OngsContext} from '../../Contexts/index';
 
 export const NotificationScreen = () => {
-  const {Ongs}: any = useContext(OngsContext);
+  let ongs: {
+    id: number;
+    name: string;
+    description: string;
+  }[] = [
+    {id: 0, name: 'Available', description: 'Description'},
+    {id: 1, name: 'Ready', description: 'Description'},
+    {id: 2, name: 'Started', description: 'Description'},
+  ];
+
   return (
     <>
       <SafeAreaView style={styles.safeArea}>
@@ -39,8 +47,11 @@ export const NotificationScreen = () => {
           <ScrollView style={styles.scrollView}>
             <Container>
               <ListCardItem>
-                {Ongs?.map((Ong: any) => (
-                  <CardItem key={Ong.id} disabled={true}>
+                {ongs?.map((ong: any) => (
+                  <CardItem
+                    key={ong.id}
+                    disabled={true}
+                    style={styles.cardItem}>
                     <View style={styles.layoutImage}>
                       <Image
                         style={styles.image}
@@ -51,9 +62,9 @@ export const NotificationScreen = () => {
                       />
                     </View>
                     <View style={styles.layoutContent}>
-                      <ItemTitle>{Ong.name}</ItemTitle>
+                      <ItemTitle>{ong.name}</ItemTitle>
                       <ItemDescription>
-                        {Ong.description.substr(0, 50)}
+                        {ong.description}
                       </ItemDescription>
                     </View>
                   </CardItem>
@@ -68,6 +79,13 @@ export const NotificationScreen = () => {
 };
 
 const styles = StyleSheet.create({
+  cardItem: {
+    backgroundColor: '#ffffff',
+    shadowColor: '#000',
+    shadowOffset: {width: 0, height: 2},
+    shadowOpacity: 0.2,
+    elevation: 2,
+  },
   listBox: {
     backgroundColor: 'transparent',
   },

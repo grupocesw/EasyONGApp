@@ -14,7 +14,7 @@ export const ButtonUI = styled(Button)`
 
 export const BoxInput = styled.View`
   border-radius: 99px;
-  background-color: #fff;
+  background-color: #fafafa;
   height: 42px;
   display: flex;
   flex-direction: row;

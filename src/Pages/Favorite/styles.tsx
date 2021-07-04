@@ -45,7 +45,7 @@ export const FavoriteButton = styled(Button)`
   align-items: center;
   width: 45px;
   height: 45px;
-  color: #fff;
+  color: #fafafa;
   border-radius: 45px;
   text-align: center;
   position: absolute;

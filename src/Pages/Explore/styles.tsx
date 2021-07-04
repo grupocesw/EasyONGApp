@@ -8,7 +8,10 @@ export const HideSuggest: any = styled.View`
 `;
 
 export const Container = styled.View`
-  padding: 16px;
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-bottom: 16px;
+  background-color: transparent;
 `;
 
 export const InputField = styled(Input)`
@@ -86,7 +89,7 @@ export const OngCardItem = styled.TouchableOpacity`
   align-items: flex-start;
   justify-content: flex-start;
   border-radius: 8px;
-  color: #ffffff;
+  color: #fafafa;
   padding: 0px;
   font-size: 12px;
   font-weight: 700;
@@ -135,6 +138,7 @@ export const ListCardItem = styled(View)`
   justify-content: space-between;
   margin-bottom: 48px;
   width: 100%;
+  height: 100%;
   flex-wrap: wrap;
 `;
 

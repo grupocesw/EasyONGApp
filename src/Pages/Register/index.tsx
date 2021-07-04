@@ -37,21 +37,21 @@ export const RegisterScreen = ({navigation}: any) => {
       .required('E-mail é obrigatório'),
     password: yup
       .string()
-      .matches(
-        /\w*[a-z]\w*/,
-        'A senha deve conter uma letra minúscula',
-      )
-      .matches(
-        /\w*[A-Z]\w*/,
-        'A senha deve ter uma letra maiúscula',
-      )
-      .matches(/\d/, 'A senha deve ter um número')
-      .matches(
-        /[!@#$%^&*()\-_"=+{}; :,<.>]/,
-        'A senha deve ter um caractere especial',
-      )
+      // .matches(
+      //   /\w*[a-z]\w*/,
+      //   'A senha deve conter uma letra minúscula',
+      // )
+      // .matches(
+      //   /\w*[A-Z]\w*/,
+      //   'A senha deve ter uma letra maiúscula',
+      // )
+      // .matches(/\d/, 'A senha deve ter um número')
+      // .matches(
+      //   /[!@#$%^&*()\-_"=+{}; :,<.>]/,
+      //   'A senha deve ter um caractere especial',
+      // )
       .min(
-        8,
+        1, //8
         ({min}) =>
           `A senha deve ser pelo menos ${min} caracteres`,
       )
@@ -300,7 +300,7 @@ const styles = StyleSheet.create({
   },
   safeArea: {
     flex: 1,
-    backgroundColor: '#ffffff',
+    backgroundColor: '#fafafa',
   },
   layoutGlobal: {
     flex: 1,
@@ -351,11 +351,11 @@ const styles = StyleSheet.create({
     height: 48,
     width: windowWidth,
     backgroundColor: '#4ECCA3',
-    color: '#fff',
+    color: '#fafafa',
     textAlign: 'center',
     borderRadius: 24,
     borderWidth: 1,
-    borderColor: '#fff',
+    borderColor: '#fafafa',
   },
   submitButtonIcon: {
     marginLeft: 16,

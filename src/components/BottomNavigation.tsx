@@ -3,6 +3,7 @@ import {StyleSheet} from 'react-native';
 import {
   BottomNavigation,
   BottomNavigationTab,
+  Text,
 } from '@ui-kitten/components';
 import {
   HomeIcon,
@@ -11,19 +12,21 @@ import {
   BellIcon,
   ProfileIcon,
 } from './Icons';
+
 export const BottomNavigationTabs = ({navigation}: any) => {
   const [indice, setIndice] = useState(1);
   const [routeNames] = useState([
     {name: 'Home'},
     {name: 'Explore'},
     {name: 'Favorite'},
-    {name: 'Notification'},
     {name: 'Add'},
+    {name: 'Notification'},
     {name: 'Profile'},
   ]);
+
   return (
     <BottomNavigation
-      appearance="noIndicator"
+      indicatorStyle={styles.indicatorStyle}
       style={styles.bottomNavigation}
       selectedIndex={indice - 1}
       onSelect={(i) => {
@@ -33,20 +36,48 @@ export const BottomNavigationTabs = ({navigation}: any) => {
         });
       }}>
       <BottomNavigationTab
-        title="Explore"
+        // title="Explorar"
+        title={(evaProps) => (
+          <Text {...evaProps} style={styles.tab}>
+            Explorar
+          </Text>
+        )}
         icon={HomeIcon}
       />
       <BottomNavigationTab
-        title="Favoritos"
+        // title="Favoritos"
+        title={(evaProps) => (
+          <Text {...evaProps} style={styles.tab}>
+            Favoritos
+          </Text>
+        )}
         icon={FavoriteIcon}
       />
-      <BottomNavigationTab title="" icon={AddIcon} />
       <BottomNavigationTab
-        title="Notificações"
+        // title="Indicar"
+        title={(evaProps) => (
+          <Text {...evaProps} style={styles.tab}>
+            Indicar
+          </Text>
+        )}
+        icon={AddIcon}
+      />
+      <BottomNavigationTab
+        // title="Notificações"
+        title={(evaProps) => (
+          <Text {...evaProps} style={styles.tab}>
+            Notificações
+          </Text>
+        )}
         icon={BellIcon}
       />
       <BottomNavigationTab
-        title="Perfil"
+        // title="Perfil"
+        title={(evaProps) => (
+          <Text {...evaProps} style={styles.tab}>
+            Perfil
+          </Text>
+        )}
         icon={ProfileIcon}
       />
     </BottomNavigation>
@@ -54,8 +85,16 @@ export const BottomNavigationTabs = ({navigation}: any) => {
 };
 
 const styles = StyleSheet.create({
+  tab: {
+    color: '#4ECCA3',
+    fontSize: 12,
+    fontWeight: '700',
+  },
+  indicatorStyle: {
+    backgroundColor: '#4ECCA3',
+  },
   bottomNavigation: {
-    backgroundColor: '#fff',
+    backgroundColor: '#fafafa',
     shadowRadius: 2,
     shadowOffset: {
       width: 0,

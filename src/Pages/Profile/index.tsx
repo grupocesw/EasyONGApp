@@ -3,8 +3,6 @@ import {
   SafeAreaView,
   StyleSheet,
   ScrollView,
-  Image,
-  View,
 } from 'react-native';
 import {
   Layout,
@@ -12,17 +10,9 @@ import {
   TopNavigation,
   Text,
 } from '@ui-kitten/components';
-import {
-  Container,
-  CardItem,
-  ListCardItem,
-  ItemTitle,
-  ItemDescription,
-} from './styles';
-import {useOng} from '../../Contexts/index';
+import {Container} from './styles';
 
 export const ProfileScreen = () => {
-  const {Ongs}: any = useOng();
   return (
     <>
       <SafeAreaView style={styles.safeArea}>
@@ -37,29 +27,7 @@ export const ProfileScreen = () => {
         <Divider />
         <Layout style={styles.layoutGlobal}>
           <ScrollView style={styles.scrollView}>
-            <Container>
-              <ListCardItem>
-                {Ongs?.map((Ong: any) => (
-                  <CardItem key={Ong.id} disabled={true}>
-                    <View style={styles.layoutImage}>
-                      <Image
-                        style={styles.image}
-                        source={{
-                          uri:
-                            'https://i1.wp.com/montanha.es.gov.br/site/wp-content/uploads/2021/01/E-Sustentavel.png?fit=800%2C450&ssl=1',
-                        }}
-                      />
-                    </View>
-                    <View style={styles.layoutContent}>
-                      <ItemTitle>{Ong.name}</ItemTitle>
-                      <ItemDescription>
-                        {Ong.description.substr(0, 50)}
-                      </ItemDescription>
-                    </View>
-                  </CardItem>
-                ))}
-              </ListCardItem>
-            </Container>
+            <Container />
           </ScrollView>
         </Layout>
       </SafeAreaView>

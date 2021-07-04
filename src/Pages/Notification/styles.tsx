@@ -17,7 +17,7 @@ export const CardItem = styled.TouchableOpacity`
   flex-direction: row;
   width: 100%;
   height: 88px;
-  background: #ffffff;
+  background: #fafafa;
   border-radius: 8px;
   display: flex;
   margin: 0% 0 4% 0;
