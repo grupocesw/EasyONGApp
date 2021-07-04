@@ -24,15 +24,13 @@ export const LoginScreen = ({navigation}: any) => {
   const {Token, setToken}: any = useUsers();
 
   const signInValidationSchema = yup.object().shape({
-    email: yup
-      .string()
-      .email('E-mail inválido')
-      .required('Campo obrigatório'),
+    email: yup.string().email('E-mail inválido'),
+    // .required('Campo obrigatório'),
     password: yup
       .string()
       .min(1, 'Senha menor que 6 caracteres!') //6
-      .max(1, 'Senha maior que 10 caracteres!') //10
-      .required('Campo obrigatório'),
+      .max(1, 'Senha maior que 10 caracteres!'), //10
+    // .required('Campo obrigatório'),
   });
   const {handleChange, handleSubmit, errors} = useFormik({
     validationSchema: signInValidationSchema,
