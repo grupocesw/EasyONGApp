@@ -27,7 +27,7 @@ export const AddScreen = () => {
         <Divider />
         <Layout style={styles.layoutGlobal}>
           <ScrollView style={styles.scrollView}>
-            <Container></Container>
+            <Container />
           </ScrollView>
         </Layout>
       </SafeAreaView>
