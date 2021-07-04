@@ -55,13 +55,13 @@
       "size" : "60x60"
     },
     {
-      "filename" : "iTunesArtwork@2x-1.png",
+      "filename" : "ItunesArtwork@2x.png",
       "idiom" : "ios-marketing",
       "scale" : "1x",
       "size" : "1024x1024"
     },
     {
-      "filename" : "ItunesArtwork@2x.png",
+      "filename" : "ItunesArtwork@2x-1.png",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "512x512"
