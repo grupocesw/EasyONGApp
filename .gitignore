@@ -62,6 +62,7 @@ android/build
 
 # Node
 node_modules
+.env
 *.log
 .nvm
 /bots/node_modules/

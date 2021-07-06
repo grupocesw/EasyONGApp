@@ -2,13 +2,22 @@ import React, {
   createContext,
   useState,
   useContext,
+  Dispatch
 } from 'react';
-import {Users as UsersData} from '../data/ongs';
+import { Users as UsersData } from '../data/ongs';
+import { IUser } from '../interfaces/User';
 
-export const UsersContext = createContext({});
+export interface IUserContext {
+  User: IUser,
+  Token: string,
+  setToken: Dispatch<string>,
+  setUser: Dispatch<IUser>,
+}
 
-export const UsersProvider = ({children}: any) => {
-  const [User, setUser] = useState(UsersData);
+export const UsersContext = createContext<IUserContext>({} as IUserContext);
+
+export const UsersProvider = ({ children }: any) => {
+  const [User, setUser] = useState<IUser>( UsersData as IUser );
   const [Token, setToken] = useState('');
   return (
     <UsersContext.Provider

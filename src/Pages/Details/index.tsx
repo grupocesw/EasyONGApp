@@ -150,6 +150,7 @@ function DetailsScreen({route, navigation}: any) {
         </Wrapper>
       ) : (
         <SafeAreaView style={styles.safeAreaView}>
+          <ScrollView style={styles.scrollView}>
           <Overlay
             isVisible={visible}
             onBackdropPress={toggleOverlay}>
@@ -242,6 +243,7 @@ function DetailsScreen({route, navigation}: any) {
               </Layout>
             </ScrollView>
           </ViewShot>
+          </ScrollView>
         </SafeAreaView>
       )}
     </>
@@ -259,9 +261,6 @@ const styles = StyleSheet.create({
   },
   safeAreaView: {
     backgroundColor: '#fafafa',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
   },
   topNavigation: {
     backgroundColor: '#fafafa',

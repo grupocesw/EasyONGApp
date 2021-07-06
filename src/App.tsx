@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {StyleSheet, SafeAreaView} from 'react-native';
+import { StyleSheet, SafeAreaView, LogBox } from 'react-native';
 import * as eva from '@eva-design/eva';
 import {
   ApplicationProvider,
@@ -16,6 +16,7 @@ import {
 import SplashScreen from 'react-native-splash-screen';
 
 export default () => {
+  LogBox.ignoreLogs(['Warning: Cannot update a component from inside the function body of a different component','Warning: Failed prop type: Invalid prop `value` of type `object` supplied to `ForwardRef(TextInput)`, expected `string`.']); // Ignore log by message
   const styles = StyleSheet.create({
     container: {
       flex: 1,

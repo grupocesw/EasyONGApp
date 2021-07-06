@@ -112,7 +112,7 @@ export const ExploreScreen = ({navigation}: any) => {
         .get('ngos/suggested', {
           headers: {Authorization: `Bearer ${Token}`},
         })
-        .then(({data}: any) => {
+        .then(({ data }: any) => {
           setOngsSuggest(data?.content);
           setLoading(false);
         })
@@ -231,34 +231,10 @@ export const ExploreScreen = ({navigation}: any) => {
             Um problema inesperado ocorreu. Erro: -{error}
           </Text>
         </Overlay>
-        <TopNavigation
+       {/*  <TopNavigation
           alignment="center"
           style={styles.topNavigation}
-          title={() => (
-            <ViewAvatar>
-              <Avatar
-                rounded
-                onPress={handleOpenMenu}
-                source={{
-                  uri:
-                    'https://image.flaticon.com/icons/png/512/847/847969.png',
-                }}
-                style={styles.avatar}>
-                <Avatar.Accessory />
-              </Avatar>
-              <ListItem.Content
-                style={
-                  (styles.displayList, styles.listItem)
-                }>
-                <ListItem.Title
-                  onPress={handleLogout}
-                  style={styles.displayList}>
-                  Sair
-                </ListItem.Title>
-              </ListItem.Content>
-            </ViewAvatar>
-          )}
-        />
+        /> */}
         <Divider />
         <Layout style={styles.layoutGlobal}>
           {Loading ? (
