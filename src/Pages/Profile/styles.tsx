@@ -6,16 +6,13 @@ import {
   Card,
   ListItem,
 } from '@ui-kitten/components';
-import {View} from 'react-native';
+import { View } from 'react-native';
 
 export const Container = styled.View`
   padding: 15px;
-`;
-
-export const ImgView = styled.View`
-  width: 100%;
-  height: 250px;
-  background-color: #c4c4c4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 export const ListItemBox = styled(ListItem)`
@@ -23,6 +20,29 @@ export const ListItemBox = styled(ListItem)`
   border-radius: 6px;
   margin: 15px 0px;
   padding: 0px 12px;
+  width: 100%;
+`;
+
+export const ItemList = styled.View`
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 20px 10px;
+  width: 100%;
+`;
+
+export const ButtonsView = styled.View`
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const ImgView = styled.View`
+  width: 100%;
+  height: 250px;
+  background-color: #c4c4c4;
 `;
 
 export const InputField = styled(Input)`

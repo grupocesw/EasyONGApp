@@ -69,4 +69,4 @@ export const Ongs = [
 
 export const Favorites = [];
 
-export const Users = {id: 1, name: 'Nicholas Oliveira'};
+export const Users = { id: 1, name: 'Nicholas Oliveira', picture: { id: 1, url: 'https://via.placeholder.com/150' } };

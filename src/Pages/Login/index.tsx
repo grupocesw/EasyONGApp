@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, { useRef, useState } from 'react';
 import {
   View,
   Dimensions,
@@ -11,7 +11,7 @@ import {Button, Input} from 'react-native-elements';
 import {Image} from 'react-native-elements/dist/image/Image';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {Layout} from '@ui-kitten/components';
-import {Container, ButtonsView} from './styles';
+import { Container, ButtonsView } from './styles';
 import api from '../../services/api';
 import * as yup from 'yup';
 import {useFormik} from 'formik';
@@ -19,8 +19,8 @@ import {useUsers} from '../../Contexts';
 
 export const LoginScreen = ({navigation}: any) => {
   const [loading, setLoading] = useState(false);
-  const email = useRef('');
-  const password = useRef('');
+  const email = useRef<any>(null);
+  const password = useRef<any>(null);
   const {Token, setToken}: any = useUsers();
 
   const signInValidationSchema = yup.object().shape({
@@ -96,7 +96,7 @@ export const LoginScreen = ({navigation}: any) => {
                   placeholder="Seu e-mail"
                   onChangeText={handleChange('email')}
                   onSubmitEditing={() =>
-                    password.current?.focus()
+                    password?.current?.focus()
                   }
                   errorMessage={errors.email}
                   leftIcon={
